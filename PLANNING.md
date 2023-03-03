@@ -5,4 +5,4 @@ but dynamically importing script files and and loading their default/view export
 
 ^ This would require some build time stuff tho... :/
 
-
+Support lit-html by default but have a JSX support?

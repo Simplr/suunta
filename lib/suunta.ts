@@ -1,8 +1,12 @@
+import { html, render } from "lit-html";
 import { Route } from "./route";
 import { SuuntaView } from "./view";
 
+type SuuntaTarget = HTMLElement | DocumentFragment;
+
 export interface SuuntaInitOptions {
     routes: Route[];
+    target: string | HTMLElement | DocumentFragment;
     base?: string;
 }
 
@@ -10,13 +14,25 @@ export interface SuuntaInitOptions {
 export class Suunta {
 
     #currentView: SuuntaView | undefined;
-    #routes: Map<string, Route> = new Map();
+    #target: SuuntaTarget = document.createDocumentFragment();
+    public routes: Map<string, Route> = new Map();
     public started = false;
 
     constructor(private options: SuuntaInitOptions) {
         this.options.routes.forEach(route => {
-            this.#routes.set(route.path, route);
+            this.routes.set(route.path, route);
         });
+        this.discoverTarget();
+    }
+
+    private discoverTarget() {
+        let soonToBeTarget: SuuntaTarget | string = this.options.target;
+        if (typeof soonToBeTarget === "string") {
+            let foundElement = document.querySelector<HTMLElement>(soonToBeTarget);
+            if (foundElement) {
+                this.#target = foundElement;
+            }
+        }
     }
 
     public start() {
@@ -33,7 +49,7 @@ export class Suunta {
         const currentURL = new URL(window.location.href);
         const path = currentURL.pathname;
 
-        return this.#routes.get(path);
+        return this.routes.get(path);
     }
 
     public navigate(route: Route) {
@@ -41,7 +57,9 @@ export class Suunta {
             href: window.location.href,
             route,
             properties: { ...route.properties }
-        }
+        };
+
+        render(html`${route.view}`, this.#target);
     }
 
     public getCurrentView() {
