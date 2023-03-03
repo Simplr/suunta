@@ -12,7 +12,7 @@ function getBasicRouterSetup() {
         {
             path: "/",
             name: "Home",
-            view: html`<p>Hello world!</p>`
+            view: html`<p id="needle">Hello world!</p>`
         }
     ];
 
@@ -54,11 +54,13 @@ it("Should set current view as the currentView", () => {
     expect(actualCurrentView?.route.properties).to.equal(currentView.route.properties);
 });
 
-it("Should set current view as the currentView", () => {
+it("Should render the HTML view", () => {
     const router = getBasicRouterSetup();
 
     router.start();
 
     const body = document.querySelector("body");
-    console.log(body);
+    const needle = body?.querySelector("#needle");
+
+    expect(needle).to.not.be.null;
 });
