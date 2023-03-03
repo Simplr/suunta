@@ -64,3 +64,23 @@ it("Should render the HTML view", () => {
 
     expect(needle).to.not.be.null;
 });
+
+it("Should render the HTML view inside the BODY element", () => {
+    const router = getBasicRouterSetup();
+
+    router.start();
+
+    const body = document.querySelector("body");
+    const needle = body?.children.namedItem("needle");
+
+    expect(needle).to.not.be.null;
+});
+
+it("Should render the HTML view inside the div[id='#target-div'] element", () => {
+    const router = getBasicRouterSetup();
+
+    router.start();
+
+    const body = document.querySelector("body");
+    const needle = body?.querySelector("#needle");
+});
