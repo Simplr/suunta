@@ -10,14 +10,18 @@ export interface SuuntaInitOptions {
 export class Suunta {
 
     #currentView: SuuntaView | undefined;
+    #routes: Map<string, Route> = new Map();
     public started = false;
 
     constructor(private options: SuuntaInitOptions) {
+        this.options.routes.forEach(route => {
+            this.#routes.set(route.path, route);
+        });
     }
 
     public start() {
         this.started = true;
-        const currentRoute = this.formRouteFromCurrentURL();
+        const currentRoute = this.getRouteFromCurrentURL();
         if (!currentRoute) {
             // TODO: Change this path to a 404 page nav etc.
             throw new Error("Could not find a route to navigate to.");
@@ -25,15 +29,19 @@ export class Suunta {
         this.navigate(currentRoute);
     }
 
-    private formRouteFromCurrentURL(): Route | undefined {
+    private getRouteFromCurrentURL(): Route | undefined {
         const currentURL = new URL(window.location.href);
-        console.log(currentURL);
+        const path = currentURL.pathname;
 
-        return undefined;
+        return this.#routes.get(path);
     }
 
     public navigate(route: Route) {
-
+        this.#currentView = {
+            href: window.location.href,
+            route,
+            properties: { ...route.properties }
+        }
     }
 
     public getCurrentView() {

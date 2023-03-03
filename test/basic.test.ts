@@ -30,7 +30,7 @@ it("Should set current view as the currentView", () => {
     };
 
     const currentView: SuuntaView = {
-        fullPath: "http://localhost:8080",
+        href: "http://localhost:8080/",
         route: routes[0],
         properties: {}
     }
@@ -41,5 +41,7 @@ it("Should set current view as the currentView", () => {
 
     router.start();
 
-    expect(router.getCurrentView()).to.equal(currentView);
+    const actualCurrentView = router.getCurrentView();
+    expect(actualCurrentView?.route).to.equal(currentView.route);
+    expect(actualCurrentView?.route.properties).to.equal(currentView.route.properties);
 });
