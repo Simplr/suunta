@@ -1,0 +1,1 @@
+export { Suunta } from "./suunta";

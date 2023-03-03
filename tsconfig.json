@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+
+    "target": "ESNext",
+    "experimentalDecorators": true,
+
+    "module": "ESNext",
+    "rootDir": "./",
+
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "sourceMap": true, 
+    "outDir": "./dist",
+
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,                         
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "lib": ["dom"],
+    "moduleResolution": "node",
+    "esModuleInterop": true
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "suunta",
+  "version": "1.0.0",
+  "description": "The new router",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "esbuild ./lib/main.ts --bundle --outdir=dist",
+    "watch": "esbuild ./lib/main.ts --bundle --outdir=dist --watch",
+    "test": "web-test-runner test/**/*.test.ts --node-resolve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Simplr/suunta.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Simplr/suunta/issues"
+  },
+  "homepage": "https://github.com/Simplr/suunta#readme",
+  "devDependencies": {
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@web/dev-server-esbuild": "^0.3.3",
+    "@web/test-runner": "^0.15.1",
+    "esbuild": "^0.17.10",
+    "typescript": "^4.9.5"
+  }
+}
