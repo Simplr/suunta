@@ -25,7 +25,7 @@ export class Suunta {
         this.discoverTarget();
     }
 
-    private discoverTarget() {
+    private discoverTarget(): void {
         let soonToBeTarget: SuuntaTarget | string = this.options.target;
         if (typeof soonToBeTarget === "string") {
             let foundElement = document.querySelector<HTMLElement>(soonToBeTarget);
@@ -35,7 +35,7 @@ export class Suunta {
         }
     }
 
-    public start() {
+    public start(): void {
         this.started = true;
         const currentRoute = this.getRouteFromCurrentURL();
         if (!currentRoute) {
@@ -52,7 +52,7 @@ export class Suunta {
         return this.routes.get(path);
     }
 
-    public navigate(route: Route) {
+    public navigate(route: Route): void {
         this.#currentView = {
             href: window.location.href,
             route,
@@ -62,7 +62,7 @@ export class Suunta {
         render(html`${route.view}`, this.#target);
     }
 
-    public getCurrentView() {
+    public getCurrentView(): SuuntaView | undefined {
         return this.#currentView;
     }
 }

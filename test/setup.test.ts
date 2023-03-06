@@ -4,31 +4,7 @@ import { expect } from '@esm-bundle/chai';
 import { html, render } from "lit-html";
 import { SuuntaView } from "../lib/view";
 import { Route } from "../lib/route";
-
-// https://open-wc.org/docs/testing/testing-package/
-
-
-function clearRenders() {
-    render(html``, document.body);
-}
-
-function getBasicRouterSetup() {
-    const routes = [
-        {
-            path: "/",
-            name: "Home",
-            view: html`<p id="needle">Hello world!</p>`
-        }
-    ];
-
-    const routerOptions: SuuntaInitOptions = {
-        routes,
-        target: "body"
-    };
-
-    const router = new Suunta(routerOptions);
-    return router;
-}
+import { clearRenders, getBasicRouterSetup } from "./util";
 
 it("Should return a router instance", () => {
     clearRenders();
