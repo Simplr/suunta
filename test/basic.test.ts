@@ -1,11 +1,16 @@
 import { Suunta } from "../lib/suunta";
 import { SuuntaInitOptions } from "../lib/suunta";
 import { expect } from '@esm-bundle/chai';
-import { html } from "lit-html";
+import { html, render } from "lit-html";
 import { SuuntaView } from "../lib/view";
 import { Route } from "../lib/route";
 
 // https://open-wc.org/docs/testing/testing-package/
+
+
+function clearRenders() {
+    render(html``, document.body);
+}
 
 function getBasicRouterSetup() {
     const routes = [
@@ -26,6 +31,7 @@ function getBasicRouterSetup() {
 }
 
 it("Should return a router instance", () => {
+    clearRenders();
     const routerOptions: SuuntaInitOptions = {
         routes: [],
         target: "body"
@@ -34,9 +40,11 @@ it("Should return a router instance", () => {
     const router = new Suunta(routerOptions);
 
     expect(router).to.not.equal(null);
+    expect(router instanceof Suunta).to.be.true;
 });
 
 it("Should set current view as the currentView", () => {
+    clearRenders();
     const router = getBasicRouterSetup();
 
     const currentView: SuuntaView = {
@@ -66,6 +74,7 @@ it("Should render the HTML view", () => {
 });
 
 it("Should render the HTML view inside the BODY element", () => {
+    clearRenders();
     const router = getBasicRouterSetup();
 
     router.start();
@@ -76,11 +85,40 @@ it("Should render the HTML view inside the BODY element", () => {
     expect(needle).to.not.be.null;
 });
 
-it("Should render the HTML view inside the div[id='#target-div'] element", () => {
-    const router = getBasicRouterSetup();
+it("Should render the HTML view inside the div[id='target-div'] element", () => {
+    clearRenders();
+    render(html``, document.body);
+
+    const targetDiv = document.createElement("div");
+    targetDiv.id = "target-div";
+    document.body.appendChild(targetDiv);
+
+    const routes = [
+        {
+            path: "/",
+            name: "Home",
+            view: html`<p id="needle">Hello world!</p>`
+        }
+    ];
+
+    const routerOptions: SuuntaInitOptions = {
+        routes,
+        target: "#target-div"
+    };
+
+    const router = new Suunta(routerOptions);
+
+    const targetDivOnBody = document.querySelector("div[id='target-div']");
 
     router.start();
 
-    const body = document.querySelector("body");
-    const needle = body?.querySelector("#needle");
+
+    const needle = targetDivOnBody?.querySelector("#needle");
+    expect(needle).to.not.be.null;
+
+    const needleInBodyChildren = document.body?.children.namedItem("needle");
+    const needleInDivChildren = targetDivOnBody?.children.namedItem("needle");
+
+    expect(needleInBodyChildren).to.be.null;
+    expect(needleInDivChildren).to.not.be.null;
 });
