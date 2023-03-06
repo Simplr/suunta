@@ -10,5 +10,4 @@ it("Should render /foo view when window.location.her is set to /foo", () => {
 
     const currentView = router.getCurrentView();
     console.log(currentView)
-
 });

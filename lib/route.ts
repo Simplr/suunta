@@ -3,9 +3,18 @@ import { ViewProperties } from "./view";
 
 export type RouteView = string | TemplateResult;
 
-export interface Route {
+export type Route = ViewRoute | RedirectRoute;
+
+interface BaseRoute {
     path: string;
-    view: RouteView;
     name?: string;
     properties?: ViewProperties;
+}
+
+export interface ViewRoute extends BaseRoute {
+    view: RouteView;
+}
+
+export interface RedirectRoute extends BaseRoute {
+    redirect: string;
 }
