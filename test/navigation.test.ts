@@ -1,14 +1,5 @@
 import { expect } from "@esm-bundle/chai";
-import { clearRenders, getBasicRouterSetup } from "./util";
-
-function getSessionId() {
-    return new URL(window.location.href).searchParams.get("wtr-session-id");
-}
-
-function navigateTo(url: string) {
-    window.history.pushState(null, "", `${url}?wtr-session-id=${getSessionId()}`);
-    console.log("Navigated to ", window.location.href);
-}
+import { clearRenders, getBasicRouterSetup, navigateTo } from "./util";
 
 it("Should render /foo view when window.location.href is set to /foo", async () => {
     navigateTo("/foo");

@@ -52,3 +52,12 @@ export function getBasicRouterSetup() {
     return router;
 }
 
+export function getSessionId() {
+    return new URL(window.location.href).searchParams.get("wtr-session-id");
+}
+
+export function navigateTo(url: string) {
+    window.history.pushState(null, "", `${url}?wtr-session-id=${getSessionId()}`);
+    console.log("Navigated to ", window.location.href);
+}
+
