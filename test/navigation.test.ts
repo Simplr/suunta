@@ -1,19 +1,29 @@
 import { expect } from "@esm-bundle/chai";
 import { clearRenders, getBasicRouterSetup } from "./util";
 
-it("Should render /foo view when window.location.href is set to /foo", () => {
-    window.location.href = "/foo";
+function getSessionId() {
+    return new URL(window.location.href).searchParams.get("wtr-session-id");
+}
+
+function navigateTo(url: string) {
+    window.history.pushState(null, "", `${url}?wtr-session-id=${getSessionId()}`);
+    console.log("Navigated to ", window.location.href);
+}
+
+it("Should render /foo view when window.location.href is set to /foo", async () => {
+    navigateTo("/foo");
+
+    await new Promise(r => setTimeout(r, 100));
     clearRenders();
 
     const router = getBasicRouterSetup();
     router.start();
 
     const currentView = router.getCurrentView();
-    console.log(currentView)
 });
 
 it("Should render dynamic pages with params", () => {
-    window.location.href = "/user/123";
+    navigateTo("/user/123");
     clearRenders();
 
     const router = getBasicRouterSetup();
@@ -21,7 +31,7 @@ it("Should render dynamic pages with params", () => {
 });
 
 it("Should not render dynamic pages with params not mathing the matcher regex", () => {
-    window.location.href = "/user/12bcd";
+    navigateTo("/user/12bcd");
     clearRenders();
 
     const router = getBasicRouterSetup();
@@ -29,7 +39,7 @@ it("Should not render dynamic pages with params not mathing the matcher regex", 
 });
 
 it("Should match the 404 route when route was not found", () => {
-    window.location.href = "/user/12bcd";
+    navigateTo("/bar");
     clearRenders();
 
     const router = getBasicRouterSetup();
@@ -37,7 +47,7 @@ it("Should match the 404 route when route was not found", () => {
 });
 
 it("Should redirect correctly", () => {
-    window.location.href = "/user/12bcd";
+    navigateTo("/redirect");
     clearRenders();
 
     const router = getBasicRouterSetup();
