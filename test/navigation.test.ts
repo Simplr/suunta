@@ -11,6 +11,8 @@ it("Should render /foo view when window.location.href is set to /foo", async () 
     router.start();
 
     const currentView = router.getCurrentView();
+    expect(currentView?.route.path).to.equal("/foo");
+    expect(currentView?.route.name).to.equal("Foo");
 });
 
 it("Should render dynamic pages with params", () => {
