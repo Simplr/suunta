@@ -9,7 +9,8 @@
   "scripts": {
     "build": "esbuild ./lib/main.ts --bundle --outdir=dist",
     "watch": "esbuild ./lib/main.ts --bundle --outdir=dist --watch",
-    "test": "web-test-runner test/**/*.test.ts --node-resolve"
+    "test": "web-test-runner test/**/*.test.ts --node-resolve",
+    "test:watch": "web-test-runner test/**/*.test.ts --watch --node-resolve"
   },
   "repository": {
     "type": "git",
