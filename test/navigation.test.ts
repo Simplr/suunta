@@ -15,15 +15,6 @@ it("Should render /foo view when window.location.href is set to /foo", async () 
     expect(currentView?.route.name).to.equal("Foo");
 });
 
-
-it("Should match the 404 route when route was not found", () => {
-    navigateTo("/bar");
-    clearRenders();
-
-    const router = getBasicRouterSetup();
-    router.start();
-});
-
 it("Should redirect correctly", () => {
     navigateTo("/redirect");
     clearRenders();
@@ -53,3 +44,15 @@ it("Should not render dynamic pages with params not mathing the matcher regex", 
 
     console.log()
 });
+
+it("Should match the 404 route when route was not found", () => {
+    navigateTo("/bar");
+    clearRenders();
+
+    const router = getBasicRouterSetup();
+    router.start();
+
+    const currentView = router.getCurrentView();
+    console.log(currentView);
+});
+
