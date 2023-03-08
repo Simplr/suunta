@@ -23,6 +23,8 @@ export class Suunta {
         this.options.routes.forEach(route => {
             this.routes.set(route.path, route);
             console.log(route.path);
+            // TODO: Implement a matching process for these matchers
+            // TODO: Check that the regex matchers work on special half-cases like /user/12bc 
             const routeMatcher = this.createRouteMatcher(route.path);
             if (routeMatcher) {
                 this.routeMatchers.set(route.path, routeMatcher);
@@ -37,13 +39,10 @@ export class Suunta {
             // No need to generate for non-wildcard routes
             return undefined;
         }
-        console.log(wildcards);
-        console.log(path.split("/"))
 
         const pathSplit = path.split("/").filter(part => part.length > 0);
         let regexString = "";
         for (const pathPart of pathSplit) {
-            console.log(pathPart)
             if (!wildcards.includes(pathPart)) {
                 regexString += "\\/" + pathPart;
                 continue;
