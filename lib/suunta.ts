@@ -39,14 +39,24 @@ export class Suunta {
         }
         console.log(wildcards);
         console.log(path.split("/"))
-        const pathSplit = path.split("/");
+
+        const pathSplit = path.split("/").filter(part => part.length > 0);
         let regexString = "";
         for (const pathPart of pathSplit) {
-            regexString += "/";
             console.log(pathPart)
+            if (!wildcards.includes(pathPart)) {
+                regexString += "\\/" + pathPart;
+                continue;
+            }
+            const matcherKey = pathPart.substring(pathPart.indexOf("{") + 1, pathPart.indexOf("}"));
+            let matcher = pathPart.match(/\(.*\)/)?.[0];
+            if (!matcher) {
+                matcher = "(.*)";
+            }
+            regexString += "\\/" + pathPart.replace(/{.*}/, `(?<${matcherKey}>)`);
         }
 
-        return new RegExp("");
+        return new RegExp(regexString);
     }
 
     private discoverTarget(): void {
