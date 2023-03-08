@@ -58,6 +58,5 @@ export function getSessionId() {
 
 export function navigateTo(url: string) {
     window.history.pushState(null, "", `${url}?wtr-session-id=${getSessionId()}`);
-    console.log("Navigated to ", window.location.href);
 }
 
