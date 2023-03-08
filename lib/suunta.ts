@@ -16,13 +16,37 @@ export class Suunta {
     #currentView: SuuntaView | undefined;
     #target: SuuntaTarget = document.createDocumentFragment();
     public routes: Map<string, Route> = new Map();
+    public routeMatchers: Map<string, RegExp> = new Map();
     public started = false;
 
     constructor(private options: SuuntaInitOptions) {
         this.options.routes.forEach(route => {
             this.routes.set(route.path, route);
+            console.log(route.path);
+            const routeMatcher = this.createRouteMatcher(route.path);
+            if (routeMatcher) {
+                this.routeMatchers.set(route.path, routeMatcher);
+            }
         });
         this.discoverTarget();
+    }
+
+    createRouteMatcher(path: string): RegExp | undefined {
+        const wildcards = path.match(/{.*}(?:\(.*\))*/);
+        if (wildcards == null) {
+            // No need to generate for non-wildcard routes
+            return undefined;
+        }
+        console.log(wildcards);
+        console.log(path.split("/"))
+        const pathSplit = path.split("/");
+        let regexString = "";
+        for (const pathPart of pathSplit) {
+            regexString += "/";
+            console.log(pathPart)
+        }
+
+        return new RegExp("");
     }
 
     private discoverTarget(): void {
