@@ -32,6 +32,11 @@ export function getBasicRouterSetup() {
             view: html`<p>User page</p>`
         },
         {
+            path: "/search/{matchAll}",
+            name: "Search",
+            view: html`<p>Search page</p>`
+        },
+        {
             path: "/{notFoundPath}(.*)",
             name: "404",
             view: html`<p>Page not found</p>`
