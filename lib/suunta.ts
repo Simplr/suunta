@@ -1,5 +1,5 @@
 import { html, render } from "lit-html";
-import { Route } from "./route";
+import { isRedirectRoute, isViewRoute, Route, RouteQueryObject } from "./route";
 import { SuuntaView } from "./view";
 
 type SuuntaTarget = HTMLElement | DocumentFragment;
@@ -45,6 +45,16 @@ export class Suunta {
         this.navigate(currentRoute);
     }
 
+    public getRoute(routeQueryObject: RouteQueryObject): Route | undefined {
+        if (routeQueryObject.name) {
+            return [...this.routes.values()].find(route => route.name === routeQueryObject.name);
+        }
+        if (routeQueryObject.path) {
+            // TODO: Make this just try to get from map? How about dynamic routes?
+            return [...this.routes.values()].find(route => route.path === routeQueryObject.path);
+        }
+    }
+
     private getRouteFromCurrentURL(): Route | undefined {
         const currentURL = new URL(window.location.href);
         const path = currentURL.pathname;
@@ -59,7 +69,17 @@ export class Suunta {
             properties: { ...route.properties }
         };
 
-        render(html`${route.view}`, this.#target);
+        if (isViewRoute(route)) {
+            render(html`${route.view}`, this.#target);
+        }
+        if (isRedirectRoute(route)) {
+            const redirectTarget = this.getRoute({ name: route.redirect });
+            if (!redirectTarget) {
+                throw new Error("Could not redirect to route '" + route.redirect + "' as it could not be found.");
+            }
+            this.navigate(redirectTarget);
+        }
+
     }
 
     public getCurrentView(): SuuntaView | undefined {

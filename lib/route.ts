@@ -26,3 +26,8 @@ export function isViewRoute(route: Route): route is ViewRoute {
 export function isRedirectRoute(route: Route): route is RedirectRoute {
     return route.hasOwnProperty("redirect");
 }
+
+export interface RouteQueryObject {
+    name?: string;
+    path?: string;
+}

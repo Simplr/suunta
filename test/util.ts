@@ -39,7 +39,7 @@ export function getBasicRouterSetup() {
         {
             path: "/redirect",
             name: "Redirect",
-            redirect: "Home"
+            redirect: "Foo"
         }
     ];
 
