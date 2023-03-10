@@ -16,7 +16,7 @@ export class Suunta {
     #currentView: SuuntaView | undefined;
     #target: SuuntaTarget = document.createDocumentFragment();
     public routes: Map<string, Route> = new Map();
-    public routeMatchers: Map<string, RegExp> = new Map();
+    public routeMatchers: Map<RegExp, Route> = new Map();
     public started = false;
 
     constructor(private options: SuuntaInitOptions) {
@@ -26,7 +26,7 @@ export class Suunta {
             // TODO: Check that the regex matchers work on special half-cases like /user/12bc 
             const routeMatcher = this.createRouteMatcher(route.path);
             if (routeMatcher) {
-                this.routeMatchers.set(route.path, routeMatcher);
+                this.routeMatchers.set(routeMatcher, route);
             }
         });
         this.discoverTarget();
@@ -87,25 +87,33 @@ export class Suunta {
             throw new Error("RouteQueryObject must contain either a name or a path");
         }
 
+        const path = routeQueryObject.path;
         // TODO: This path should also handle all basic navigations done by the user by clicking a link
         // and / or basic stuff.
         // So this will be the catch all for all navigation route parsing from now on
         // TODO: Make this just try to get from map? How about dynamic routes?
-        const matchedStaticPath = [...this.routes.values()].find(route => route.path === routeQueryObject.path);
+        const matchedStaticPath = [...this.routes.values()].find(route => route.path === path);
         if (matchedStaticPath) {
             return matchedStaticPath;
         }
 
-        console.log(`\nCould not find a path from static ones for ${routeQueryObject.path}.`);
-
         // We didn't match a name, nor a static path. Try to resolve via regex.
         for (const matcherEntry of this.routeMatchers.entries()) {
-            const matcher = matcherEntry[1];
-            const match = routeQueryObject.path.match(matcher);
-            if (match) {
-                console.log("Route: ", routeQueryObject.path);
-                console.log("Matcher found!", matcher);
-                console.log(match.groups);
+            const matcher = matcherEntry[0];
+            const match = path.match(matcher);
+            if (!match) {
+                continue;
+            }
+            const rawMatch = match[0];
+            if (path !== rawMatch) {
+                continue;
+            }
+
+            console.log(match.groups);
+            const matchedRoute = matcherEntry[1];
+            return {
+                ...matchedRoute,
+                properties: match.groups ?? {}
             }
         }
     }
