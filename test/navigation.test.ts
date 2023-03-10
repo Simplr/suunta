@@ -2,10 +2,10 @@ import { expect } from "@esm-bundle/chai";
 import { clearRenders, getBasicRouterSetup, navigateTo } from "./util";
 
 it("Should render /foo view when window.location.href is set to /foo", async () => {
+    clearRenders();
     navigateTo("/foo");
 
     await new Promise(r => setTimeout(r, 100));
-    clearRenders();
 
     const router = getBasicRouterSetup();
     router.start();
@@ -16,8 +16,8 @@ it("Should render /foo view when window.location.href is set to /foo", async () 
 });
 
 it("Should redirect correctly", () => {
-    navigateTo("/redirect");
     clearRenders();
+    navigateTo("/redirect");
 
     const router = getBasicRouterSetup();
     router.start();
@@ -28,8 +28,8 @@ it("Should redirect correctly", () => {
 });
 
 it("Should render dynamic pages with params", () => {
-    navigateTo("/user/123");
     clearRenders();
+    navigateTo("/user/123");
 
     const router = getBasicRouterSetup();
     router.start();
@@ -42,8 +42,8 @@ it("Should render dynamic pages with params", () => {
 });
 
 it("Should not render dynamic pages with params not fully matching the matcher regex", () => {
-    navigateTo("/user/12bcd");
     clearRenders();
+    navigateTo("/user/12bcd");
 
     const router = getBasicRouterSetup();
     router.start();
@@ -54,13 +54,13 @@ it("Should not render dynamic pages with params not fully matching the matcher r
 });
 
 it("Should match the 404 route when route was not found", () => {
-    navigateTo("/bar");
     clearRenders();
+    navigateTo("/bar");
 
     const router = getBasicRouterSetup();
     router.start();
 
     const currentView = router.getCurrentView();
-    console.log(currentView);
+    expect(currentView?.route.path).to.equal("/{notFoundPath}(.*)");
 });
 
