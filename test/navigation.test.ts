@@ -41,14 +41,16 @@ it("Should render dynamic pages with params", () => {
     expect(Object.keys(currentView?.route.properties!).length).to.equal(1);
 });
 
-it("Should not render dynamic pages with params not mathing the matcher regex", () => {
+it("Should not render dynamic pages with params not fully matching the matcher regex", () => {
     navigateTo("/user/12bcd");
     clearRenders();
 
     const router = getBasicRouterSetup();
     router.start();
 
-    console.log()
+    const currentView = router.getCurrentView();
+
+    expect(currentView?.route.path).to.equal("/{notFoundPath}(.*)");
 });
 
 it("Should match the 404 route when route was not found", () => {
