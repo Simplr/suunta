@@ -38,6 +38,7 @@ it("Should render dynamic pages with params", () => {
     expect(currentView?.route.path).to.equal("/user/{id}(\\d+)")
     expect(currentView?.route.name).to.equal("User profile")
     expect(currentView?.route.properties?.id).to.equal("123")
+    expect(Object.keys(currentView?.route.properties!).length).to.equal(1);
 });
 
 it("Should not render dynamic pages with params not mathing the matcher regex", () => {
