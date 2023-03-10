@@ -22,7 +22,6 @@ export class Suunta {
     constructor(private options: SuuntaInitOptions) {
         this.options.routes.forEach(route => {
             this.routes.set(route.path, route);
-            console.log(route.path);
             // TODO: Implement a matching process for these matchers
             // TODO: Check that the regex matchers work on special half-cases like /user/12bc 
             const routeMatcher = this.createRouteMatcher(route.path);
@@ -52,7 +51,9 @@ export class Suunta {
             if (!matcher) {
                 matcher = "(.*)";
             }
-            regexString += "\\/" + pathPart.replace(/{.*}/, `(?<${matcherKey}>)`);
+            const matcherWithoutWrappingParenthesis = matcher.replace(/^\(/, "").replace(/\)$/, "");
+            const matcherKeyRegex = `(?<${matcherKey}>${matcherWithoutWrappingParenthesis})`;
+            regexString += "\\/" + matcherKeyRegex;
         }
 
         return new RegExp(regexString);
@@ -82,12 +83,30 @@ export class Suunta {
         if (routeQueryObject.name) {
             return [...this.routes.values()].find(route => route.name === routeQueryObject.name);
         }
+        if (!routeQueryObject.path) {
+            throw new Error("RouteQueryObject must contain either a name or a path");
+        }
+
         // TODO: This path should also handle all basic navigations done by the user by clicking a link
         // and / or basic stuff.
         // So this will be the catch all for all navigation route parsing from now on
-        if (routeQueryObject.path) {
-            // TODO: Make this just try to get from map? How about dynamic routes?
-            return [...this.routes.values()].find(route => route.path === routeQueryObject.path);
+        // TODO: Make this just try to get from map? How about dynamic routes?
+        const matchedStaticPath = [...this.routes.values()].find(route => route.path === routeQueryObject.path);
+        if (matchedStaticPath) {
+            return matchedStaticPath;
+        }
+
+        console.log(`\nCould not find a path from static ones for ${routeQueryObject.path}.`);
+
+        // We didn't match a name, nor a static path. Try to resolve via regex.
+        for (const matcherEntry of this.routeMatchers.entries()) {
+            const matcher = matcherEntry[1];
+            const match = routeQueryObject.path.match(matcher);
+            if (match) {
+                console.log("Route: ", routeQueryObject.path);
+                console.log("Matcher found!", matcher);
+                console.log(match.groups);
+            }
         }
     }
 
@@ -95,7 +114,7 @@ export class Suunta {
         const currentURL = new URL(window.location.href);
         const path = currentURL.pathname;
 
-        return this.routes.get(path);
+        return this.getRoute({ path })
     }
 
     public navigate(route: Route): void {
