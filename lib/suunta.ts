@@ -88,10 +88,7 @@ export class Suunta {
         }
 
         const path = routeQueryObject.path;
-        // TODO: This path should also handle all basic navigations done by the user by clicking a link
-        // and / or basic stuff.
-        // So this will be the catch all for all navigation route parsing from now on
-        // TODO: Make this just try to get from map? How about dynamic routes?
+
         const matchedStaticPath = [...this.routes.values()].find(route => route.path === path);
         if (matchedStaticPath) {
             return matchedStaticPath;

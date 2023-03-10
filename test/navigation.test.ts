@@ -33,6 +33,11 @@ it("Should render dynamic pages with params", () => {
 
     const router = getBasicRouterSetup();
     router.start();
+    const currentView = router.getCurrentView();
+
+    expect(currentView?.route.path).to.equal("/user/{id}(\\d+)")
+    expect(currentView?.route.name).to.equal("User profile")
+    expect(currentView?.route.properties?.id).to.equal("123")
 });
 
 it("Should not render dynamic pages with params not mathing the matcher regex", () => {
