@@ -4,12 +4,14 @@ import { html, render } from "lit-html";
 import { Route } from "../lib/route";
 import { Suunta, SuuntaInitOptions } from "../lib/suunta";
 
-//
+export let router: Suunta | undefined;
+
 export function clearRenders() {
     render(html``, document.body);
 }
 
 export function getBasicRouterSetup() {
+    render(html`<div id="outlet"></div>`, document.body);
     const routes: Route[] = [
         {
             path: "/",
@@ -29,7 +31,7 @@ export function getBasicRouterSetup() {
         {
             path: "/user/{id}(\\d+)",
             name: "User profile",
-            view: html`<p>User page</p>`
+            view: () => html`<p>User page for id ${router?.getCurrentView()?.properties.id}</p>`
         },
         {
             path: "/search/{matchAll}",
@@ -50,10 +52,10 @@ export function getBasicRouterSetup() {
 
     const routerOptions: SuuntaInitOptions = {
         routes,
-        target: "body"
+        target: "#outlet"
     };
 
-    const router = new Suunta(routerOptions);
+    router = new Suunta(routerOptions);
     return router;
 }
 

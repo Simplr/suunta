@@ -105,7 +105,6 @@ export class Suunta {
                 continue;
             }
 
-            console.log(match.groups);
             const matchedRoute = matcherEntry[1];
             return {
                 ...matchedRoute,
@@ -121,7 +120,7 @@ export class Suunta {
         return this.getRoute({ path })
     }
 
-    public navigate(route: Route): void {
+    public async navigate(route: Route): Promise<void> {
         this.#currentView = {
             href: window.location.href,
             route,
@@ -129,7 +128,12 @@ export class Suunta {
         };
 
         if (isViewRoute(route)) {
-            render(html`${route.view}`, this.#target);
+            if (typeof route.view === 'function') {
+                const viewOutput = await route.view();
+                render(html`${viewOutput}`, this.#target);
+            } else {
+                render(html`${route.view}`, this.#target);
+            }
         }
         if (isRedirectRoute(route)) {
             const redirectTarget = this.getRoute({ name: route.redirect });

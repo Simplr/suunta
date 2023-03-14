@@ -1,7 +1,9 @@
 import { TemplateResult } from "lit-html";
 import { ViewProperties } from "./view";
 
-export type RouteView = string | TemplateResult;
+export type RouteView = string | TemplateResult | RouteViewFunction;
+
+type RouteViewFunction = (() => RouteView) | (() => Promise<RouteView>);
 
 export type Route = ViewRoute | RedirectRoute;
 

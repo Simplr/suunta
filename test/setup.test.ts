@@ -51,7 +51,21 @@ it("Should render the HTML view", () => {
 
 it("Should render the HTML view inside the BODY element", () => {
     clearRenders();
-    const router = getBasicRouterSetup();
+
+    const routes = [
+        {
+            path: "/",
+            name: "Home",
+            view: html`<p id="needle">Hello world!</p>`
+        }
+    ];
+
+    const routerOptions: SuuntaInitOptions = {
+        routes,
+        target: "body"
+    };
+
+    const router = new Suunta(routerOptions);
 
     router.start();
 
