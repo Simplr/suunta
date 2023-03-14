@@ -22,8 +22,6 @@ export class Suunta {
     constructor(private options: SuuntaInitOptions) {
         this.options.routes.forEach(route => {
             this.routes.set(route.path, route);
-            // TODO: Implement a matching process for these matchers
-            // TODO: Check that the regex matchers work on special half-cases like /user/12bc 
             const routeMatcher = this.createRouteMatcher(route.path);
             if (routeMatcher) {
                 this.routeMatchers.set(routeMatcher, route);
@@ -74,7 +72,8 @@ export class Suunta {
         const currentRoute = this.getRouteFromCurrentURL();
         if (!currentRoute) {
             // TODO: Change this path to a 404 page nav etc.
-            throw new Error("Could not find a route to navigate to.");
+            throw new Error(`Could not find a route to navigate to, and no fallback route was set. 
+                            To set a fallback route, add one with the matcher '/{notFoundPath}(.*)', or just '/{notFoundPath}'.`);
         }
         this.navigate(currentRoute);
     }
