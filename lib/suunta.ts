@@ -1,4 +1,5 @@
 import { html, render } from "lit-html";
+import { createRouteMatcher } from "./matcher";
 import { isRedirectRoute, isViewRoute, Route, RouteQueryObject } from "./route";
 import { SuuntaView } from "./view";
 
@@ -22,49 +23,12 @@ export class Suunta {
     constructor(private options: SuuntaInitOptions) {
         this.options.routes.forEach(route => {
             this.routes.set(route.path, route);
-            const routeMatcher = this.createRouteMatcher(route.path);
+            const routeMatcher = createRouteMatcher(route.path);
             if (routeMatcher) {
                 this.routeMatchers.set(routeMatcher, route);
             }
         });
         this.discoverTarget();
-    }
-
-    createRouteMatcher(path: string): RegExp | undefined {
-        const wildcards = path.match(/{.*}(?:\(.*\))*/);
-        if (wildcards == null) {
-            // No need to generate for non-wildcard routes
-            return undefined;
-        }
-
-        const pathSplit = path.split("/").filter(part => part.length > 0);
-        let regexString = "";
-        for (const pathPart of pathSplit) {
-            if (!wildcards.includes(pathPart)) {
-                regexString += "\\/" + pathPart;
-                continue;
-            }
-            const matcherKey = pathPart.substring(pathPart.indexOf("{") + 1, pathPart.indexOf("}"));
-            let matcher = pathPart.match(/\(.*\)/)?.[0];
-            if (!matcher) {
-                matcher = "(.*)";
-            }
-            const matcherWithoutWrappingParenthesis = matcher.replace(/^\(/, "").replace(/\)$/, "");
-            const matcherKeyRegex = `(?<${matcherKey}>${matcherWithoutWrappingParenthesis})`;
-            regexString += "\\/" + matcherKeyRegex;
-        }
-
-        return new RegExp(regexString);
-    }
-
-    private discoverTarget(): void {
-        let soonToBeTarget: SuuntaTarget | string = this.options.target;
-        if (typeof soonToBeTarget === "string") {
-            let foundElement = document.querySelector<HTMLElement>(soonToBeTarget);
-            if (foundElement) {
-                this.#target = foundElement;
-            }
-        }
     }
 
     public start(): void {
@@ -76,6 +40,16 @@ export class Suunta {
                             To set a fallback route, add one with the matcher '/{notFoundPath}(.*)', or just '/{notFoundPath}'.`);
         }
         this.navigate(currentRoute);
+    }
+
+    private discoverTarget(): void {
+        let soonToBeTarget: SuuntaTarget | string = this.options.target;
+        if (typeof soonToBeTarget === "string") {
+            let foundElement = document.querySelector<HTMLElement>(soonToBeTarget);
+            if (foundElement) {
+                this.#target = foundElement;
+            }
+        }
     }
 
     public getRoute(routeQueryObject: RouteQueryObject): Route | undefined {
