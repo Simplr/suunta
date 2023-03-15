@@ -28,18 +28,29 @@ export class Suunta {
                 this.routeMatchers.set(routeMatcher, route);
             }
         });
-        this.discoverTarget();
     }
 
     public start(): void {
-        this.started = true;
+        this.discoverTarget();
         const currentRoute = this.getRouteFromCurrentURL();
-        if (!currentRoute) {
-            // TODO: Change this path to a 404 page nav etc.
-            throw new Error(`Could not find a route to navigate to, and no fallback route was set. 
-                            To set a fallback route, add one with the matcher '/{notFoundPath}(.*)', or just '/{notFoundPath}'.`);
-        }
         this.navigate(currentRoute);
+        this.setupListeners();
+        this.started = true;
+    }
+
+    private setupListeners() {
+        document.body.addEventListener("click", (clickEvent) => {
+            clickEvent.preventDefault();
+            const path = clickEvent.composedPath();
+            const closestLink = path.filter(el => (el as HTMLAnchorElement).href !== undefined).pop();
+            if (!closestLink) {
+                return;
+            }
+
+            const navigationTargetUrl = (closestLink as Element)?.getAttribute("href") ?? undefined;
+            const route = this.getRoute({ path: navigationTargetUrl })
+            this.navigate(route);
+        });
     }
 
     private discoverTarget(): void {
@@ -94,7 +105,13 @@ export class Suunta {
         return this.getRoute({ path })
     }
 
-    public async navigate(route: Route): Promise<void> {
+    public async navigate(route: Route | undefined): Promise<void> {
+        if (!route) {
+            // TODO: Change this path to a 404 page nav etc.
+            throw new Error(`Could not find a route to navigate to, and no fallback route was set. 
+                            To set a fallback route, add one with the matcher '/{notFoundPath}(.*)', or just '/{notFoundPath}'.`);
+        }
+
         this.#currentView = {
             href: window.location.href,
             route,

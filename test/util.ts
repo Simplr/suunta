@@ -24,6 +24,11 @@ export function getBasicRouterSetup() {
             view: html`<p id="needle">Foo bar</p>`
         },
         {
+            path: "/anchor",
+            name: "Anchor",
+            view: html`<a href="/user">To Users page</a>`
+        },
+        {
             path: "/user",
             name: "User",
             view: html`<p>User page</p>`
