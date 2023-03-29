@@ -2,7 +2,7 @@
   "name": "suunta",
   "version": "1.0.0",
   "description": "The new router",
-  "main": "index.js",
+  "main": "dist/main.js",
   "directories": {
     "lib": "lib"
   },
@@ -10,7 +10,8 @@
     "build": "esbuild ./lib/main.ts --bundle --outdir=dist",
     "watch": "esbuild ./lib/main.ts --bundle --outdir=dist --watch",
     "test": "web-test-runner test/**/*.test.ts --node-resolve",
-    "test:watch": "web-test-runner test/**/*.test.ts --watch --node-resolve"
+    "test:watch": "web-test-runner test/**/*.test.ts --watch --node-resolve",
+    "types": "tsc"
   },
   "repository": {
     "type": "git",

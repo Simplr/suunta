@@ -1,4 +1,5 @@
 {
+  "include": ["lib/**/*"],
   "compilerOptions": {
     "incremental": true,
 
@@ -6,7 +7,6 @@
     "experimentalDecorators": true,
 
     "module": "ESNext",
-    "rootDir": "./",
 
     "allowJs": true,
     "checkJs": true,
@@ -20,6 +20,8 @@
     "skipLibCheck": true,
     "lib": ["dom"],
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+
+    "emitDeclarationOnly": true
   }
 }
