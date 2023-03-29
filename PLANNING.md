@@ -10,10 +10,9 @@ Support lit-html by default but have a JSX support?
 
 ## TODO
 
-- Implement a link click handler to trigger navigation events
 - Build a test app with the current setup
 - Look into supporting https://developer.chrome.com/docs/web-platform/view-transitions/
 - Support sub-views / extra outlets
-- Support lazy loading
+    - For this we should have a "children" property that just takes other views
 - Add middleware support
 - Add support for root paths / base path
