@@ -129,15 +129,17 @@ export class Suunta {
             }
 
             const viewOutput = await route.view();
-            if (isModule(viewOutput)) {
-                const defaultExport = viewOutput["default"];
-                if (defaultExport) {
-                    render(defaultExport, this.#target)
-                } else {
-                    render(Object.values(viewOutput)[0], this.#target)
-                }
-            } else {
+
+            if (!isModule(viewOutput)) {
                 render(html`${viewOutput}`, this.#target);
+                return;
+            }
+
+            const defaultExport = viewOutput["default"];
+            if (defaultExport) {
+                render(defaultExport, this.#target)
+            } else {
+                render(Object.values(viewOutput)[0], this.#target)
             }
         }
         if (isRedirectRoute(route)) {
