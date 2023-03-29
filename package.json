@@ -7,11 +7,12 @@
     "lib": "lib"
   },
   "scripts": {
-    "build": "esbuild ./lib/main.ts --bundle --outdir=dist",
-    "watch": "esbuild ./lib/main.ts --bundle --outdir=dist --watch",
+    "build": "esbuild ./lib/main.ts --bundle --outdir=dist --format=esm",
+    "watch": "npm run build -- --watch",
     "test": "web-test-runner test/**/*.test.ts --node-resolve",
     "test:watch": "web-test-runner test/**/*.test.ts --watch --node-resolve",
-    "types": "tsc"
+    "types": "tsc",
+    "bundle": "npm run build && npm run types"
   },
   "repository": {
     "type": "git",

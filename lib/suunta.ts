@@ -55,11 +55,13 @@ export class Suunta {
 
     private discoverTarget(): void {
         let soonToBeTarget: SuuntaTarget | string = this.options.target;
-        if (typeof soonToBeTarget === "string") {
-            let foundElement = document.querySelector<HTMLElement>(soonToBeTarget);
-            if (foundElement) {
-                this.#target = foundElement;
-            }
+        if (typeof soonToBeTarget !== "string") {
+            this.#target = soonToBeTarget;
+            return;
+        }
+        let foundElement = document.querySelector<HTMLElement>(soonToBeTarget);
+        if (foundElement) {
+            this.#target = foundElement;
         }
     }
 
