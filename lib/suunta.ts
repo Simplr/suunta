@@ -121,11 +121,22 @@ export class Suunta {
         };
 
         if (isViewRoute(route)) {
-            if (typeof route.view === 'function') {
-                const viewOutput = await route.view();
-                render(html`${viewOutput}`, this.#target);
-            } else {
+            if (typeof route.view !== 'function') {
                 render(html`${route.view}`, this.#target);
+                return;
+            }
+
+            const viewOutput = await route.view();
+            if (isModule(viewOutput)) {
+                const defaultExport = viewOutput["default"];
+                if (defaultExport) {
+                    render(defaultExport, this.#target)
+                } else {
+                    render(Object.values(viewOutput)[0], this.#target)
+                }
+                // 
+            } else {
+                render(html`${viewOutput}`, this.#target);
             }
         }
         if (isRedirectRoute(route)) {
@@ -141,4 +152,9 @@ export class Suunta {
     public getCurrentView(): SuuntaView | undefined {
         return this.#currentView;
     }
+}
+
+// Ugly type hack until I come up with something better to type it
+function isModule(something: unknown): something is any {
+    return Object.prototype.toString.call(something) === "[object Module]";
 }

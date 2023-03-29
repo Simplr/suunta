@@ -3,7 +3,7 @@ import { ViewProperties } from "./view";
 
 export type RouteView = string | TemplateResult | RouteViewFunction;
 
-type RouteViewFunction = (() => RouteView) | (() => Promise<RouteView>);
+type RouteViewFunction = (() => RouteView) | (() => Promise<RouteView>) | (<T>() => Promise<T>);
 
 export type Route = ViewRoute | RedirectRoute;
 
