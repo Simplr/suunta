@@ -120,6 +120,8 @@ export class Suunta {
             properties: { ...route.properties }
         };
 
+        window.history.pushState(null, "", route.path);
+
         if (isViewRoute(route)) {
             if (typeof route.view !== 'function') {
                 render(html`${route.view}`, this.#target);
@@ -134,7 +136,6 @@ export class Suunta {
                 } else {
                     render(Object.values(viewOutput)[0], this.#target)
                 }
-                // 
             } else {
                 render(html`${viewOutput}`, this.#target);
             }
