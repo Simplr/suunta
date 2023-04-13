@@ -124,21 +124,27 @@ export class Suunta {
 
         if (isViewRoute(route)) {
             if (typeof route.view !== 'function') {
-                render(html`${route.view}`, this.#target);
+                this.render(html`${route.view}`, this.#target);
                 return;
             }
 
             const viewOutput = await route.view();
 
             if (!isModule(viewOutput)) {
-                render(html`${viewOutput}`, this.#target);
+                this.render(html`${viewOutput}`, this.#target);
                 return;
             }
 
             const defaultExport = viewOutput["default"];
-            const viewToRender = defaultExport ?? Object.values(viewOutput)[0];
-            render(viewToRender, this.#target)
+            let viewToRender = defaultExport ?? Object.values(viewOutput)[0];
+
+            while (typeof viewToRender === "function") {
+                viewToRender = await viewToRender();
+            }
+
+            this.render(viewToRender, this.#target)
         }
+
         if (isRedirectRoute(route)) {
             const redirectTarget = this.getRoute({ name: route.redirect });
             if (!redirectTarget) {
@@ -146,6 +152,10 @@ export class Suunta {
             }
             this.navigate(redirectTarget);
         }
+    }
+
+    render(viewToRender: unknown, target: HTMLElement | DocumentFragment) {
+       render(viewToRender, target); 
     }
 
     public getCurrentView(): SuuntaView | undefined {
