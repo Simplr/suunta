@@ -136,11 +136,8 @@ export class Suunta {
             }
 
             const defaultExport = viewOutput["default"];
-            if (defaultExport) {
-                render(defaultExport, this.#target)
-            } else {
-                render(Object.values(viewOutput)[0], this.#target)
-            }
+            const viewToRender = defaultExport ?? Object.values(viewOutput)[0];
+            render(viewToRender, this.#target)
         }
         if (isRedirectRoute(route)) {
             const redirectTarget = this.getRoute({ name: route.redirect });
@@ -149,7 +146,6 @@ export class Suunta {
             }
             this.navigate(redirectTarget);
         }
-
     }
 
     public getCurrentView(): SuuntaView | undefined {
