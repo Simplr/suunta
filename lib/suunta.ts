@@ -114,6 +114,10 @@ export class Suunta {
                             To set a fallback route, add one with the matcher '/{notFoundPath}(.*)', or just '/{notFoundPath}'.`);
         }
 
+        if (route === this.#currentView?.route) {
+            return; // same route
+        }
+
         this.#currentView = {
             href: window.location.href,
             route,
