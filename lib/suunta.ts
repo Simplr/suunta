@@ -1,6 +1,7 @@
 import { html, render } from "lit-html";
 import { createRouteMatcher } from "./matcher";
 import { isRedirectRoute, isViewRoute, Route, RouteQueryObject } from "./route";
+import { NAVIGATED_EVENT } from "./triggers";
 import { SuuntaView } from "./view";
 
 type SuuntaTarget = HTMLElement | DocumentFragment;
@@ -10,7 +11,6 @@ export interface SuuntaInitOptions {
     target: string | HTMLElement | DocumentFragment;
     base?: string;
 }
-
 
 export class Suunta {
 
@@ -156,6 +156,7 @@ export class Suunta {
 
     render(viewToRender: unknown, target: HTMLElement | DocumentFragment) {
        render(viewToRender, target); 
+       document.dispatchEvent(new CustomEvent(NAVIGATED_EVENT));
     }
 
     public getCurrentView(): SuuntaView | undefined {
