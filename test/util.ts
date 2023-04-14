@@ -3,11 +3,48 @@
 import { html, render } from "lit-html";
 import { Route } from "../lib/route";
 import { Suunta, SuuntaInitOptions } from "../lib/suunta";
+import { BarView } from "./views/bar";
 
 export let router: Suunta | undefined;
 
 export function clearRenders() {
     render(html``, document.body);
+}
+
+export function getDynamicImportRouterSetup() {
+    const FooView = () => import("./views/foo.js");
+    const DefaultView = () => import("./views/default.js");
+    render(html`<div id="outlet"></div>`, document.body);
+    const routes: Route[] = [
+        {
+            path: "/",
+            name: "Home",
+            view: html`<p id="needle">Hello world!</p>`
+        },
+        {
+            path: "/foo",
+            name: "Foo",
+            view: FooView
+        },
+        {
+            path: "/bar",
+            name: "Bar",
+            view: BarView
+        },
+        {
+            path: "/default",
+            name: "Default",
+            view: DefaultView
+        },
+    ];
+
+    const routerOptions: SuuntaInitOptions = {
+        routes,
+        target: "#outlet"
+    };
+
+    router = new Suunta(routerOptions);
+    return router;
 }
 
 export function getBasicRouterSetup() {

@@ -1,6 +1,6 @@
 import { html, render } from "lit-html";
 import { createRouteMatcher } from "./matcher";
-import { isRedirectRoute, isViewRoute, Route, RouteQueryObject } from "./route";
+import { ImportedView, isRedirectRoute, isViewRoute, LazyImportedRouteView, RenderableView, Route, RouteQueryObject, RouteView, ViewRoute } from "./route";
 import { NAVIGATED_EVENT } from "./triggers";
 import { SuuntaView } from "./view";
 
@@ -127,20 +127,22 @@ export class Suunta {
         window.history.pushState(null, "", route.path);
 
         if (isViewRoute(route)) {
-            if (typeof route.view !== 'function') {
-                this.render(html`${route.view}`, this.#target);
+            let renderableView: RouteView | ImportedView = route.view;
+            if (isRenderableView(renderableView)) {
+                this.render(html`${renderableView}`, this.#target);
                 return;
             }
 
-            const viewOutput = await route.view();
+            renderableView = await renderableView();
 
-            if (!isModule(viewOutput)) {
-                this.render(html`${viewOutput}`, this.#target);
+            if (!isModule(renderableView)) {
+                this.render(html`${renderableView}`, this.#target);
                 return;
             }
 
-            const defaultExport = viewOutput["default"];
-            let viewToRender = defaultExport ?? Object.values(viewOutput)[0];
+            // @ts-ignore
+            const defaultExport = renderableView["default"];
+            let viewToRender = defaultExport ?? Object.values(renderableView)[0];
 
             while (typeof viewToRender === "function") {
                 viewToRender = await viewToRender();
@@ -169,6 +171,10 @@ export class Suunta {
 }
 
 // Ugly type hack until I come up with something better to type it
-function isModule(something: unknown): something is any {
+function isModule(something: unknown): something is LazyImportedRouteView {
     return Object.prototype.toString.call(something) === "[object Module]";
+}
+
+function isRenderableView(view: RouteView): view is RenderableView {
+    return typeof view !== "function";
 }
