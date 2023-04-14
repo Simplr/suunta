@@ -1,12 +1,13 @@
 import { TemplateResult } from "lit-html";
 import { ViewProperties } from "./view";
 
-type Lazy<T> = () => Promise<T>;
-export type ImportedView = { default: RenderableView | Lazy<RouteView> };
+export type Lazy<T> = () => Promise<T>;
+export type RenderFunction = () => RenderableView;
+export type ImportResult = RenderableView | Lazy<RenderableView> | RenderFunction | undefined;
+export type ImportedView = Record<string, ImportResult>;
 export type LazyImportedRouteView = Lazy<ImportedView>;
-export type RouteView = RenderableView | Lazy<RenderableView> | LazyImportedRouteView | any;
+export type RouteView = RenderableView | Lazy<RenderableView> | LazyImportedRouteView | RenderFunction;
 export type RenderableView = string | TemplateResult;
-// type RouteViewFunction = (() => RouteView) | (() => Promise<RouteView>) | (<T>() => Promise<T>);
 
 export type Route = ViewRoute | RedirectRoute;
 

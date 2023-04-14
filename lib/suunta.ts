@@ -1,6 +1,6 @@
 import { html, render } from "lit-html";
 import { createRouteMatcher } from "./matcher";
-import { ImportedView, isRedirectRoute, isViewRoute, LazyImportedRouteView, RenderableView, Route, RouteQueryObject, RouteView, ViewRoute } from "./route";
+import { ImportedView, ImportResult, isRedirectRoute, isViewRoute, Lazy, LazyImportedRouteView, RenderableView, Route, RouteQueryObject, RouteView, ViewRoute } from "./route";
 import { NAVIGATED_EVENT } from "./triggers";
 import { SuuntaView } from "./view";
 
@@ -110,7 +110,7 @@ export class Suunta {
     public async navigate(route: Route | undefined): Promise<void> {
         if (!route) {
             // TODO: Change this path to a 404 page nav etc.
-            throw new Error(`Could not find a route to navigate to, and no fallback route was set. 
+            throw new Error(`[Suunta]: Could not find a route to navigate to, and no fallback route was set. 
                             To set a fallback route, add one with the matcher '/{notFoundPath}(.*)', or just '/{notFoundPath}'.`);
         }
 
@@ -128,26 +128,31 @@ export class Suunta {
 
         if (isViewRoute(route)) {
             let renderableView: RouteView | ImportedView = route.view;
-            if (isRenderableView(renderableView)) {
-                this.render(html`${renderableView}`, this.#target);
-                return;
+
+            let iterationCount = 0;
+            while (renderableView !== null) {
+                if (isRenderableView(renderableView)) {
+                    this.render(html`${renderableView}`, this.#target);
+                    break;
+                }
+
+                if (isFunction(renderableView)) {
+                    renderableView = await renderableView();
+                }
+
+                if (isModule(renderableView)) {
+                    const exportedView: ImportResult = renderableView.default ?? Object.values(renderableView)[0];
+                    if (exportedView) {
+                        renderableView = exportedView;
+                    } else {
+                        throw new Error("[Suunta]: Could not parse imported route.")
+                    }
+                }
+                iterationCount++;
+                if (iterationCount > 10) {
+                    throw new Error("[Suunta]: Could not parse route from View.")
+                }
             }
-
-            renderableView = await renderableView();
-
-            if (isRenderableView(renderableView)) {
-                this.render(html`${renderableView}`, this.#target);
-                return;
-            }
-
-            const defaultExport = renderableView["default"];
-            let viewToRender = defaultExport ?? Object.values(renderableView)[0];
-
-            while (typeof viewToRender === "function") {
-                viewToRender = await viewToRender();
-            }
-
-            this.render(viewToRender, this.#target)
         }
 
         if (isRedirectRoute(route)) {
@@ -170,10 +175,14 @@ export class Suunta {
 }
 
 // Ugly type hack until I come up with something better to type it
-function isModule(something: unknown): something is LazyImportedRouteView {
+function isModule(something: unknown): something is ImportedView {
     return Object.prototype.toString.call(something) === "[object Module]";
 }
 
 function isRenderableView(view: RouteView | ImportedView): view is RenderableView {
     return typeof view !== "function" && !isModule(view);
+}
+
+function isFunction(view: RouteView | ImportedView): view is Lazy<RenderableView> | LazyImportedRouteView {
+    return typeof view === "function";
 }
