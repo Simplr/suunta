@@ -135,12 +135,11 @@ export class Suunta {
 
             renderableView = await renderableView();
 
-            if (!isModule(renderableView)) {
+            if (isRenderableView(renderableView)) {
                 this.render(html`${renderableView}`, this.#target);
                 return;
             }
 
-            // @ts-ignore
             const defaultExport = renderableView["default"];
             let viewToRender = defaultExport ?? Object.values(renderableView)[0];
 
@@ -175,6 +174,6 @@ function isModule(something: unknown): something is LazyImportedRouteView {
     return Object.prototype.toString.call(something) === "[object Module]";
 }
 
-function isRenderableView(view: RouteView): view is RenderableView {
-    return typeof view !== "function";
+function isRenderableView(view: RouteView | ImportedView): view is RenderableView {
+    return typeof view !== "function" && !isModule(view);
 }

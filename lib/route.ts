@@ -2,7 +2,7 @@ import { TemplateResult } from "lit-html";
 import { ViewProperties } from "./view";
 
 type Lazy<T> = () => Promise<T>;
-export type ImportedView = { default: RenderableView };
+export type ImportedView = { default: RenderableView | Lazy<RouteView> };
 export type LazyImportedRouteView = Lazy<ImportedView>;
 export type RouteView = RenderableView | Lazy<RenderableView> | LazyImportedRouteView | any;
 export type RenderableView = string | TemplateResult;
