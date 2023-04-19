@@ -46,6 +46,8 @@ it("Should render in child outlet", async () => {
     const router = getOutletSetup();
     router.start();
 
+    await new Promise(r => setTimeout(r, 100));
+
     const outlet = document.querySelector("suunta-view");
     const subOutlet = outlet?.querySelector("suunta-view");
     const needle = subOutlet?.querySelector("#needle");

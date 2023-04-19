@@ -15,6 +15,7 @@ export interface SuuntaInitOptions {
 export class Suunta {
 
     #currentView: SuuntaView | undefined;
+    #currentRenderTarget: SuuntaTarget | undefined;
     public routes: Map<string, Route> = new Map();
     public routeMatchers: Map<RegExp, Route> = new Map();
     public started = false;
@@ -68,10 +69,12 @@ export class Suunta {
         });
     }
 
-    private getTarget(): SuuntaTarget {
+    private getTarget(parentRenderTarget?: SuuntaTarget): SuuntaTarget {
+        const parent = parentRenderTarget ?? document;
+
         let soonToBeTarget: typeof this.options.target = this.options.target;
         if (soonToBeTarget === undefined) {
-            const outlet = document.querySelector<HTMLElement>("suunta-view");
+            const outlet = parent.querySelector<HTMLElement>("suunta-view");
             if (!outlet) {
                 throw new Error("[Suunta]: No router target nor a outlet tag was set.")
             }
@@ -80,7 +83,7 @@ export class Suunta {
         if (typeof soonToBeTarget !== "string") {
             return soonToBeTarget;
         }
-        let foundElement = document.querySelector<HTMLElement>(soonToBeTarget);
+        let foundElement = parent.querySelector<HTMLElement>(soonToBeTarget);
         if (foundElement) {
             return foundElement;
         }
@@ -160,8 +163,10 @@ export class Suunta {
     }
 
     async handleViewRoute(route: ViewRoute | ChildViewRoute) {
+        let parentRenderTarget: SuuntaTarget | undefined = undefined;
         if (isChildRoute(route)) {
             await this.handleViewRoute(route.parent);
+            parentRenderTarget = this.#currentRenderTarget;
         }
 
         let renderableView: RouteView | ImportedView = route.view;
@@ -169,7 +174,7 @@ export class Suunta {
         let iterationCount = 0;
         while (renderableView !== null) {
             if (isRenderableView(renderableView)) {
-                this.render(html`${renderableView}`);
+                this.render(html`${renderableView}`, parentRenderTarget);
                 break;
             }
 
@@ -200,8 +205,9 @@ export class Suunta {
         this.navigate(redirectTarget);
     }
 
-    render(viewToRender: unknown) {
-        const target = this.getTarget();
+    render(viewToRender: unknown, parentRenderTarget?: SuuntaTarget) {
+        const target = this.getTarget(parentRenderTarget);
+        this.#currentRenderTarget = target;
         render(viewToRender, target); 
         document.dispatchEvent(new CustomEvent(NAVIGATED_EVENT));
     }
