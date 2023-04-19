@@ -130,6 +130,20 @@ export function getOutletSetup() {
                     view: html`
                         <p id="needle">Needle</p>
                     `
+                },
+                {
+                    path: "/child-with-grandchild",
+                    name: "ChildWithGrandchild",
+                    view: html`<suunta-view></suunta-view>`,
+                    children: [ 
+                        {
+                            path: "/grandchild",
+                            name: "Grandchild",
+                            view: html`
+                                <p id="needle">Needle</p>
+                            `
+                        }
+                    ]
                 }
             ]
         }
