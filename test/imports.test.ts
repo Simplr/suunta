@@ -1,5 +1,5 @@
 import { expect } from "@esm-bundle/chai";
-import { clearRenders, getDynamicImportRouterSetup, navigateTo } from "./util";
+import { DEFAULT_OUTLET, clearRenders, getDynamicImportRouterSetup, navigateTo } from "./util";
 import { fixture, html } from "@open-wc/testing";
 import { render } from "lit-html";
 import { FooView } from "./views/foo";
@@ -17,7 +17,7 @@ it("Should support dynamic imports", async () => {
 
     await new Promise(r => setTimeout(r, 100));
 
-    const target = await fixture(html`<div id="outlet"></div>`);
+    const target = await fixture(DEFAULT_OUTLET);
     render(FooView(), target as HTMLElement);
 
     expect(target).dom.to.equal(document.querySelector("#outlet")?.outerHTML);
@@ -34,7 +34,7 @@ it("Should support straight imports", async () => {
 
     await new Promise(r => setTimeout(r, 100));
 
-    const target = await fixture(html`<div id="outlet"></div>`);
+    const target = await fixture(DEFAULT_OUTLET);
     render(BarView(), target as HTMLElement);
 
     expect(target).dom.to.equal(document.querySelector("#outlet")?.outerHTML);
@@ -51,7 +51,7 @@ it("Should support dynamic default imports", async () => {
 
     await new Promise(r => setTimeout(r, 100));
 
-    const target = await fixture(html`<div id="outlet"></div>`);
+    const target = await fixture(DEFAULT_OUTLET);
     render(DefaultView(), target as HTMLElement);
 
     expect(target).dom.to.equal(document.querySelector("#outlet")?.outerHTML);

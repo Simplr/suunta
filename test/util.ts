@@ -14,7 +14,7 @@ export function clearRenders() {
 export function getDynamicImportRouterSetup() {
     const FooView = () => import("./views/foo.js");
     const DefaultView = () => import("./views/default.js");
-    render(html`<div id="outlet"></div>`, document.body);
+    render(DEFAULT_OUTLET, document.body);
     const routes: Route[] = [
         {
             path: "/",
@@ -47,8 +47,10 @@ export function getDynamicImportRouterSetup() {
     return router;
 }
 
+export const DEFAULT_OUTLET = html`<div id="outlet"></div>`;
+
 export function getBasicRouterSetup() {
-    render(html`<div id="outlet"></div>`, document.body);
+    render(DEFAULT_OUTLET, document.body);
     const routes: Route[] = [
         {
             path: "/",

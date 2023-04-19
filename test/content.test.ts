@@ -1,5 +1,5 @@
 import { expect } from "@esm-bundle/chai";
-import { clearRenders, getBasicRouterSetup, navigateTo } from "./util";
+import { DEFAULT_OUTLET, clearRenders, getBasicRouterSetup, navigateTo } from "./util";
 import { fixture, html } from "@open-wc/testing";
 import { render } from "lit-html";
 import { ViewRoute } from "../lib/route";
@@ -14,7 +14,7 @@ it("Should render the contents of the foo route to DOM", async () => {
     router.start();
     const currentView = router.getCurrentView();
 
-    const target = await fixture(html`<div id="outlet"></div>`);
+    const target = await fixture(DEFAULT_OUTLET);
     const route = currentView?.route as ViewRoute;
     render(route.view, target as HTMLElement);
 
