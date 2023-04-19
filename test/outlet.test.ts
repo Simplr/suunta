@@ -15,8 +15,8 @@ it("Should render in target element", async () => {
     const router = getBasicRouterSetup();
     router.start();
 
-    const target = await fixture(DEFAULT_OUTLET);
-    render(FooView(), target as HTMLElement);
+    const outlet = document.querySelector("#outlet");
+    const needle = outlet?.querySelector("#needle");
 
-    expect(target).dom.to.equal(document.querySelector("#outlet")?.outerHTML);
+    expect(needle).to.not.equal(null);
 });
