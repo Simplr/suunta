@@ -1,6 +1,6 @@
 import { html, render } from "lit-html";
 import { createRouteMatcher } from "./matcher";
-import { ImportedView, ImportResult, isRedirectRoute, isViewRoute, Lazy, LazyImportedRouteView, RenderableView, Route, RouteQueryObject, RouteView, ViewRoute } from "./route";
+import { combinePaths, ImportedView, ImportResult, isRedirectRoute, isViewRoute, Lazy, LazyImportedRouteView, RenderableView, Route, RouteQueryObject, RouteView, ViewRoute } from "./route";
 import { NAVIGATED_EVENT } from "./triggers";
 import { SuuntaView } from "./view";
 
@@ -35,11 +35,11 @@ export class Suunta {
         }
         if (isViewRoute(route)) {
             route.children?.forEach(childRoute => {
-                console.log("CHILD ROUTE", childRoute);
                 const relativeChildRoute: Route = {
                     ...childRoute,
-                    path: route.path + childRoute.path
-                }
+                    path: combinePaths(route.path, childRoute.path)
+                };
+                this.mapRoute(relativeChildRoute);
             });
         }
     }
@@ -95,7 +95,6 @@ export class Suunta {
 
         const path = routeQueryObject.path;
 
-        console.log(path);
         const matchedStaticPath = [...this.routes.values()].find(route => route.path === path);
         if (matchedStaticPath) {
             return matchedStaticPath;
