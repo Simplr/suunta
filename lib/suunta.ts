@@ -8,7 +8,7 @@ type SuuntaTarget = HTMLElement | DocumentFragment;
 
 export interface SuuntaInitOptions {
     routes: Route[];
-    target: string | HTMLElement | DocumentFragment;
+    target?: string | SuuntaTarget;
     base?: string;
 }
 
@@ -31,7 +31,6 @@ export class Suunta {
     }
 
     public start(): void {
-        this.discoverTarget();
         const currentRoute = this.getRouteFromCurrentURL();
         this.navigate(currentRoute);
         this.setupListeners();
@@ -53,16 +52,23 @@ export class Suunta {
         });
     }
 
-    private discoverTarget(): void {
-        let soonToBeTarget: SuuntaTarget | string = this.options.target;
+    private getTarget(): SuuntaTarget {
+        let soonToBeTarget: typeof this.options.target = this.options.target;
+        if (soonToBeTarget === undefined) {
+            const outlet = document.querySelector<HTMLElement>("suunta-view");
+            if (!outlet) {
+                throw new Error("[Suunta]: No router target nor a outlet tag was set.")
+            }
+            return outlet;
+        }
         if (typeof soonToBeTarget !== "string") {
-            this.#target = soonToBeTarget;
-            return;
+            return soonToBeTarget;
         }
         let foundElement = document.querySelector<HTMLElement>(soonToBeTarget);
         if (foundElement) {
-            this.#target = foundElement;
+            return foundElement;
         }
+        throw new Error("[Suunta]: Can't find a router target");
     }
 
     public getRoute(routeQueryObject: RouteQueryObject): Route | undefined {
@@ -132,7 +138,7 @@ export class Suunta {
             let iterationCount = 0;
             while (renderableView !== null) {
                 if (isRenderableView(renderableView)) {
-                    this.render(html`${renderableView}`, this.#target);
+                    this.render(html`${renderableView}`);
                     break;
                 }
 
@@ -164,9 +170,10 @@ export class Suunta {
         }
     }
 
-    render(viewToRender: unknown, target: HTMLElement | DocumentFragment) {
-       render(viewToRender, target); 
-       document.dispatchEvent(new CustomEvent(NAVIGATED_EVENT));
+    render(viewToRender: unknown) {
+        const target = this.getTarget();
+        render(viewToRender, target); 
+        document.dispatchEvent(new CustomEvent(NAVIGATED_EVENT));
     }
 
     public getCurrentView(): SuuntaView | undefined {
