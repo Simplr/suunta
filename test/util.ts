@@ -48,6 +48,7 @@ export function getDynamicImportRouterSetup() {
 }
 
 export const DEFAULT_OUTLET = html`<div id="outlet"></div>`;
+export const OUTLET_ELEMENT_OUTLET = html`<suunta-view></suunta-view>`;
 
 export function getBasicRouterSetup() {
     render(DEFAULT_OUTLET, document.body);
@@ -97,6 +98,29 @@ export function getBasicRouterSetup() {
     const routerOptions: SuuntaInitOptions = {
         routes,
         target: "#outlet"
+    };
+
+    router = new Suunta(routerOptions);
+    return router;
+}
+
+export function getOutletSetup() {
+    render(OUTLET_ELEMENT_OUTLET, document.body);
+    const routes: Route[] = [
+        {
+            path: "/",
+            name: "Home",
+            view: html`<p id="needle">Hello world!</p>`
+        },
+        {
+            path: "/foo",
+            name: "Foo",
+            view: html`<p id="needle">Foo bar</p>`
+        }
+    ];
+
+    const routerOptions: SuuntaInitOptions = {
+        routes,
     };
 
     router = new Suunta(routerOptions);
