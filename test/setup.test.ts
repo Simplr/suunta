@@ -19,6 +19,26 @@ it("Should return a router instance", () => {
     expect(router instanceof Suunta).to.be.true;
 });
 
+it("Should start the router instance when given Element target", async () => {
+    clearRenders();
+    const routerOptions: SuuntaInitOptions = {
+        routes: [{
+            path: "/",
+            name: "Home",
+            view: html``
+        }],
+        target: document.body
+    };
+
+    const router = new Suunta(routerOptions);
+    router.start();
+
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(router).to.not.equal(null);
+    expect(router instanceof Suunta).to.be.true;
+});
+
 it("Should set current view as the currentView", () => {
     clearRenders();
     const router = getBasicRouterSetup();
