@@ -1,6 +1,6 @@
 import { html, render } from "lit-html";
 import { createRouteMatcher } from "./matcher";
-import { combinePaths, ImportedView, ImportResult, isRedirectRoute, isViewRoute, Lazy, LazyImportedRouteView, RenderableView, Route, RouteQueryObject, RouteView, ViewRoute } from "./route";
+import { ChildViewRoute, combinePaths, ImportedView, ImportResult, isChildRoute, isRedirectRoute, isViewRoute, Lazy, LazyImportedRouteView, RedirectRoute, RenderableView, Route, RouteQueryObject, RouteView, ViewRoute } from "./route";
 import { NAVIGATED_EVENT } from "./triggers";
 import { SuuntaView } from "./view";
 
@@ -35,9 +35,11 @@ export class Suunta {
         }
         if (isViewRoute(route)) {
             route.children?.forEach(childRoute => {
-                const relativeChildRoute: Route = {
+                const relativeChildRoute: ChildViewRoute = {
                     ...childRoute,
-                    path: combinePaths(route.path, childRoute.path)
+                    path: combinePaths(route.path, childRoute.path),
+                    isChild: true,
+                    parent: route
                 };
                 this.mapRoute(relativeChildRoute);
             });
@@ -147,41 +149,55 @@ export class Suunta {
         window.history.pushState(null, "", route.path);
 
         if (isViewRoute(route)) {
-            let renderableView: RouteView | ImportedView = route.view;
-
-            let iterationCount = 0;
-            while (renderableView !== null) {
-                if (isRenderableView(renderableView)) {
-                    this.render(html`${renderableView}`);
-                    break;
-                }
-
-                if (isFunction(renderableView)) {
-                    renderableView = await renderableView();
-                }
-
-                if (isModule(renderableView)) {
-                    const exportedView: ImportResult = renderableView.default ?? Object.values(renderableView)[0];
-                    if (exportedView) {
-                        renderableView = exportedView;
-                    } else {
-                        throw new Error("[Suunta]: Could not parse imported route.")
-                    }
-                }
-                iterationCount++;
-                if (iterationCount > 10) {
-                    throw new Error("[Suunta]: Could not parse route from View.")
-                }
-            }
+            this.handleViewRoute(route);
+            return;
         }
 
         if (isRedirectRoute(route)) {
-            const redirectTarget = this.getRoute({ name: route.redirect });
-            if (!redirectTarget) {
-                throw new Error("Could not redirect to route '" + route.redirect + "' as it could not be found.");
-            }
-            this.navigate(redirectTarget);
+            this.handleRedirectRoute(route);
+            return;
         }
+    }
+
+    async handleViewRoute(route: ViewRoute | ChildViewRoute) {
+        if (isChildRoute(route)) {
+            await this.handleViewRoute(route.parent);
+        }
+
+        let renderableView: RouteView | ImportedView = route.view;
+
+        let iterationCount = 0;
+        while (renderableView !== null) {
+            if (isRenderableView(renderableView)) {
+                this.render(html`${renderableView}`);
+                break;
+            }
+
+            if (isFunction(renderableView)) {
+                renderableView = await renderableView();
+            }
+
+            if (isModule(renderableView)) {
+                const exportedView: ImportResult = renderableView.default ?? Object.values(renderableView)[0];
+                if (exportedView) {
+                    renderableView = exportedView;
+                } else {
+                    throw new Error("[Suunta]: Could not parse imported route.")
+                }
+            }
+            iterationCount++;
+            if (iterationCount > 10) {
+                throw new Error("[Suunta]: Could not parse route from View.")
+            }
+        }
+    }
+
+    async handleRedirectRoute(route: RedirectRoute) {
+        const redirectTarget = this.getRoute({ name: route.redirect });
+        if (!redirectTarget) {
+            throw new Error("Could not redirect to route '" + route.redirect + "' as it could not be found.");
+        }
+        this.navigate(redirectTarget);
     }
 
     render(viewToRender: unknown) {

@@ -19,7 +19,12 @@ interface BaseRoute {
 
 export interface ViewRoute extends BaseRoute {
     view: RouteView;
-    children?: Route[]
+    children?: ViewRoute[]
+}
+
+export interface ChildViewRoute extends ViewRoute {
+    isChild: true,
+    parent: ViewRoute
 }
 
 export interface RedirectRoute extends BaseRoute {
@@ -28,6 +33,10 @@ export interface RedirectRoute extends BaseRoute {
 
 export function isViewRoute(route: Route): route is ViewRoute {
     return route.hasOwnProperty("view");
+}
+
+export function isChildRoute(route: Route): route is ChildViewRoute {
+    return route.hasOwnProperty("isChild") && (route as ChildViewRoute).isChild === true;
 }
 
 export function isRedirectRoute(route: Route): route is RedirectRoute {
