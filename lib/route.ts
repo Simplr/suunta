@@ -19,6 +19,7 @@ interface BaseRoute {
 
 export interface ViewRoute extends BaseRoute {
     view: RouteView;
+    children?: Route[]
 }
 
 export interface RedirectRoute extends BaseRoute {
@@ -31,6 +32,19 @@ export function isViewRoute(route: Route): route is ViewRoute {
 
 export function isRedirectRoute(route: Route): route is RedirectRoute {
     return route.hasOwnProperty("redirect");
+}
+
+export function combinePaths(first: string, second: string): string {
+    const firstNeedsDelimiter = !first.endsWith("/");
+    const secondNeedsDelimiter = !second.startsWith("/");
+    if (firstNeedsDelimiter && secondNeedsDelimiter) {
+        return `${first}/${second}`;
+    }
+    if (!firstNeedsDelimiter && !secondNeedsDelimiter) {
+        return first + second.substring(1);
+    }
+
+    return first + second;
 }
 
 export interface RouteQueryObject {

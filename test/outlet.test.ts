@@ -23,7 +23,7 @@ it("Should render in target element", async () => {
 
 it("Should render in default outlet", async () => {
     clearRenders();
-    navigateTo("/foo");
+    navigateTo("/outlet");
 
     await new Promise(r => setTimeout(r, 100));
 
@@ -31,7 +31,25 @@ it("Should render in default outlet", async () => {
     router.start();
 
     const outlet = document.querySelector("suunta-view");
-    const needle = outlet?.querySelector("#needle");
+    const subOutlet = outlet?.querySelector("suunta-view");
 
+    expect(subOutlet).to.not.equal(null);
+});
+
+
+it("Should render in child outlet", async () => {
+    clearRenders();
+    navigateTo("/outlet/child");
+
+    await new Promise(r => setTimeout(r, 100));
+
+    const router = getOutletSetup();
+    router.start();
+
+    const outlet = document.querySelector("suunta-view");
+    const subOutlet = outlet?.querySelector("suunta-view");
+    const needle = subOutlet?.querySelector("#needle");
+
+    expect(subOutlet).to.not.equal(null);
     expect(needle).to.not.equal(null);
 });

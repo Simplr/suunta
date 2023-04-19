@@ -116,6 +116,22 @@ export function getOutletSetup() {
             path: "/foo",
             name: "Foo",
             view: html`<p id="needle">Foo bar</p>`
+        },
+        {
+            path: "/outlet",
+            name: "Outlet",
+            view: html`<div class="outlet-container">
+                        <suunta-view></suunta-view> 
+                    </div>`,
+            children: [
+                {
+                    path: "/child",
+                    name: "Child",
+                    view: html`
+                        <p id="needle">Needle</p>
+                    `
+                }
+            ]
         }
     ];
 

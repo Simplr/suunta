@@ -15,19 +15,33 @@ export interface SuuntaInitOptions {
 export class Suunta {
 
     #currentView: SuuntaView | undefined;
-    #target: SuuntaTarget = document.createDocumentFragment();
     public routes: Map<string, Route> = new Map();
     public routeMatchers: Map<RegExp, Route> = new Map();
     public started = false;
 
     constructor(private options: SuuntaInitOptions) {
-        this.options.routes.forEach(route => {
-            this.routes.set(route.path, route);
-            const routeMatcher = createRouteMatcher(route.path);
-            if (routeMatcher) {
-                this.routeMatchers.set(routeMatcher, route);
-            }
-        });
+        this.mapRoutes();
+    }
+
+    private mapRoutes(): void {
+        this.options.routes.forEach((route) => this.mapRoute(route));
+    }
+
+    private mapRoute(route: Route): void {
+        this.routes.set(route.path, route);
+        const routeMatcher = createRouteMatcher(route.path);
+        if (routeMatcher) {
+            this.routeMatchers.set(routeMatcher, route);
+        }
+        if (isViewRoute(route)) {
+            route.children?.forEach(childRoute => {
+                console.log("CHILD ROUTE", childRoute);
+                const relativeChildRoute: Route = {
+                    ...childRoute,
+                    path: route.path + childRoute.path
+                }
+            });
+        }
     }
 
     public start(): void {
@@ -81,6 +95,7 @@ export class Suunta {
 
         const path = routeQueryObject.path;
 
+        console.log(path);
         const matchedStaticPath = [...this.routes.values()].find(route => route.path === path);
         if (matchedStaticPath) {
             return matchedStaticPath;
