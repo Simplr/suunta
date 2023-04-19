@@ -7,6 +7,7 @@ it("Should manage combining different types of paths", async () => {
         { first: "/foo/", second: "bar" },
         { first: "/foo/", second: "/bar" },
         { first: "/foo", second: "/bar" },
+        { first: "/foo", second: "bar" },
     ];
 
     const resolvedPaths = paths.map((pair) => combinePaths(pair.first, pair.second));

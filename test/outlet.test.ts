@@ -1,10 +1,5 @@
 import { expect } from "@esm-bundle/chai";
-import { DEFAULT_OUTLET, clearRenders, getBasicRouterSetup, getDynamicImportRouterSetup, getOutletSetup, navigateTo } from "./util";
-import { fixture, html } from "@open-wc/testing";
-import { render } from "lit-html";
-import { FooView } from "./views/foo";
-import { BarView } from "./views/bar";
-import DefaultView from "./views/default";
+import { clearRenders, getBasicRouterSetup, getOutletSetup, navigateTo } from "./util";
 
 it("Should render in target element", async () => {
     clearRenders();
