@@ -88,3 +88,26 @@ it("Should not navigate when navigating to same page", async () => {
     expect(currentView?.route.path).to.equal("/page");
     expect(onNavigationTriggered).to.be.false;
 });
+
+it("Should not navigate when clicking something that isn't a link", async () => {
+    clearRenders();
+    navigateTo("/page");
+
+    const router = getBasicRouterSetup();
+    await router.start();
+
+
+    let onNavigationTriggered = false;
+    onNavigation(() => {
+        onNavigationTriggered = true;
+    })
+
+    const p = document.querySelector("p");
+    p?.click();
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const currentView = router.getCurrentView();
+    expect(currentView?.route.path).to.equal("/page");
+    expect(onNavigationTriggered).to.be.false;
+});
