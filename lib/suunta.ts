@@ -47,10 +47,10 @@ export class Suunta {
         }
     }
 
-    public start(): void {
+    public async start(): Promise<void> {
         const currentRoute = this.getRouteFromCurrentURL();
-        this.navigate(currentRoute);
         this.setupListeners();
+        await this.navigate(currentRoute);
         this.started = true;
     }
 
@@ -152,12 +152,12 @@ export class Suunta {
         window.history.pushState(null, "", route.path);
 
         if (isViewRoute(route)) {
-            this.handleViewRoute(route);
+            await this.handleViewRoute(route);
             return;
         }
 
         if (isRedirectRoute(route)) {
-            this.handleRedirectRoute(route);
+            await this.handleRedirectRoute(route);
             return;
         }
     }
