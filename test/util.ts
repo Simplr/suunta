@@ -69,6 +69,11 @@ export function getBasicRouterSetup() {
             view: html`<a href="/user">To Users page</a>`
         },
         {
+            path: "/page",
+            name: "Page",
+            view: html`<p>Link page</p> <a href="/page">page</a>`
+        },
+        {
             path: "/user",
             name: "User",
             view: html`<p>User page</p>`

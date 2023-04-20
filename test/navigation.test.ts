@@ -1,5 +1,6 @@
 import { expect } from "@esm-bundle/chai";
 import { clearRenders, getBasicRouterSetup, navigateTo } from "./util";
+import { onNavigation } from "../lib/triggers";
 
 it("Should render /foo view when window.location.href is set to /foo", async () => {
     clearRenders();
@@ -64,3 +65,26 @@ it("Should match the 404 route when route was not found", () => {
     expect(currentView?.route.path).to.equal("/{notFoundPath}(.*)");
 });
 
+
+it("Should not navigate when navigating to same page", async () => {
+    clearRenders();
+    navigateTo("/page");
+
+    const router = getBasicRouterSetup();
+    await router.start();
+
+
+    let onNavigationTriggered = false;
+    onNavigation(() => {
+        onNavigationTriggered = true;
+    })
+
+
+    router.navigateTo({ name: "Page" });
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const currentView = router.getCurrentView();
+    expect(currentView?.route.path).to.equal("/page");
+    expect(onNavigationTriggered).to.be.false;
+});

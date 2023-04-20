@@ -90,6 +90,11 @@ export class Suunta {
         throw new Error("[Suunta]: Can't find a router target");
     }
 
+    public async navigateTo(routeQueryObject: RouteQueryObject): Promise<void> {
+        const route = this.getRoute(routeQueryObject);
+        await this.navigate(route);
+    }
+
     public getRoute(routeQueryObject: RouteQueryObject): Route | undefined {
         if (routeQueryObject.name) {
             return [...this.routes.values()].find(route => route.name === routeQueryObject.name);
@@ -132,7 +137,7 @@ export class Suunta {
         return this.getRoute({ path })
     }
 
-    public async navigate(route: Route | undefined): Promise<void> {
+    private async navigate(route: Route | undefined): Promise<void> {
         if (!route) {
             // TODO: Change this path to a 404 page nav etc.
             throw new Error(`[Suunta]: Could not find a route to navigate to, and no fallback route was set. 
