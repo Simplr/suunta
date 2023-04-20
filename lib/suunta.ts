@@ -125,9 +125,11 @@ export class Suunta {
             const matchedRoute = matcherEntry[1];
             return {
                 ...matchedRoute,
-                properties: match.groups ?? {}
-            }
+                properties: match.groups
+            };
         }
+
+        return undefined;
     }
 
     private getRouteFromCurrentURL(): Route | undefined {
@@ -197,7 +199,7 @@ export class Suunta {
             }
             iterationCount++;
             if (iterationCount > 10) {
-                throw new Error("[Suunta]: Could not parse route from View.")
+                throw new Error("[Suunta]: Could not parse route from View. Recursion level too deep.")
             }
         }
     }
