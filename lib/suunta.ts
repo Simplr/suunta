@@ -95,7 +95,7 @@ export class Suunta {
             return [...this.routes.values()].find(route => route.name === routeQueryObject.name);
         }
         if (!routeQueryObject.path) {
-            throw new Error("RouteQueryObject must contain either a name or a path");
+            throw new Error("[Suunta]: RouteQueryObject must contain either a name or a path");
         }
 
         const path = routeQueryObject.path;
@@ -200,7 +200,7 @@ export class Suunta {
     async handleRedirectRoute(route: RedirectRoute) {
         const redirectTarget = this.getRoute({ name: route.redirect });
         if (!redirectTarget) {
-            throw new Error("Could not redirect to route '" + route.redirect + "' as it could not be found.");
+            throw new Error("[Suunta]: Could not redirect to route '" + route.redirect + "' as it could not be found.");
         }
         this.navigate(redirectTarget);
     }
