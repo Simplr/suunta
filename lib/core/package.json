@@ -1,0 +1,19 @@
+{
+  "name": "suunta-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Simplr/suunta.git"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Simplr/suunta/issues"
+  },
+  "homepage": "https://github.com/Simplr/suunta#readme"
+}

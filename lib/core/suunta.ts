@@ -8,6 +8,7 @@ type SuuntaTarget = HTMLElement | DocumentFragment;
 
 export interface SuuntaInitOptions {
     routes: Route[];
+    renderer: (viewToRender: unknown, route: ViewRoute, renderTarget: SuuntaTarget) => void;
     target?: string | SuuntaTarget;
     base?: string;
 }
@@ -21,6 +22,9 @@ export class Suunta {
     public started = false;
 
     constructor(private options: SuuntaInitOptions) {
+        if (!this.options.renderer) {
+            throw new Error("[Suunta]: No renderer set! Set a router in the Suunta initialization options or use the `suunta` -package with the default Lit renderer.")
+        }
         this.mapRoutes();
     }
 
@@ -181,7 +185,7 @@ export class Suunta {
         let iterationCount = 0;
         while (renderableView !== null) {
             if (isRenderableView(renderableView)) {
-                this.render(html`${renderableView}`, parentRenderTarget);
+                this.render(html`${renderableView}`, route, parentRenderTarget);
                 break;
             }
 
@@ -212,10 +216,10 @@ export class Suunta {
         this.navigate(redirectTarget);
     }
 
-    render(viewToRender: unknown, parentRenderTarget?: SuuntaTarget) {
+    render(viewToRender: unknown, route: ViewRoute, parentRenderTarget?: SuuntaTarget) {
         const target = this.getTarget(parentRenderTarget);
         this.#currentRenderTarget = target;
-        render(viewToRender, target); 
+        this.options.renderer(viewToRender, route, target);
         document.dispatchEvent(new CustomEvent(NAVIGATED_EVENT));
     }
 
