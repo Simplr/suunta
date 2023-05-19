@@ -1,4 +1,3 @@
-import { html, render } from "lit-html";
 import { createRouteMatcher } from "./matcher";
 import { ChildViewRoute, combinePaths, ImportedView, ImportResult, isChildRoute, isRedirectRoute, isViewRoute, Lazy, LazyImportedRouteView, RedirectRoute, RenderableView, Route, RouteQueryObject, RouteView, ViewRoute } from "./route";
 import { NAVIGATED_EVENT } from "./triggers";
@@ -185,7 +184,7 @@ export class Suunta {
         let iterationCount = 0;
         while (renderableView !== null) {
             if (isRenderableView(renderableView)) {
-                this.render(html`${renderableView}`, route, parentRenderTarget);
+                this.render(renderableView, route, parentRenderTarget);
                 break;
             }
 

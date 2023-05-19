@@ -1,6 +1,7 @@
 // https://open-wc.org/docs/testing/testing-package/
 
 import { html, render } from "lit-html";
+import { litRenderer } from "suunta";
 import { Route } from "../lib/core/route";
 import { Suunta, SuuntaInitOptions } from "../lib/core/suunta";
 import { BarView } from "./views/bar";
@@ -40,7 +41,8 @@ export function getDynamicImportRouterSetup() {
 
     const routerOptions: SuuntaInitOptions = {
         routes,
-        target: "#outlet"
+        target: "#outlet",
+        renderer: litRenderer
     };
 
     router = new Suunta(routerOptions);
@@ -102,7 +104,8 @@ export function getBasicRouterSetup() {
 
     const routerOptions: SuuntaInitOptions = {
         routes,
-        target: "#outlet"
+        target: "#outlet",
+        renderer: litRenderer
     };
 
     router = new Suunta(routerOptions);
@@ -156,6 +159,7 @@ export function getOutletSetup() {
 
     const routerOptions: SuuntaInitOptions = {
         routes,
+        renderer: litRenderer
     };
 
     router = new Suunta(routerOptions);

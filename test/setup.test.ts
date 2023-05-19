@@ -5,12 +5,14 @@ import { html, render } from "lit-html";
 import { SuuntaView } from "../lib/core/view";
 import { Route } from "../lib/core/route";
 import { clearRenders, getBasicRouterSetup } from "./util";
+import { litRenderer } from "suunta";
 
 it("Should return a router instance", () => {
     clearRenders();
     const routerOptions: SuuntaInitOptions = {
         routes: [],
-        target: "body"
+        target: "body",
+        renderer: litRenderer
     };
 
     const router = new Suunta(routerOptions);
@@ -27,7 +29,8 @@ it("Should start the router instance when given Element target", async () => {
             name: "Home",
             view: html``
         }],
-        target: document.body
+        target: document.body,
+        renderer: litRenderer
     };
 
     const router = new Suunta(routerOptions);
@@ -82,7 +85,8 @@ it("Should render the HTML view inside the BODY element", () => {
 
     const routerOptions: SuuntaInitOptions = {
         routes,
-        target: "body"
+        target: "body",
+        renderer: litRenderer
     };
 
     const router = new Suunta(routerOptions);
@@ -113,7 +117,8 @@ it("Should render the HTML view inside the div[id='target-div'] element", () => 
 
     const routerOptions: SuuntaInitOptions = {
         routes,
-        target: "#target-div"
+        target: "#target-div",
+        renderer: litRenderer
     };
 
     const router = new Suunta(routerOptions);

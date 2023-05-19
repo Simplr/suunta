@@ -6,6 +6,7 @@ import { FooView } from "./views/foo";
 import { BarView } from "./views/bar";
 import DefaultView from "./views/default";
 import { Suunta, SuuntaInitOptions } from "../lib/core/suunta";
+import { litRenderer } from "suunta";
 
 it("Should support dynamic imports", async () => {
     clearRenders();
@@ -89,7 +90,8 @@ it("Should throw when imported file has no exports", async () => {
                 view: ImportedView
             }
         ],
-        target: "body"
+        target: "body",
+        renderer: litRenderer
     };
 
     const router = new Suunta(routerOptions);
@@ -122,7 +124,8 @@ it("Should throw when imported file creates recursion", async () => {
                 view: ImportedView
             }
         ],
-        target: "body"
+        target: "body",
+        renderer: litRenderer
     };
 
     const router = new Suunta(routerOptions);

@@ -1,7 +1,8 @@
 import { expect } from "@esm-bundle/chai";
-import { DEFAULT_OUTLET, clearRenders, getBasicRouterSetup, getDynamicImportRouterSetup, navigateTo } from "./util";
+import { clearRenders, navigateTo } from "./util";
 import { html } from "@open-wc/testing";
 import { Suunta, SuuntaInitOptions } from "../lib/core/suunta";
+import { litRenderer } from "suunta"
 
 it("Should throw on missing navigation route", async () => {
     clearRenders();
@@ -10,7 +11,8 @@ it("Should throw on missing navigation route", async () => {
 
     const routerOptions: SuuntaInitOptions = {
         routes: [],
-        target: "body"
+        target: "body",
+        renderer: litRenderer
     };
 
     const router = new Suunta(routerOptions);
@@ -39,6 +41,7 @@ it("Should throw on missing target", async () => {
                 view: html``
             }
         ],
+        renderer: litRenderer
     };
 
     const router = new Suunta(routerOptions);
@@ -68,7 +71,8 @@ it("Should throw when target selector doesn't hit an element", async () => {
                 view: html``
             }
         ],
-        target: "foobar"
+        target: "foobar",
+        renderer: litRenderer
     };
 
     const router = new Suunta(routerOptions);
@@ -98,7 +102,8 @@ it("Should throw getQuery is called without a name and path", async () => {
                 view: html``
             }
         ],
-        target: "body"
+        target: "body",
+        renderer: litRenderer
     };
 
     const router = new Suunta(routerOptions);
@@ -128,7 +133,8 @@ it("Should throw when redirect is pointed at a missing route", async () => {
                 redirect: "bar"
             }
         ],
-        target: "body"
+        target: "body",
+        renderer: litRenderer
     };
 
     const router = new Suunta(routerOptions);
@@ -144,4 +150,35 @@ it("Should throw when redirect is pointed at a missing route", async () => {
     }
     expect(success).to.be.false;
     expect(exceptionText).to.include("[Suunta]: Could not redirect to route");
+});
+
+it("Should throw on missing renderer", async () => {
+    clearRenders();
+    navigateTo("/foo");
+    await new Promise(r => setTimeout(r, 100));
+
+    const routerOptions: SuuntaInitOptions = {
+        target: "body",
+        routes: [
+            {
+                path: "/foo",
+                view: html``
+            }
+        ],
+        renderer: undefined
+    };
+
+
+    let success = false;
+    let exceptionText = "";
+    try {
+        const router = new Suunta(routerOptions);
+        await router.start();
+        await new Promise(r => setTimeout(r, 1000));
+        success = true;
+    } catch (ex) {
+        exceptionText = (ex as Error).message;
+    }
+    expect(success).to.be.false;
+    expect(exceptionText).to.include("[Suunta]: No renderer set! Set a router in the Suunta initialization options or use the `suunta` -package with the default Lit renderer.");
 });
