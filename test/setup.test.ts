@@ -1,9 +1,9 @@
-import { Suunta } from "../lib/suunta";
-import { SuuntaInitOptions } from "../lib/suunta";
+import { Suunta } from "../lib/core/suunta";
+import { SuuntaInitOptions } from "../lib/core/suunta";
 import { expect } from '@esm-bundle/chai';
 import { html, render } from "lit-html";
-import { SuuntaView } from "../lib/view";
-import { Route } from "../lib/route";
+import { SuuntaView } from "../lib/core/view";
+import { Route } from "../lib/core/route";
 import { clearRenders, getBasicRouterSetup } from "./util";
 
 it("Should return a router instance", () => {

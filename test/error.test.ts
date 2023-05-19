@@ -1,8 +1,7 @@
 import { expect } from "@esm-bundle/chai";
 import { DEFAULT_OUTLET, clearRenders, getBasicRouterSetup, getDynamicImportRouterSetup, navigateTo } from "./util";
-import { fixture, html } from "@open-wc/testing";
-import { render } from "lit-html";
-import { Suunta, SuuntaInitOptions } from "../lib/suunta";
+import { html } from "@open-wc/testing";
+import { Suunta, SuuntaInitOptions } from "../lib/core/suunta";
 
 it("Should throw on missing navigation route", async () => {
     clearRenders();

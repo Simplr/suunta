@@ -1,8 +1,8 @@
 // https://open-wc.org/docs/testing/testing-package/
 
 import { html, render } from "lit-html";
-import { Route } from "../lib/route";
-import { Suunta, SuuntaInitOptions } from "../lib/suunta";
+import { Route } from "../lib/core/route";
+import { Suunta, SuuntaInitOptions } from "../lib/core/suunta";
 import { BarView } from "./views/bar";
 
 export let router: Suunta | undefined;
@@ -140,7 +140,7 @@ export function getOutletSetup() {
                     path: "/child-with-grandchild",
                     name: "ChildWithGrandchild",
                     view: html`<suunta-view></suunta-view>`,
-                    children: [ 
+                    children: [
                         {
                             path: "/grandchild",
                             name: "Grandchild",

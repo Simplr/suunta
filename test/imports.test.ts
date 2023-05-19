@@ -1,11 +1,11 @@
 import { expect } from "@esm-bundle/chai";
 import { DEFAULT_OUTLET, clearRenders, getDynamicImportRouterSetup, navigateTo } from "./util";
-import { fixture, html } from "@open-wc/testing";
+import { fixture } from "@open-wc/testing";
 import { render } from "lit-html";
 import { FooView } from "./views/foo";
 import { BarView } from "./views/bar";
 import DefaultView from "./views/default";
-import { Suunta, SuuntaInitOptions } from "../lib/suunta";
+import { Suunta, SuuntaInitOptions } from "../lib/core/suunta";
 
 it("Should support dynamic imports", async () => {
     clearRenders();

@@ -1,10 +1,11 @@
 {
-  "name": "suunta",
+  "name": "suunta/core",
   "version": "1.0.0",
   "description": "The new router",
   "main": "dist/main.js",
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "core": "lib/core"
   },
   "scripts": {
     "build": "esbuild ./lib/main.ts --bundle --outdir=dist --format=esm",

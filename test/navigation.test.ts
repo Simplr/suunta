@@ -1,6 +1,6 @@
 import { expect } from "@esm-bundle/chai";
 import { clearRenders, getBasicRouterSetup, navigateTo } from "./util";
-import { onNavigation } from "../lib/triggers";
+import { onNavigation } from "../lib/core/triggers";
 
 it("Should render /foo view when window.location.href is set to /foo", async () => {
     clearRenders();

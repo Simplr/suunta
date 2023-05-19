@@ -1,10 +1,7 @@
 
 import { expect } from "@esm-bundle/chai";
-import { DEFAULT_OUTLET, clearRenders, getBasicRouterSetup, navigateTo } from "./util";
-import { fixture, html } from "@open-wc/testing";
-import { render } from "lit-html";
-import { ViewRoute } from "../lib/route";
-import { onNavigation } from "../lib/triggers";
+import { clearRenders, getBasicRouterSetup, navigateTo } from "./util";
+import { onNavigation } from "../lib/core/triggers";
 
 it("should trigger onNavigation", async () => {
     clearRenders();
