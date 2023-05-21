@@ -1,6 +1,6 @@
 {
   "name": "suunta-core",
-  "version": "1.0.0-test",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/main.js",
   "scripts": {
@@ -24,8 +24,5 @@
   "homepage": "https://github.com/Simplr/suunta#readme",
   "files": [
     "dist"
-  ],
-  "dependencies": {
-    "suunta-core": "^1.0.0-test"
-  }
+  ]
 }
