@@ -7,7 +7,7 @@ type SuuntaTarget = HTMLElement | DocumentFragment;
 
 export interface SuuntaInitOptions {
     routes: Route[];
-    renderer: (viewToRender: unknown, route: ViewRoute, renderTarget: SuuntaTarget) => void;
+    renderer?: (viewToRender: unknown, route: ViewRoute, renderTarget: SuuntaTarget) => void;
     target?: string | SuuntaTarget;
     base?: string;
 }
@@ -22,7 +22,7 @@ export class Suunta {
 
     constructor(private options: SuuntaInitOptions) {
         if (!this.options.renderer) {
-            throw new Error("[Suunta]: No renderer set! Set a router in the Suunta initialization options or use the `suunta` -package with the default Lit renderer.")
+            throw new Error("[Suunta]: No renderer set! Set a router in the Suunta initialization options or use the `suunta` -package with the default Lit renderer.\n\nimport { Suunta } from 'suunta';")
         }
         this.mapRoutes();
     }
@@ -79,7 +79,7 @@ export class Suunta {
         if (soonToBeTarget === undefined) {
             const outlet = parent.querySelector<HTMLElement>("suunta-view");
             if (!outlet) {
-                throw new Error("[Suunta]: No router target nor a outlet tag was set.")
+                throw new Error(`[Suunta]: No router target nor a outlet tag was set. Create a <suunta-view> element or specify a css selector for target div with\n\n${JSON.stringify({ routes: [], target: "#my-div" }, null, 4)}\n`)
             }
             return outlet;
         }
@@ -218,7 +218,7 @@ export class Suunta {
     render(viewToRender: unknown, route: ViewRoute, parentRenderTarget?: SuuntaTarget) {
         const target = this.getTarget(parentRenderTarget);
         this.#currentRenderTarget = target;
-        this.options.renderer(viewToRender, route, target);
+        this.options.renderer!(viewToRender, route, target);
         document.dispatchEvent(new CustomEvent(NAVIGATED_EVENT));
     }
 

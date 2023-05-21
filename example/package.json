@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "wds --node-resolve --watch",
+    "start": "wds --node-resolve --watch --app-index index.html",
     "build:watch": "tsc --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "lit": "^2.7.4",
+    "suunta": "^1.0.0-test"
   },
   "devDependencies": {
     "@web/dev-server": "^0.2.1",

@@ -56,7 +56,7 @@ it("Should throw on missing target", async () => {
         exceptionText = (ex as Error).message;
     }
     expect(success).to.be.false;
-    expect(exceptionText).to.include("[Suunta]: No router target nor a outlet tag was set.");
+    expect(exceptionText).to.include(`[Suunta]: No router target nor a outlet tag was set. Create a <suunta-view> element or specify a css selector for target div with\n\n${JSON.stringify({ routes: [], target: "#my - div" }, null, 4)}\n`);
 });
 
 it("Should throw when target selector doesn't hit an element", async () => {
@@ -180,5 +180,5 @@ it("Should throw on missing renderer", async () => {
         exceptionText = (ex as Error).message;
     }
     expect(success).to.be.false;
-    expect(exceptionText).to.include("[Suunta]: No renderer set! Set a router in the Suunta initialization options or use the `suunta` -package with the default Lit renderer.");
+    expect(exceptionText).to.include("[Suunta]: No renderer set! Set a router in the Suunta initialization options or use the `suunta` -package with the default Lit renderer.\n\nimport { Suunta } from 'suunta';");
 });
