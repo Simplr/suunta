@@ -8,9 +8,14 @@ The new minimal footprint router.
 npm install suunta
 ```
 
+Suunta uses [lit-html](https://lit.dev/) for rendering it's templates. If you want to implement your own renderer, look into
+installing [suunta-core](https://github.com/Simplr/suunta/tree/main/lib/core) and implementing your own renderer.
+
 ## Usage
 
 ```typescript
+import { FooView } from "./foo";
+
 const routes: Route[] = [
     {
         path: "/",
@@ -29,4 +34,6 @@ const routerOptions: SuuntaInitOptions = {
 };
 
 router = new Suunta(routerOptions);
+
+router.start();
 ```
