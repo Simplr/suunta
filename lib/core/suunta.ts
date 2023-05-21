@@ -125,7 +125,8 @@ export class Suunta {
                 continue;
             }
 
-            const matchedRoute = matcherEntry[1];
+            const matchedRoute = { ...matcherEntry[1] };
+            matchedRoute.path = path;
             return {
                 ...matchedRoute,
                 properties: match.groups
@@ -162,7 +163,6 @@ export class Suunta {
         window.history.pushState(null, "", route.path);
 
         if (isViewRoute(route)) {
-            console.log("FOO");
             await this.handleViewRoute(route);
             return;
         }

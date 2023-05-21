@@ -5,6 +5,8 @@ import { View as FooView } from "./FooView";
 console.log("Foo");
 
 
+let router: Suunta | undefined;
+
 const routes: Route[] = [
     {
         path: "/",
@@ -14,7 +16,17 @@ const routes: Route[] = [
     {
         path: "/foo",
         view: FooView
-    }
+    },
+    {
+        path: "/user/{id}(\\d+)",
+        name: "User profile",
+        view: () => html`<p>User page for id ${router?.getCurrentView()?.properties.id}</p>`
+    },
+    {
+        path: "/search/{matchAll}",
+        name: "Search",
+        view: () => html`<p>Search page for ${router?.getCurrentView()?.properties.matchAll || "Nothing"}</p>`
+    },
 ];
 
 const options: SuuntaInitOptions = {
@@ -22,6 +34,9 @@ const options: SuuntaInitOptions = {
     target: "body"
 };
 
-const router = new Suunta(options);
+router = new Suunta(options);
 
 router.start();
+
+// @ts-ignore
+window.ROUTER = router;
