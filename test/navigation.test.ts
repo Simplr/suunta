@@ -36,7 +36,7 @@ it("Should render dynamic pages with params", () => {
     router.start();
     const currentView = router.getCurrentView();
 
-    expect(currentView?.route.path).to.equal("/user/{id}(\\d+)")
+    expect(currentView?.route.path).to.equal("/user/123")
     expect(currentView?.route.name).to.equal("User profile")
     expect(currentView?.route.properties?.id).to.equal("123")
     expect(Object.keys(currentView?.route.properties!).length).to.equal(1);
@@ -51,7 +51,8 @@ it("Should not render dynamic pages with params not fully matching the matcher r
 
     const currentView = router.getCurrentView();
 
-    expect(currentView?.route.path).to.equal("/{notFoundPath}(.*)");
+    expect(currentView?.route.name).to.equal("404");
+    expect(currentView?.route.path).to.equal("/user/12bcd");
 });
 
 it("Should match the 404 route when route was not found", () => {
@@ -62,7 +63,8 @@ it("Should match the 404 route when route was not found", () => {
     router.start();
 
     const currentView = router.getCurrentView();
-    expect(currentView?.route.path).to.equal("/{notFoundPath}(.*)");
+    expect(currentView?.route.name).to.equal("404");
+    expect(currentView?.route.path).to.equal("/bar");
 });
 
 

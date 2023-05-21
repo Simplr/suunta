@@ -8,8 +8,6 @@ export function createRouteMatcher(path: string): RegExp | undefined {
     const pathSplit = path.split("/").filter(part => part.length > 0);
     let regexString = "";
     for (const pathPart of pathSplit) {
-        console.log(pathPart);
-        console.log(wildcards)
         if (!wildcards.includes(pathPart)) {
             regexString += "\\/" + pathPart;
             continue;
@@ -19,12 +17,10 @@ export function createRouteMatcher(path: string): RegExp | undefined {
         if (!matcher) {
             matcher = "(.*)";
         }
-        console.log({ matcherKey, matcher })
         const matcherWithoutWrappingParenthesis = matcher.replace(/^\(/, "").replace(/\)$/, "");
         const matcherKeyRegex = `(?<${matcherKey}>${matcherWithoutWrappingParenthesis})`;
         regexString += "\\/" + matcherKeyRegex;
     }
 
-    console.log("MAtcher", regexString);
     return new RegExp(regexString);
 }
