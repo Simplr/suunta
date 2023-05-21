@@ -27,6 +27,14 @@ const routes: Route[] = [
         name: "Search",
         view: () => html`<p>Search page for ${router?.getCurrentView()?.properties.matchAll || "Nothing"}</p>`
     },
+    {
+        path: "/user/{id}(\\d+)/search/{matchAll}",
+        name: "User profile with search",
+        view: () => html`
+            <p>User page for id ${router?.getCurrentView()?.properties.id}</p>
+            <p>Search page for ${router?.getCurrentView()?.properties.matchAll || "Nothing"}</p>
+        `
+    },
 ];
 
 const options: SuuntaInitOptions = {
