@@ -1,0 +1,19 @@
+{
+  "name": "suunta-test",
+  "version": "1.0.0-test",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "wds --node-resolve --watch",
+    "build:watch": "tsc --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@web/dev-server": "^0.2.1",
+    "typescript": "^5.0.4"
+  }
+}

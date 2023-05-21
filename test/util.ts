@@ -1,9 +1,9 @@
 // https://open-wc.org/docs/testing/testing-package/
 
 import { html, render } from "lit-html";
-import { litRenderer } from "suunta";
-import { Route } from "../lib/core/route";
-import { Suunta, SuuntaInitOptions } from "../lib/core/suunta";
+import { litRenderer } from "suunta-lit-renderer";
+import { Route } from "suunta-core/route";
+import { Suunta, SuuntaInitOptions } from "suunta-core";
 import { BarView } from "./views/bar";
 
 export let router: Suunta | undefined;

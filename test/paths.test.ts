@@ -1,5 +1,5 @@
 import { expect } from "@esm-bundle/chai";
-import { combinePaths } from "../lib/core/route";
+import { combinePaths } from "suunta-core/route";
 
 it("Should manage combining different types of paths", async () => {
     const paths = [

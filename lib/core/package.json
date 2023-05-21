@@ -1,13 +1,19 @@
 {
   "name": "suunta-core",
-  "version": "1.0.0",
+  "version": "1.0.0-test",
   "description": "",
-  "main": "main.js",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "esbuild ./main.ts --bundle --outdir=dist --format=esm",
+    "types": "tsc",
+    "bundle": "npm run build && npm run types"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Simplr/suunta.git"
   },
   "devDependencies": {
+    "esbuild": "^0.17.10",
     "typescript": "^4.9.5"
   },
   "author": "",
@@ -15,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/Simplr/suunta/issues"
   },
-  "homepage": "https://github.com/Simplr/suunta#readme"
+  "homepage": "https://github.com/Simplr/suunta#readme",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "suunta-core": "^1.0.0-test"
+  }
 }

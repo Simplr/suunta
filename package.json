@@ -35,11 +35,11 @@
     "lit-html": "^2.6.1"
   },
   "dependencies": {
-      "suunta-core": "file:./lib/core",
-      "suunta": "file:./lib/lit"
   },
   "workspaces": [
     "lib/core",
-    "lib/lit"
+    "lib/lit",
+    "lib/suunta",
+    "example"
   ]
 }

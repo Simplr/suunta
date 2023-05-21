@@ -1,8 +1,8 @@
 import { expect } from "@esm-bundle/chai";
 import { clearRenders, navigateTo } from "./util";
 import { html } from "@open-wc/testing";
-import { Suunta, SuuntaInitOptions } from "../lib/core/suunta";
-import { litRenderer } from "suunta"
+import { Suunta, SuuntaInitOptions } from "suunta-core";
+import { litRenderer } from "suunta-lit-renderer";
 
 it("Should throw on missing navigation route", async () => {
     clearRenders();

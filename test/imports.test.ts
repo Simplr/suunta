@@ -5,8 +5,8 @@ import { render } from "lit-html";
 import { FooView } from "./views/foo";
 import { BarView } from "./views/bar";
 import DefaultView from "./views/default";
-import { Suunta, SuuntaInitOptions } from "../lib/core/suunta";
-import { litRenderer } from "suunta";
+import { Suunta, SuuntaInitOptions } from "suunta-core";
+import { litRenderer } from "suunta-lit-renderer";
 
 it("Should support dynamic imports", async () => {
     clearRenders();

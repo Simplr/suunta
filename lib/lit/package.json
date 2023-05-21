@@ -1,5 +1,5 @@
 {
-  "name": "suunta",
+  "name": "suunta-lit-renderer",
   "version": "1.0.0-test",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Simplr/suunta.git"
@@ -17,5 +16,8 @@
     "url": "https://github.com/Simplr/suunta/issues"
   },
   "homepage": "https://github.com/Simplr/suunta#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "suunta-core": "^1.0.0-test"
+  }
 }

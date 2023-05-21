@@ -1,7 +1,6 @@
-
 import { expect } from "@esm-bundle/chai";
 import { clearRenders, getBasicRouterSetup, navigateTo } from "./util";
-import { onNavigation } from "../lib/core/triggers";
+import { onNavigation } from "suunta-core";
 
 it("should trigger onNavigation", async () => {
     clearRenders();

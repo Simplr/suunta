@@ -1,11 +1,10 @@
-import { Suunta } from "../lib/core/suunta";
-import { SuuntaInitOptions } from "../lib/core/suunta";
+import { Suunta, SuuntaInitOptions } from "suunta-core";
 import { expect } from '@esm-bundle/chai';
 import { html, render } from "lit-html";
 import { SuuntaView } from "../lib/core/view";
-import { Route } from "../lib/core/route";
+import { Route } from "suunta-core/route";
 import { clearRenders, getBasicRouterSetup } from "./util";
-import { litRenderer } from "suunta";
+import { litRenderer } from "suunta-lit-renderer";
 
 it("Should return a router instance", () => {
     clearRenders();

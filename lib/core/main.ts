@@ -1,2 +1,2 @@
-export { Suunta } from "./suunta";
+export { SuuntaInitOptions, Suunta } from "./suunta";
 export * from "./triggers";

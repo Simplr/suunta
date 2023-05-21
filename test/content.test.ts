@@ -2,7 +2,7 @@ import { expect } from "@esm-bundle/chai";
 import { DEFAULT_OUTLET, clearRenders, getBasicRouterSetup, navigateTo } from "./util";
 import { fixture, html } from "@open-wc/testing";
 import { render } from "lit-html";
-import { ViewRoute } from "../lib/core/route";
+import { ViewRoute } from "suunta-core/route";
 
 it("Should render the contents of the foo route to DOM", async () => {
     clearRenders();

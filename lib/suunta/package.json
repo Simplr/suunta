@@ -1,0 +1,19 @@
+{
+  "name": "suunta",
+  "version": "1.0.0-test",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+      "bundle": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "suunta-core": "^1.0.0-test",
+    "suunta-lit-renderer": "^1.0.0-test"
+  },
+  "types": [
+      "dist/index.d.ts"
+  ]
+}

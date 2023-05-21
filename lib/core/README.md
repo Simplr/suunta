@@ -26,14 +26,14 @@ export function litRenderer(viewToRender, route, renderTarget) {
 
 
 ```typescript
-    const routerOptions: SuuntaInitOptions = {
-        routes,
-        target: "#outlet",
-        renderer: litRenderer
-    };
+const routerOptions: SuuntaInitOptions = {
+    routes,
+    target: "#outlet",
+    renderer: litRenderer
+};
 
-    router = new Suunta(routerOptions);
-    return router;
+router = new Suunta(routerOptions);
+return router;
 ```
 
 
