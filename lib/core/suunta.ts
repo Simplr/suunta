@@ -70,6 +70,10 @@ export class Suunta {
             const route = this.getRoute({ path: navigationTargetUrl })
             this.navigate(route);
         });
+        window.addEventListener("popstate", () => {
+            const currentRoute = this.getRouteFromCurrentURL();
+            this.navigate(currentRoute, false);
+        });
     }
 
     private getTarget(parentRenderTarget?: SuuntaTarget): SuuntaTarget {
@@ -143,7 +147,7 @@ export class Suunta {
         return this.getRoute({ path })
     }
 
-    private async navigate(route: Route | undefined): Promise<void> {
+    private async navigate(route: Route | undefined, pushState = true): Promise<void> {
         if (!route) {
             // TODO: Change this path to a 404 page nav etc.
             throw new Error(`[Suunta]: Could not find a route to navigate to, and no fallback route was set. 
@@ -160,7 +164,9 @@ export class Suunta {
             properties: { ...route.properties }
         };
 
-        window.history.pushState(null, "", route.path);
+        if (pushState) {
+            window.history.pushState(null, "", route.path);
+        }
 
         if (isViewRoute(route)) {
             await this.handleViewRoute(route);
