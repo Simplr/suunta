@@ -59,13 +59,12 @@ export class Suunta {
 
     private setupListeners() {
         document.body.addEventListener("click", (clickEvent) => {
-            clickEvent.preventDefault();
             const path = clickEvent.composedPath();
             const closestLink = path.filter(el => (el as HTMLAnchorElement).href !== undefined).pop();
             if (!closestLink) {
                 return;
             }
-
+            clickEvent.preventDefault();
             const navigationTargetUrl = (closestLink as Element)?.getAttribute("href") ?? undefined;
             const route = this.getRoute({ path: navigationTargetUrl })
             this.navigate(route);
