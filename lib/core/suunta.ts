@@ -141,7 +141,10 @@ export class Suunta {
 
     private getRouteFromCurrentURL(): Route | undefined {
         const currentURL = new URL(window.location.href);
-        const path = currentURL.pathname;
+        let path = currentURL.pathname;
+        if (this.options.base) {
+            path = path.replace(this.options.base, "");
+        }
 
         return this.getRoute({ path })
     }
@@ -164,7 +167,11 @@ export class Suunta {
         };
 
         if (pushState) {
-            window.history.pushState(null, "", route.path);
+            let pathToWrite = route.path;
+            if (this.options.base) {
+                pathToWrite = this.options.base + route.path;
+            }
+            window.history.pushState(null, "", pathToWrite);
         }
 
         if (isViewRoute(route)) {
