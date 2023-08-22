@@ -218,6 +218,7 @@ export class Suunta {
                 throw new Error("[Suunta]: Could not parse route from View. Recursion level too deep.")
             }
         }
+        await waitFrame(4);
     }
 
     async handleRedirectRoute(route: RedirectRoute) {
@@ -251,4 +252,12 @@ function isRenderableView(view: RouteView | ImportedView): view is RenderableVie
 
 function isFunction(view: RouteView | ImportedView): view is Lazy<RenderableView> | LazyImportedRouteView {
     return typeof view === "function";
+}
+function waitFrame(count = 1): Promise<void> {
+    return new Promise(async (resolve) => {
+        for (let i = 0; i < count; i++) {
+            await new Promise(r => window.requestAnimationFrame(r));
+        }
+        resolve();
+    });
 }
