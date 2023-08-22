@@ -20,7 +20,7 @@ export class Suunta {
     public routeMatchers: Map<RegExp, Route> = new Map();
     public started = false;
 
-    constructor(private options: SuuntaInitOptions) {
+    constructor(public options: SuuntaInitOptions) {
         if (!this.options.renderer) {
             throw new Error("[Suunta]: No renderer set! Set a router in the Suunta initialization options or use the `suunta` -package with the default Lit renderer.\n\nimport { Suunta } from 'suunta';")
         }
@@ -218,7 +218,8 @@ export class Suunta {
                 throw new Error("[Suunta]: Could not parse route from View. Recursion level too deep.")
             }
         }
-        await waitFrame(4);
+        await waitFrame(2);
+        document.dispatchEvent(new CustomEvent(NAVIGATED_EVENT));
     }
 
     async handleRedirectRoute(route: RedirectRoute) {
@@ -233,7 +234,6 @@ export class Suunta {
         const target = this.getTarget(parentRenderTarget);
         this.#currentRenderTarget = target;
         this.options.renderer!(viewToRender, route, target);
-        document.dispatchEvent(new CustomEvent(NAVIGATED_EVENT));
     }
 
     public getCurrentView(): SuuntaView | undefined {
