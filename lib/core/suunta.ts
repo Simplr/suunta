@@ -53,7 +53,7 @@ export class Suunta {
     public async start(): Promise<void> {
         const currentRoute = this.getRouteFromCurrentURL();
         this.setupListeners();
-        await this.navigate(currentRoute);
+        await this.navigate(currentRoute, false);
         this.started = true;
     }
 
