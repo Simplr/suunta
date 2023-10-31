@@ -4,10 +4,12 @@ import { NAVIGATED_EVENT } from "./triggers";
 import { SuuntaView } from "./view";
 
 type SuuntaTarget = HTMLElement | DocumentFragment;
+type RouteTransformer = (route: Route) => Route | Promise<Route>;
 
 export interface SuuntaInitOptions {
     routes: Route[];
     renderer?: (viewToRender: unknown, route: ViewRoute, renderTarget: SuuntaTarget) => void;
+    beforeNavigate?: RouteTransformer;
     target?: string | SuuntaTarget;
     base?: string;
 }
@@ -19,11 +21,13 @@ export class Suunta {
     public routes: Map<string, Route> = new Map();
     public routeMatchers: Map<RegExp, Route> = new Map();
     public started = false;
+    public beforeNavigate?: RouteTransformer;
 
     constructor(public options: SuuntaInitOptions) {
         if (!this.options.renderer) {
             throw new Error("[Suunta]: No renderer set! Set a router in the Suunta initialization options or use the `suunta` -package with the default Lit renderer.\n\nimport { Suunta } from 'suunta';")
         }
+        this.beforeNavigate = options.beforeNavigate;
         this.mapRoutes();
     }
 
@@ -158,6 +162,10 @@ export class Suunta {
 
         if (route === this.#currentView?.route) {
             return; // same route
+        }
+
+        if (this.beforeNavigate) {
+            route = await this.beforeNavigate(route);
         }
 
         this.#currentView = {
