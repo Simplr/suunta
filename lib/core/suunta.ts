@@ -121,7 +121,9 @@ export class Suunta {
             path = urlObject.pathname;
             queryParameters = urlObject.searchParams;
             hash = urlObject.hash;
-        } catch (_ignored) { }
+        } catch (_ignored) {
+            console.warn("[Suunta]: Failed to parse URL object out of route.");
+        }
 
         const matchedStaticPath = [...this.routes.values()].find(route => route.path === path);
         if (matchedStaticPath) {
@@ -159,7 +161,7 @@ export class Suunta {
 
     private getRouteFromCurrentURL(): Route | undefined {
         const currentURL = new URL(window.location.href);
-        let path = currentURL.pathname;
+        let path = currentURL.href.replace(currentURL.origin, "");
         if (this.options.base) {
             path = path.replace(this.options.base, "");
         }
@@ -189,11 +191,7 @@ export class Suunta {
         };
 
         if (pushState) {
-            let pathToWrite = route.path;
-            if (this.options.base) {
-                pathToWrite = this.options.base + route.path;
-            }
-            window.history.pushState(null, "", pathToWrite);
+            this.pushHistoryState(route);
         }
 
         if (isViewRoute(route)) {
@@ -205,6 +203,22 @@ export class Suunta {
             await this.handleRedirectRoute(route);
             return;
         }
+    }
+
+    pushHistoryState(route: Route) {
+        let pathToWrite = route.path;
+        if (this.options.base) {
+            pathToWrite = this.options.base + route.path;
+        }
+        try {
+            const urlObject = new URL(pathToWrite, window.location.origin);
+            urlObject.hash = route.hash ?? '';
+            if (route.queryParameters) {
+                [...route.queryParameters].forEach(qp => urlObject.searchParams.set(qp[0], qp[1]));
+            }
+            pathToWrite = urlObject.href.replace(urlObject.origin, "");
+        } catch (_ignored) { }
+        window.history.pushState(null, "", pathToWrite);
     }
 
     async handleViewRoute(route: ViewRoute | ChildViewRoute) {
@@ -241,7 +255,7 @@ export class Suunta {
             }
         }
         await waitFrame(2);
-        document.dispatchEvent(new CustomEvent(NAVIGATED_EVENT));
+        document.dispatchEvent(new CustomEvent(NAVIGATED_EVENT, { detail: { route } }));
     }
 
     async handleRedirectRoute(route: RedirectRoute) {
