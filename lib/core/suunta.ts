@@ -113,11 +113,23 @@ export class Suunta {
             throw new Error("[Suunta]: RouteQueryObject must contain either a name or a path");
         }
 
-        const path = routeQueryObject.path;
+        let path = routeQueryObject.path;
+        let queryParameters = undefined;
+        let hash = "";
+        try {
+            const urlObject = new URL(path, window.location.origin);
+            path = urlObject.pathname;
+            queryParameters = urlObject.searchParams;
+            hash = urlObject.hash;
+        } catch (_ignored) { }
 
         const matchedStaticPath = [...this.routes.values()].find(route => route.path === path);
         if (matchedStaticPath) {
-            return matchedStaticPath;
+            return {
+                ...matchedStaticPath,
+                queryParameters,
+                hash
+            };
         }
 
         // We didn't match a name, nor a static path. Try to resolve via regex.
@@ -136,7 +148,9 @@ export class Suunta {
             matchedRoute.path = path;
             return {
                 ...matchedRoute,
-                properties: match.groups
+                properties: match.groups,
+                queryParameters,
+                hash
             };
         }
 

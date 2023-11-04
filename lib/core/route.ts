@@ -15,6 +15,8 @@ interface BaseRoute {
     path: string;
     name?: string;
     properties?: ViewProperties;
+    queryParameters?: URLSearchParams;
+    hash?: string;
 }
 
 export interface ViewRoute extends BaseRoute {
