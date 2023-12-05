@@ -16,6 +16,7 @@ export interface SuuntaInitOptions {
 
 export class Suunta {
 
+    #currentRoute: Route | undefined;
     #currentView: SuuntaView | undefined;
     #currentRenderTarget: SuuntaTarget | undefined;
     public routes: Map<string, Route> = new Map();
@@ -169,20 +170,22 @@ export class Suunta {
         return this.getRoute({ path })
     }
 
-    private async navigate(route: Route | undefined, pushState = true): Promise<void> {
+    private async navigate(route: Route | undefined, pushState = true, isReRender = false): Promise<void> {
         if (!route) {
             // TODO: Change this path to a 404 page nav etc.
             throw new Error(`[Suunta]: Could not find a route to navigate to, and no fallback route was set. 
                             To set a fallback route, add one with the matcher '/{notFoundPath}(.*)', or just '/{notFoundPath}'.`);
         }
 
-        if (route === this.#currentView?.route) {
+        if (route === this.#currentView?.route && !isReRender) {
             return; // same route
         }
 
         if (this.beforeNavigate) {
             route = await this.beforeNavigate(route);
         }
+
+        this.#currentRoute = route;
 
         this.#currentView = {
             href: window.location.href,
@@ -203,6 +206,10 @@ export class Suunta {
             await this.handleRedirectRoute(route);
             return;
         }
+    }
+
+    public async reNavigate() {
+        return this.navigate(this.getCurrentRoute(), false, true);
     }
 
     pushHistoryState(route: Route) {
@@ -274,6 +281,10 @@ export class Suunta {
 
     public getCurrentView(): SuuntaView | undefined {
         return this.#currentView;
+    }
+
+    public getCurrentRoute(): Route | undefined {
+        return this.#currentRoute;
     }
 }
 
