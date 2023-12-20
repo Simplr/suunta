@@ -65,7 +65,7 @@ export class Suunta {
     private setupListeners() {
         document.body.addEventListener("click", (clickEvent) => {
             const path = clickEvent.composedPath();
-            const closestLink = path.filter(el => (el as HTMLAnchorElement).href !== undefined).pop();
+            const closestLink = path.filter(el => (el as HTMLAnchorElement).href !== undefined && (el as HTMLAnchorElement).href).pop();
             if (!closestLink) {
                 return;
             }
