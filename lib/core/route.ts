@@ -11,6 +11,7 @@ export type RenderableView = unknown;
 export type Route = ViewRoute | RedirectRoute | ChildViewRoute;
 export interface RenderStackEntry {
     route: Route;
+    eventTarget: EventTarget;
     renderTarget?: SuuntaTarget;
     renderFunction?: RenderFunction;
 }
