@@ -1,0 +1,27 @@
+{
+  "include": ["lib/**/*"],
+  "compilerOptions": {
+    "incremental": true,
+
+    "target": "ESNext",
+    "experimentalDecorators": true,
+
+    "module": "ESNext",
+
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "sourceMap": true, 
+    "outDir": "./types-generated",
+
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,                         
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "lib": ["dom", "ESNext"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+
+    "emitDeclarationOnly": true
+  }
+}

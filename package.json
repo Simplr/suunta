@@ -1,0 +1,40 @@
+{
+  "name": "suunta",
+  "version": "2.0.3",
+  "description": "The new client-side router",
+  "main": "lib/core/index.js",
+  "scripts": {
+    "test": "web-test-runner test/**/*.test.ts --node-resolve",
+    "test:watch": "web-test-runner test/**/*.test.ts --watch --node-resolve",
+    "types": "tsc",
+    "examples": "web-dev-server --node-resolve --app-index example/index.html --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Simplr/suunta.git"
+  },
+  "keywords": [],
+  "author": "Matias Huhta <huhta.matias@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Simplr/suunta/issues"
+  },
+  "homepage": "https://github.com/Simplr/suunta#readme",
+  "devDependencies": {
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@open-wc/testing": "^4.0.0",
+    "@types/chai": "^4.3.19",
+    "@types/mocha": "^10.0.8",
+    "@web/dev-server": "^0.4.6",
+    "@web/dev-server-esbuild": "^1.0.2",
+    "@web/test-runner": "^0.19.0",
+    "esbuild": "^0.23.1",
+    "lit-html": "^3.2.0",
+    "typescript": "^5.6.2"
+  },
+  "workspaces": [
+    "lib/core",
+    "example",
+    "test"
+  ]
+}
