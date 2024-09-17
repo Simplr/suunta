@@ -334,7 +334,7 @@ onNavigated(() => {
     // Triggers whenever a navigation has occured
 });
 
-// Triggers whenever a state object's value is updated
+// Triggers whenever the current view's state object's value is updated
 onUpdated((name, oldValue, newValue) => {
     console.log('Update', { name, oldValue, newValue });
 });
