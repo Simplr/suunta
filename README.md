@@ -29,12 +29,14 @@ const routes: Route[] = [
     }
 ];
 
-const routerOptions: SuuntaInitOptions = {
-    routes
-};
-
 const renderer = (view, route, renderTarget) => {
     render(html`${view}`, renderTarget);
+};
+
+const routerOptions: SuuntaInitOptions = {
+    routes,
+    renderer,
+    target: document.body
 };
 
 router = new Suunta(routerOptions);
