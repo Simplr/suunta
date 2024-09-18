@@ -9,12 +9,13 @@ export type RenderableView = unknown;
 export type Route = ViewRoute | RedirectRoute | ChildViewRoute;
 export interface RenderStackEntry {
     route: Route;
+    eventTarget: EventTarget;
     renderTarget?: SuuntaTarget;
     renderFunction?: RenderFunction;
 }
 export type SuuntaTarget = HTMLElement | DocumentFragment;
 export type RouteTransformer<R> = (route: R) => R | Promise<R>;
-export interface SuuntaInitOptions<R extends Route> {
+export interface SuuntaInitOptions<R extends Route = Route> {
     routes: readonly Route[];
     renderer: (viewToRender: unknown, route: ViewRoute, renderTarget: SuuntaTarget) => void;
     beforeNavigate?: RouteTransformer<R>;

@@ -1,8 +1,8 @@
 export class Suunta {
     /**
-     * @param {import("./route").SuuntaInitOptions<import("./route.js").Route>} options
+     * @param {import("./route").SuuntaInitOptions} options
      */
-    constructor(options: import("./route").SuuntaInitOptions<import("./route.js").Route>);
+    constructor(options: import("./route").SuuntaInitOptions);
     /** @type { Map<string, import("./route").Route> } */
     routes: Map<string, import("./route").Route>;
     /** @type { Map<RegExp, import("./route").Route> } */
@@ -67,16 +67,26 @@ export class Suunta {
      * @returns { import("./route").Route | undefined }
      */
     getCurrentRoute(): import("./route").Route | undefined;
+    /**
+     * @returns { import('./route').RenderStackEntry[] }
+     * */
     getRenderStack(): import("./route").RenderStackEntry[];
     /**
      * @param {import('./route').RenderStackEntry} stackEntry
      */
     refreshView(stackEntry: import("./route").RenderStackEntry): Promise<void>;
     /**
+     * Refreshes all of views and subviews in stack in stack order.
+     *
+     * Useful for cases where you update a global variable, e.g. localizations and want to apply the changes to all views.
+     * */
+    refreshAllViews(): Promise<void>;
+    /**
+     * @param {import('./route').RenderStackEntry} stackEntry
      * @param {string} propKey
      * @param {unknown} oldValue
      * @param {unknown} newValue
      */
-    triggerOnUpdated(propKey: string, oldValue: unknown, newValue: unknown): void;
+    triggerOnUpdated(stackEntry: import("./route").RenderStackEntry, propKey: string, oldValue: unknown, newValue: unknown): void;
     #private;
 }

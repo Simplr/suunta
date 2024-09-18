@@ -6,6 +6,16 @@ import { SubViewFloor } from './SubViewFloor';
 
 console.log('Foo');
 
+let GLOBAL_CLICKER = 0;
+
+export function updateGlobalClicker(val: number) {
+    GLOBAL_CLICKER = val;
+}
+
+export function getGlobalClicker() {
+    return GLOBAL_CLICKER;
+}
+
 export let router: Suunta | undefined;
 
 const routes: Route[] = [
@@ -77,3 +87,4 @@ router.start();
 
 // @ts-ignore
 window.ROUTER = router;
+

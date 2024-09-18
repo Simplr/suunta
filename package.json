@@ -16,6 +16,7 @@
   "keywords": [],
   "author": "Matias Huhta <huhta.matias@gmail.com>",
   "license": "ISC",
+  "types": "./types-generated/index.d.ts",
   "bugs": {
     "url": "https://github.com/Simplr/suunta/issues"
   },

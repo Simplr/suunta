@@ -14,3 +14,5 @@ export function createState<T extends Record<string, unknown>>(initialState: T):
  * @param {import("./route").RenderStackEntry} stackEntry
  */
 export function getStateProxy(stateObject: Record<string, unknown>, router: import("./suunta").Suunta, stackEntry: import("./route").RenderStackEntry): any;
+/** @type { import("./suunta").Suunta | undefined } */
+export let router: import("./suunta").Suunta | undefined;
