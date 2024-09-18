@@ -1,5 +1,3 @@
-import { html, render } from 'lit';
-import { Suunta, onNavigation, createState, onUpdated } from 'suunta';
 import { basicSetup, EditorView } from 'codemirror';
 import { keymap } from '@codemirror/view';
 import { javascript } from '@codemirror/lang-javascript';
@@ -8,6 +6,10 @@ import { indentWithTab } from '@codemirror/commands';
 let editorElement = undefined;
 
 const INITIAL_DATA = `
+
+import { html, render } from 'lit';
+import { Suunta, onNavigation, createState, onUpdated } from 'suunta';
+
 const renderer = (view, route, renderTarget) => {
     render(html\`\${view}\`, renderTarget);
 };
@@ -38,11 +40,17 @@ function HomeView() {
 
 function FooView() {
     console.log(router.routes);
+
+  const state = createState({
+    count: 0
+  });
     return () => html\`
         <p>Foo World</p>
         <a href="/">Home</a>
+        <button @click=$\{() => state.count++}>Clicked $\{state.count} times</button>
     \`;
 }
+
 
 `;
 
@@ -61,28 +69,28 @@ const editorView = new EditorView({
                 editorElement = document.querySelector('.cm-editor');
             }
             try {
-                eval(data);
+                evaluate(data);
                 editorElement.removeAttribute('has-error');
             } catch (ex) {
                 editorElement.setAttribute('has-error', '');
+                console.error('Render failed ', ex);
             }
         }),
     ],
     parent: document.body,
 });
+/** @type { HTMLScriptElement } */
+let SCRIPT_TAG = undefined;
 
-eval(INITIAL_DATA);
-
-/*const textarea = document.querySelector('textarea');
-
-textarea.addEventListener('input', e => {
-    const target = e.target;
-    try {
-        eval(target.value);
-        textarea.removeAttribute('has-error');
-    } catch (ex) {
-        textarea.setAttribute('has-error', '');
+function evaluate(code) {
+    if (SCRIPT_TAG) {
+        SCRIPT_TAG.remove();
     }
-});
+    SCRIPT_TAG = document.createElement('script');
+    SCRIPT_TAG.type = 'module';
+    document.body.appendChild(SCRIPT_TAG);
 
-eval(textarea.value);*/
+    SCRIPT_TAG.innerHTML = code;
+    document.body.appendChild(SCRIPT_TAG);
+}
+evaluate(INITIAL_DATA);

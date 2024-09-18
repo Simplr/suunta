@@ -17,7 +17,7 @@ export type SuuntaTarget = HTMLElement | DocumentFragment;
 export type RouteTransformer<R> = (route: R) => R | Promise<R>;
 export interface SuuntaInitOptions<R extends Route = Route> {
     routes: readonly Route[];
-    renderer: (viewToRender: unknown, route: ViewRoute, renderTarget: SuuntaTarget) => void;
+    renderer: (viewToRender: unknown, route: ViewRoute, renderTarget: SuuntaTarget, isUpdate: boolean) => void | Promise<void>;
     beforeNavigate?: RouteTransformer<R>;
     target?: string | SuuntaTarget;
     base?: string;

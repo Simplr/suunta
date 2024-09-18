@@ -73,8 +73,9 @@ export class Suunta {
     getRenderStack(): import("./route").RenderStackEntry[];
     /**
      * @param {import('./route').RenderStackEntry} stackEntry
+     * @param {import('./route').RenderStackEntry} [previousEntry]
      */
-    refreshView(stackEntry: import("./route").RenderStackEntry): Promise<void>;
+    refreshView(stackEntry: import("./route").RenderStackEntry, previousEntry?: import("./route").RenderStackEntry | undefined): Promise<void>;
     /**
      * Refreshes all of views and subviews in stack in stack order.
      *
