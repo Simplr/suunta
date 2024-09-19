@@ -1,10 +1,10 @@
 {
   "name": "suunta",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "The new client-side router",
   "main": "lib/core/index.js",
   "scripts": {
-      "prepublish": "npm run types",
+    "prepublish": "npm run types",
     "test": "web-test-runner test/**/*.test.ts --node-resolve",
     "test:watch": "web-test-runner test/**/*.test.ts --watch --node-resolve",
     "types": "tsc",
