@@ -1,6 +1,6 @@
 {
   "name": "suunta",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "The new client-side router",
   "main": "lib/core/index.js",
   "scripts": {
