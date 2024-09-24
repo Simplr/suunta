@@ -15,4 +15,4 @@ export function createState<T extends Record<string, unknown>>(initialState: T):
  */
 export function getStateProxy(stateObject: Record<string, unknown>, router: import("./suunta").Suunta, stackEntry: import("./route").RenderStackEntry): any;
 /** @type { import("./suunta").Suunta | undefined } */
-export let router: import("./suunta").Suunta | undefined;
+export let _suunta_router_instance_for_private_use: import("./suunta").Suunta | undefined;

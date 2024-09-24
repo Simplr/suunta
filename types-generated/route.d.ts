@@ -12,6 +12,11 @@ export interface RenderStackEntry {
     eventTarget: EventTarget;
     renderTarget?: SuuntaTarget;
     renderFunction?: RenderFunction;
+    viewState?: ViewState;
+}
+export interface ViewState {
+    state: unknown;
+    connected: boolean;
 }
 export type SuuntaTarget = HTMLElement | DocumentFragment;
 export type RouteTransformer<R> = (route: R) => R | Promise<R>;

@@ -86,6 +86,10 @@ export class Suunta {
      */
     emptyStackEntryRenderTarget(stackEntry: import("./route").RenderStackEntry): Promise<void>;
     /**
+     * @param {import('./route').RenderStackEntry} stackEntry
+     */
+    manageEmptiedStackEntryState(stackEntry: import("./route").RenderStackEntry): void;
+    /**
      * @param {import("./route").Route} route
      */
     handleChildRoute(route: import("./route").Route): Promise<void>;
@@ -97,6 +101,10 @@ export class Suunta {
      * @param {import("./route").ViewRoute | import("./route.js").ChildViewRoute} route
      */
     handleViewRoute(route: import("./route").ViewRoute | import("./route.js").ChildViewRoute): Promise<void>;
+    /**
+     * @param {import('./route').RenderStackEntry} stackEntry
+     */
+    sendLeavingViewEvent(stackEntry: import("./route").RenderStackEntry): void;
     /**
      * @param { import("./route").RedirectRoute } route
      */
