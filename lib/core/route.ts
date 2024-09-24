@@ -14,6 +14,12 @@ export interface RenderStackEntry {
     eventTarget: EventTarget;
     renderTarget?: SuuntaTarget;
     renderFunction?: RenderFunction;
+    viewState?: ViewState;
+}
+
+export interface ViewState {
+    state: unknown;
+    connected: boolean;
 }
 
 export type SuuntaTarget = HTMLElement | DocumentFragment;
@@ -21,7 +27,12 @@ export type RouteTransformer<R> = (route: R) => R | Promise<R>;
 
 export interface SuuntaInitOptions<R extends Route = Route> {
     routes: readonly Route[];
-    renderer: (viewToRender: unknown, route: ViewRoute, renderTarget: SuuntaTarget, isUpdate: boolean) => void | Promise<void>;
+    renderer: (
+        viewToRender: unknown,
+        route: ViewRoute,
+        renderTarget: SuuntaTarget,
+        isUpdate: boolean,
+    ) => void | Promise<void>;
     beforeNavigate?: RouteTransformer<R>;
     target?: string | SuuntaTarget;
     base?: string;
