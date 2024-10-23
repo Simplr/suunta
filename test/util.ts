@@ -89,6 +89,11 @@ export function getBasicRouterSetup() {
             view: () => html`<p>User page for id ${router?.getCurrentView()?.properties.id}</p>`,
         },
         {
+            path: '/user/{id}(\\d+)/edit',
+            name: 'User profile edit',
+            view: () => html`<p>User edit page for id ${router?.getCurrentView()?.properties.id}</p>`,
+        },
+        {
             path: '/search/{matchAll}',
             name: 'Search',
             view: html`<p>Search page</p>`,
