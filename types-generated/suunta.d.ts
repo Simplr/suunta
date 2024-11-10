@@ -142,6 +142,7 @@ export class Suunta {
      * Useful for cases where you update a global variable, e.g. localizations and want to apply the changes to all views.
      * */
     refreshAllViews(): Promise<void>;
+    refreshCurrentView(): Promise<void>;
     /**
      * @param {import('./route').RenderStackEntry} stackEntry
      * @param {string} propKey
