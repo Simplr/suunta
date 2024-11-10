@@ -36,3 +36,35 @@ it('Should render the contents of a dynamic route to the DOM', async () => {
 
     expect(target).dom.to.equal(document.querySelector('#outlet')?.innerHTML);
 });
+
+it('Should keep set properties on static routes', async () => {
+    clearRenders();
+    navigateTo('/property');
+
+    await new Promise(r => setTimeout(r, 100));
+
+    const router = getBasicRouterSetup();
+    router.start();
+
+    await new Promise(r => setTimeout(r, 100));
+
+    const target = await fixture(html`<p>This page has the property: bar</p>`);
+
+    expect(target).dom.to.equal(document.querySelector('#outlet')?.innerHTML);
+});
+
+it('Should keep set properties on dynamic routes', async () => {
+    clearRenders();
+    navigateTo('/property/123');
+
+    await new Promise(r => setTimeout(r, 100));
+
+    const router = getBasicRouterSetup();
+    router.start();
+
+    await new Promise(r => setTimeout(r, 100));
+
+    const target = await fixture(html`<p>This page has the property: bar and the ID 123</p>`);
+
+    expect(target).dom.to.equal(document.querySelector('#outlet')?.innerHTML);
+});

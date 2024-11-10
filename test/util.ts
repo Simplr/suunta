@@ -73,6 +73,22 @@ export function getBasicRouterSetup() {
             view: html`<a href="/user">To Users page</a>`,
         },
         {
+            path: '/property',
+            name: 'Property',
+            view: () => html`<p>This page has the property: ${router?.getCurrentView()?.properties.foo}</p>`,
+            properties: { foo: 'bar' },
+        },
+        {
+            path: '/property/{id}',
+            name: 'PropertyWithId',
+            view: () =>
+                // prettier-ignore
+                html`<p>
+                    This page has the property: ${router?.getCurrentView()?.properties.foo} and the ID ${router?.getCurrentView()?.properties.id}
+                </p>`,
+            properties: { foo: 'bar' },
+        },
+        {
             path: '/page',
             name: 'Page',
             view: html`<p>Link page</p>
