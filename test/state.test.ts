@@ -3,6 +3,7 @@ import { clearRenders, litRenderer, navigateTo } from './util';
 import { expect } from '@esm-bundle/chai';
 import { StateTesterView } from './views/state-tester';
 import { fixture, html } from '@open-wc/testing';
+import { UndefinedStateTester } from './views/undefined-state-tester';
 
 it('Should update state object no matter the depth', async () => {
     clearRenders();
@@ -240,4 +241,46 @@ it('Should update state object no matter the depth', async () => {
     `);
     expect(postUserLikedNotesAddClickFixture).dom.to.equal(userInfoDiv?.outerHTML);
     //
+});
+
+it('Should update with undefined start values', async () => {
+    clearRenders();
+    await new Promise(r => setTimeout(r, 100));
+
+    const routerOptions: SuuntaInitOptions<Route> = {
+        routes: [
+            {
+                path: '/',
+                view: UndefinedStateTester,
+            },
+        ],
+        target: 'body',
+        renderer: litRenderer,
+    };
+
+    navigateTo('/');
+
+    const router = new Suunta(routerOptions);
+    router.start();
+
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(router).to.not.equal(null);
+    expect(router instanceof Suunta).to.be.true;
+
+    expect(document.querySelector('p')?.innerText).to.equal('My name is World');
+
+    document.querySelector('#set-name')?.click();
+
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(document.querySelector('p')?.innerText).to.equal('My name is Matsu');
+
+    expect(document.querySelector('label')?.innerText).to.equal('User Id: Not Set, Name: Not Set');
+
+    document.querySelector('#set-user-things')?.click();
+
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(document.querySelector('label')?.innerText).to.equal('User Id: 1, Name: Foo');
 });
