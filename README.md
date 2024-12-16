@@ -1,6 +1,25 @@
+![Title Image](assets/suunta-banner.png)
+
 # Suunta
 
 A simple SPA routing and state management library for everyday use
+
+## Table of Contents
+
+   * [Install](#install)
+   * [Usage](#usage)
+      + [Dynamic routes](#dynamic-routes)
+      + [State ](#state)
+      + [Named routes](#named-routes)
+      + [Redirects](#redirects)
+         - [Not Found -pages](#not-found-pages)
+         - [Not Found -pages with redirect](#not-found-pages-with-redirect)
+      + [Dynamic imports](#dynamic-imports)
+      + [Rendering into outlets](#rendering-into-outlets)
+      + [Sub-views](#sub-views)
+      + [Hooks](#hooks)
+
+
 
 ## Install
 
@@ -112,8 +131,6 @@ For state management, Suunta provides a `createState` hook, which will take the 
 
 When any of the values of that state object is directly manipulated, the view will update accordingly.
 
-**Note: In it's current state, pushing items onto objects or arrays might or might not add reactivity to said properties**
-
 ```typescript
 import { html } from 'lit';
 import { createState } from 'suunta';
@@ -135,7 +152,48 @@ export const View = () => {
 };
 ```
 
-#### Redirects
+### Named routes
+
+With Suunta, you don't have to go through the hassle of going through your whole codebase with CTRL - F after changing a route.
+
+You can define your routes using the `pathByRouteName` function and generate routes dynamically by the name of said route.
+ 
+```typescript
+
+const routes = [
+    {
+        name: "Home",
+        path: "/",
+        view: HomeView
+    },
+    {
+        name: "UserView",
+        path: "/users/{userId}",
+        view: UserView
+        children: [
+            {
+                name: "UserAttendances",
+                path: "/attendances/{attendanceId}",
+                view: UserAttendanceView
+            }
+        ]
+    },
+]
+
+const homeView = router.pathByRouteName("Home");
+// > homeView => /
+
+
+const userView = router.pathByRouteName("UserView", 123);
+// > userView => /users/123
+
+const attendanceView = router.pathByRouteName("UserAttendances", 123, "suunta-course");
+// > attendanceView => /users/123/attendances/suunta-course
+
+html`<a href="${router.pathByRouteName("UserView", 123)}">To user view</a>`
+```
+
+### Redirects
 
 Supplying redirects is as easy as adding a `redirect` property onto your route, and targetting another view by `name` with it.
 
@@ -192,7 +250,7 @@ const routes: Route[] = [
 ]
 ```
 
-#### Dynamic imports
+### Dynamic imports
 
 For cases where you have a bunch of views and want to squeeze out some extra performance from your packages, you can package split your code by dynamically importing your routes.
 
@@ -237,7 +295,7 @@ const routerOptions: SuuntaInitOptions = {
 router = new Suunta(routerOptions);
 ```
 
-#### Rendering into outlets
+### Rendering into outlets
 
 By using a `<suunta-view>` pseudoelement, you can tell Suunta to render the wanted content to a said location on page.
 
@@ -247,7 +305,7 @@ By using a `<suunta-view>` pseudoelement, you can tell Suunta to render the want
 </body>
 ```
 
-#### Sub-views
+### Sub-views
 
 The `<suunta-view>` outlet can be especially useful for rendering sub-views. If you want your view to have a navigatable sub-view, meaning that you want the view to render, without it un-rendering the previous view,
 you can do that utilizing the suunta-view element and `child routes`
@@ -327,7 +385,7 @@ By navigating to `/sub/sub/sub/sub`, we get a DOM looking like this:
 
 And when navigating backwards, only the subviews are un-rendered. The whole page does not require a refresh.
 
-#### Hooks
+### Hooks
 
 Suunta provides some hooks to hook into your navigating experience
 
