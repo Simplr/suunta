@@ -95,6 +95,21 @@ export function getBasicRouterSetup() {
                 <a href="/page">page</a>`,
         },
         {
+            path: '/test/{testId}/foo/{fooId}(\\d+)',
+            name: 'TestAndFoo',
+            view: html`<p>
+                TestId: ${router?.getCurrentView()?.properties.testId}, FooId:
+                ${router?.getCurrentView()?.properties.fooId}
+            </p>`,
+            children: [
+                {
+                    path: '/bar/{barId}',
+                    name: 'TestAndFooAndBar',
+                    view: html` <p>And bar ${router?.getCurrentView()?.properties.barId}</p>`,
+                },
+            ],
+        },
+        {
             path: '/user',
             name: 'User',
             view: html`<p>User page</p>`,
