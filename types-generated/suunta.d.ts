@@ -16,6 +16,8 @@ export class Suunta {
     currentRenderTarget: import("./route").SuuntaTarget | undefined;
     /** @type { Map<string, import("./route").Route> } */
     routes: Map<string, import("./route").Route>;
+    /** @type { Map<string, import("./route").Route> } */
+    routesByName: Map<string, import("./route").Route>;
     /** @type { Map<RegExp, import("./route").Route> } */
     routeMatchers: Map<RegExp, import("./route").Route>;
     /** @type { boolean } */
@@ -127,6 +129,11 @@ export class Suunta {
      * @returns { import('./route').RenderStackEntry[] }
      * */
     getRenderStack(): import("./route").RenderStackEntry[];
+    /**
+     * @param {string} routeName
+     * @param {any[]} params
+     */
+    pathByRouteName(routeName: string, ...params: any[]): string | undefined;
     /**
      * @param {import('./route').RenderStackEntry} stackEntry
      * @param {import('./route').RenderStackEntry} [previousEntry]
