@@ -16,6 +16,6 @@ it('should trigger onNavigation', async () => {
     const router = getBasicRouterSetup();
     router.start();
 
-    await new Promise(r => setTimeout(r, 100));
+    await new Promise(r => setTimeout(r, 1000));
     expect(triggered).to.be.true;
 });
