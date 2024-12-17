@@ -58,7 +58,7 @@ const routerOptions: SuuntaInitOptions = {
     target: document.body
 };
 
-router = new Suunta(routerOptions);
+const router = new Suunta(routerOptions);
 
 router.start();
 ```
