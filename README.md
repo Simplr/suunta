@@ -4,6 +4,10 @@
 
 A simple SPA routing and state management library for everyday use
 
+**Demo**
+
+For an interactive demo, visit [ReplIt](https://replit.com/@huhtamatias/Suunta-Sandbox)
+
 ## Table of Contents
 
    * [Install](#install)
