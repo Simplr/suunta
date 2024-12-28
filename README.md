@@ -156,6 +156,47 @@ export const View = () => {
 };
 ```
 
+#### Global State
+
+For some use cases you might want to have state that is shared between multiple views, and is also reactive.
+
+For these cases, the use of the `createGlobalState` hook is recommended.
+
+**This hook should not be used to replace the `createState` hook, but to implement those features, where a shared reactive state is useful for the
+productivity and efficiency of the application.**
+
+When values of globalState objects are updated, all of the views managed by the current Suunta instance will be updated.
+
+For most applications only using a single view at a time, this won't affect performance, but for views with 
+subviews through the Child Routes, this will cause an performance hit.
+
+```javascript
+// ../index.js
+import { createGlobalState } from "suunta";
+
+export const globalState = createGlobalState({
+    count: 0
+})
+
+
+// FooView.js
+import { html } from 'lit';
+import { createState } from 'suunta';
+import { globalState } from "../index.js";
+
+export const View = () => {
+    const addCount = () => {
+        globalState.count += 1;
+    };
+
+    return () => html`
+        <p>Foo View</p>
+        <p>Count: ${globalState.count}</p>
+        <button @click=${addCount}>Count++</button>
+    `;
+};
+```
+
 ### Named routes
 
 With Suunta, you don't have to go through the hassle of going through your whole codebase with CTRL - F after changing a route.
