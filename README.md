@@ -391,15 +391,31 @@ And when navigating backwards, only the subviews are un-rendered. The whole page
 
 ### Hooks
 
-Suunta provides some hooks to hook into your navigating experience
+Suunta provides lifecycle hooks to plug into the navigation phases from within your own views.
 
 ```typescript
-onNavigated(() => {
-    // Triggers whenever a navigation has occured
-});
+import { html } from "lit-html";
+import { createState, onNavigated, onUpdated } from "suunta";
 
-// Triggers whenever the current view's state object's value is updated
-onUpdated((name, oldValue, newValue) => {
-    console.log('Update', { name, oldValue, newValue });
-});
+export function HomeView() {
+
+    const state = createState({
+        count: 0
+    });
+    
+    // Triggers whenever a navigation has occured
+    onNavigated(() => {
+        console.log("HomeView rendered");
+    });
+
+    // Triggers whenever the current view's state object's value is updated
+    // e.g. when state.count is incremented
+    onUpdated((name, oldValue, newValue) => {
+        console.log('Update', { name, oldValue, newValue });
+    });
+
+    return () => html`
+        <button @click=${() => state.count += 1}>Clicked ${state.count} times</button>
+    `;
+}
 ```
