@@ -4,7 +4,7 @@ import { html, render } from 'lit-html';
 import { Route, Suunta, SuuntaTarget } from 'suunta';
 import { BarView } from './views/bar';
 
-export let router: Suunta | undefined;
+export let router: Suunta<Route, string> | undefined;
 
 export function clearRenders() {
     render(html``, document.body);
@@ -39,7 +39,7 @@ export function getDynamicImportRouterSetup() {
             name: 'Default',
             view: DefaultView,
         },
-    ];
+    ] as const;
 
     const routerOptions = {
         routes,
