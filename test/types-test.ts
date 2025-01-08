@@ -9,12 +9,12 @@ const routes = [
         children: [
             {
                 path: '/',
-                name: 'Home',
+                name: 'ChildHome',
                 view: html`<p id="needle">Hello world!</p>`,
             },
             {
                 path: '/',
-                name: 'Home',
+                name: 'Redirect',
                 redirect: 'Foo',
             },
         ],
@@ -49,3 +49,4 @@ const routerOptions = {
 const router = new Suunta(routerOptions);
 
 router.pathByRouteName('Default');
+router.pathByRouteName('ChildHome');
