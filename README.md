@@ -48,7 +48,8 @@ const routes: Route[] = [
     },
     {
         path: "/foo",
-        view: FooView
+        view: FooView,
+        title: "Example - Foo View"
     }
 ];
 

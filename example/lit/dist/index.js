@@ -9,11 +9,13 @@ const routes = [
     {
         path: '/',
         name: 'Home',
+        title: 'Home',
         view: html `<h2>Hello world!!</h2>
             <a href="/foo">Foo</a> <a href="/sub">SubView</a>`,
     },
     {
         path: '/foo',
+        title: 'Lit Example - Foo',
         view: FooView,
     },
     {
