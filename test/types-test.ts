@@ -6,6 +6,18 @@ const routes = [
         path: '/',
         name: 'Home',
         view: html`<p id="needle">Hello world!</p>`,
+        children: [
+            {
+                path: '/',
+                name: 'Home',
+                view: html`<p id="needle">Hello world!</p>`,
+            },
+            {
+                path: '/',
+                name: 'Home',
+                redirect: 'Foo',
+            },
+        ],
     },
     {
         path: '/foo',

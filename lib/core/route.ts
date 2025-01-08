@@ -69,7 +69,7 @@ interface BaseRoute {
 
 export interface ViewRoute extends BaseRoute {
     view: RouteView;
-    children?: ViewRoute[];
+    children?: readonly Route[];
 }
 
 export interface ChildViewRoute extends ViewRoute {
