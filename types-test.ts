@@ -36,5 +36,4 @@ const routerOptions = {
 
 const router = new Suunta(routerOptions);
 
-router.pathByRouteName('Foo');
-router.pathByRouteName('Bin');
+router.pathByRouteName('Default');
