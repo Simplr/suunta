@@ -8,7 +8,7 @@ export type LazyImportedRouteView = Lazy<ImportedView>;
 export type RouteView = RenderableView | Lazy<RenderableView> | LazyImportedRouteView | RenderFunction;
 export type RenderableView = unknown;
 
-export type Route = ViewRoute | RedirectRoute | ChildViewRoute;
+export type Route = ViewRoute | ViewRouteWithChildren | RedirectRoute | ChildViewRoute;
 export interface RenderStackEntry {
     route: Route;
     eventTarget: EventTarget;
@@ -42,7 +42,7 @@ interface BaseRoute {
     /**
      * The path to match this route to in your application.
      * */
-    path: string;
+    readonly path: string;
     /**
      * The document title for said view. Is automatically set when view is rendered.
      * */
@@ -69,6 +69,9 @@ interface BaseRoute {
 
 export interface ViewRoute extends BaseRoute {
     view: RouteView;
+}
+
+export interface ViewRouteWithChildren extends ViewRoute {
     children?: readonly Route[];
 }
 

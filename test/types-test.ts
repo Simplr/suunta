@@ -3,6 +3,12 @@ import { Route, Suunta, SuuntaTarget } from 'suunta';
 
 const routes = [
     {
+        path: '/foo',
+        name: 'Foo',
+        view: html`<p id="needle">Hello world!</p>`,
+    },
+
+    {
         path: '/',
         name: 'Home',
         view: html`<p id="needle">Hello world!</p>`,
@@ -12,17 +18,7 @@ const routes = [
                 name: 'ChildHome',
                 view: html`<p id="needle">Hello world!</p>`,
             },
-            {
-                path: '/',
-                name: 'Redirect',
-                redirect: 'Foo',
-            },
         ],
-    },
-    {
-        path: '/foo',
-        name: 'Foo',
-        view: html`<p id="needle">Hello world!</p>`,
     },
     {
         path: '/bar',
@@ -33,6 +29,11 @@ const routes = [
         path: '/default',
         name: 'Default',
         view: html`<p id="needle">Hello world!</p>`,
+    },
+    {
+        path: '/',
+        name: 'Redirect',
+        redirect: 'Foo',
     },
 ] as const;
 
@@ -48,5 +49,5 @@ const routerOptions = {
 
 const router = new Suunta(routerOptions);
 
-router.pathByRouteName('Default');
+const defaultRoute = router.pathByRouteName('Bar');
 router.pathByRouteName('ChildHome');
