@@ -3,35 +3,39 @@
  * @param { import('./route').Route } otherRoute
  */
 export function routeEquals(route: import("./route").Route, otherRoute: import("./route").Route): boolean;
-export class Suunta {
+/**
+ * @template { import('./route').Route } R
+ * @template { R["name"] } RouteName
+ * */
+export class Suunta<R extends import("./route").Route, RouteName extends R["name"]> {
     /**
-     * @param {import("./route").SuuntaInitOptions} options
+     * @param {import("./route").SuuntaInitOptions<R>} options
      */
-    constructor(options: import("./route").SuuntaInitOptions);
-    /** @type { import("./route").Route | undefined } */
-    currentRoute: import("./route").Route | undefined;
+    constructor(options: import("./route").SuuntaInitOptions<R>);
+    /** @type { R | undefined } */
+    currentRoute: R | undefined;
     /** @type { import("./view").SuuntaView | undefined } */
     currentView: import("./view").SuuntaView | undefined;
     /** @type { import("./route").SuuntaTarget | undefined } */
     currentRenderTarget: import("./route").SuuntaTarget | undefined;
-    /** @type { Map<string, import("./route").Route> } */
-    routes: Map<string, import("./route").Route>;
-    /** @type { Map<string, import("./route").Route> } */
-    routesByName: Map<string, import("./route").Route>;
-    /** @type { Map<RegExp, import("./route").Route> } */
-    routeMatchers: Map<RegExp, import("./route").Route>;
+    /** @type { Readonly<Map<string, R>> } */
+    routes: Readonly<Map<string, R>>;
+    /** @type { Map<string, R> } */
+    routesByName: Map<string, R>;
+    /** @type { Map<RegExp, R> } */
+    routeMatchers: Map<RegExp, R>;
     /** @type { boolean } */
     started: boolean;
-    /** @type { import("./route").RouteTransformer<import("./route.js").Route> | undefined } */
-    beforeNavigate: import("./route").RouteTransformer<import("./route.js").Route> | undefined;
+    /** @type { import("./route").RouteTransformer<R> | undefined } */
+    beforeNavigate: import("./route").RouteTransformer<R> | undefined;
     /** @type { import('./route.js').RenderStackEntry[] } */
     currentNavigationRenderStack: import("./route.js").RenderStackEntry[];
-    options: import("./route").SuuntaInitOptions<import("./route").Route>;
+    options: import("./route").SuuntaInitOptions<R>;
     mapRoutes(): void;
     /**
-     * @param { import("./route").Route } route
+     * @param { R } route
      */
-    mapRoute(route: import("./route").Route): void;
+    mapRoute(route: R): void;
     /**
      * @returns { Promise<void> }
      */
@@ -54,18 +58,18 @@ export class Suunta {
     }): Promise<void>;
     /**
      * @param { import("./route").RouteQueryObject } routeQueryObject
-     * @returns { import("./route").Route | undefined }
+     * @returns { R | undefined }
      */
-    getRoute(routeQueryObject: import("./route").RouteQueryObject): import("./route").Route | undefined;
+    getRoute(routeQueryObject: import("./route").RouteQueryObject): R | undefined;
     /**
-     * @returns { import("./route").Route | undefined }
+     * @returns { R | undefined }
      */
-    getRouteFromCurrentURL(): import("./route").Route | undefined;
+    getRouteFromCurrentURL(): R | undefined;
     /**
-     * @param {import('./route').Route} route
-     * @returns { import('./route').Route[] }
+     * @param {R} route
+     * @returns { R[] }
      */
-    generateStackFromRoute(route: import("./route").Route): import("./route").Route[];
+    generateStackFromRoute(route: R): R[];
     /**
      * @typedef NavigationOptions
      * @property { boolean } [pushState]
@@ -73,11 +77,11 @@ export class Suunta {
      * @property { MouseEvent | null } [originalEvent]
      * */
     /**
-     * @param { import("./route").Route | undefined } route
+     * @param { R | undefined } route
      * @param { NavigationOptions } options
      * @returns {Promise<void>}
      */
-    navigate(route: import("./route").Route | undefined, { pushState, isReRender, originalEvent }?: {
+    navigate(route: R | undefined, { pushState, isReRender, originalEvent }?: {
         pushState?: boolean | undefined;
         isReRender?: boolean | undefined;
         originalEvent?: MouseEvent | null | undefined;
@@ -92,9 +96,9 @@ export class Suunta {
      */
     manageEmptiedStackEntryState(stackEntry: import("./route").RenderStackEntry): void;
     /**
-     * @param {import("./route").Route} route
+     * @param {R} route
      */
-    handleChildRoute(route: import("./route").Route): Promise<void>;
+    handleChildRoute(route: R): Promise<void>;
     /**
      * @param { import("./route").Route } route
      */
@@ -122,18 +126,18 @@ export class Suunta {
      */
     getCurrentView(): import("./view").SuuntaView | undefined;
     /**
-     * @returns { import("./route").Route | undefined }
+     * @returns { R | undefined }
      */
-    getCurrentRoute(): import("./route").Route | undefined;
+    getCurrentRoute(): R | undefined;
     /**
      * @returns { import('./route').RenderStackEntry[] }
      * */
     getRenderStack(): import("./route").RenderStackEntry[];
     /**
-     * @param {string} routeName
+     * @param {RouteName} routeName
      * @param {any[]} params
      */
-    pathByRouteName(routeName: string, ...params: any[]): string | undefined;
+    pathByRouteName(routeName: RouteName, ...params: any[]): string | undefined;
     /**
      * @param {import('./route').RenderStackEntry} stackEntry
      * @param {import('./route').RenderStackEntry} [previousEntry]
