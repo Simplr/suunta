@@ -14,7 +14,7 @@ const routes = [
         view: html`<p id="needle">Hello world!</p>`,
         children: [
             {
-                path: '/',
+                path: '/child-home',
                 name: 'ChildHome',
                 view: html`<p id="needle">Hello world!</p>`,
             },
@@ -51,3 +51,10 @@ const router = new Suunta(routerOptions);
 
 const defaultRoute = router.pathByRouteName('Bar');
 router.pathByRouteName('ChildHome');
+router.pathByRouteName('Foo');
+
+router.resolve('ChildHome');
+router.resolve('Foo');
+
+router.getRoute({ name: 'Home' });
+router.getRoute({ path: '/child-home' });
