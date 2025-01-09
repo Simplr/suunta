@@ -5,9 +5,8 @@
 export function routeEquals(route: import("./route").Route, otherRoute: import("./route").Route): boolean;
 /**
  * @template { import('./route').Route } R
- * @template { R["name"] } RouteName
  * */
-export class Suunta<R extends import("./route").Route, RouteName extends R["name"]> {
+export class Suunta<R extends import("./route").Route> {
     /**
      * @param {import("./route").SuuntaInitOptions<R>} options
      */
@@ -57,10 +56,10 @@ export class Suunta<R extends import("./route").Route, RouteName extends R["name
         path: string;
     }): Promise<void>;
     /**
-     * @param { import("./route").RouteQueryObject } routeQueryObject
+     * @param { import("./route").RouteQueryObject<R> } routeQueryObject
      * @returns { R | undefined }
      */
-    getRoute(routeQueryObject: import("./route").RouteQueryObject): R | undefined;
+    getRoute(routeQueryObject: import("./route").RouteQueryObject<R>): R | undefined;
     /**
      * @returns { R | undefined }
      */
@@ -134,10 +133,44 @@ export class Suunta<R extends import("./route").Route, RouteName extends R["name
      * */
     getRenderStack(): import("./route").RenderStackEntry[];
     /**
-     * @param {RouteName} routeName
-     * @param {any[]} params
+     *
+     * Resolves the path of a route given the name of the route.
+     *
+     * ## Example
+     *
+     * ```js
+     * const routes = [
+     *  { path: "/", name: "Home" },
+     *  { path: "/user/:id", name: "User" },
+     * ]
+     *
+     * <a href="${router.resolve('Home')}">Go Home</a>
+     * // Resolves to
+     * <a href="/">Go Home</a>
+     *
+     * <a href="${router.resolve('User', 123)}">Go Home</a>
+     * // Resolves to
+     * <a href="/user/123">Go to User Profile</a>
+     * ```
+     *
+     *
+     * @template { import('./route').RouteNames<R> } N
+     *
+     * @param {N} routeName - Name property of the route
+     * @param {any[]} params - Dynamic parameters of the route, in order.
+     *
+     * @returns {R["path"] | undefined}
      */
-    pathByRouteName(routeName: RouteName, ...params: any[]): string | undefined;
+    resolve<N extends import("./route").RouteNames<R>>(routeName: N, ...params: any[]): R["path"] | undefined;
+    /**
+     * @template { import('./route').RouteNames<R> } N
+     *
+     * @param {N} routeName
+     * @param {any[]} params
+     *
+     * @returns {R["path"] | undefined}
+     */
+    pathByRouteName<N extends import("./route").RouteNames<R>>(routeName: N, ...params: any[]): R["path"] | undefined;
     /**
      * @param {import('./route').RenderStackEntry} stackEntry
      * @param {import('./route').RenderStackEntry} [previousEntry]

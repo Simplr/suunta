@@ -7,6 +7,16 @@ export type LazyImportedRouteView = Lazy<ImportedView>;
 export type RouteView = RenderableView | Lazy<RenderableView> | LazyImportedRouteView | RenderFunction;
 export type RenderableView = unknown;
 export type Route = ViewRoute | RedirectRoute | ChildViewRoute;
+export type RouteNames<R extends Route> = R['name'] | (R extends {
+    children: readonly Route[];
+} ? RouteNames<R['children'][number]> : never);
+export type RoutePaths<R extends Route> = R['path'] | (R extends {
+    children: readonly Route[];
+} ? RoutePaths<R['children'][number]> : never);
+export interface RouteQueryObject<R extends Route> {
+    name?: RouteNames<R>;
+    path?: RoutePaths<R>;
+}
 export interface RenderStackEntry {
     route: Route;
     eventTarget: EventTarget;
@@ -31,7 +41,7 @@ interface BaseRoute {
     /**
      * The path to match this route to in your application.
      * */
-    path: string;
+    readonly path: string;
     /**
      * The document title for said view. Is automatically set when view is rendered.
      * */
@@ -68,9 +78,5 @@ export interface ChildViewRoute extends ViewRoute {
 }
 export interface RedirectRoute extends BaseRoute {
     redirect: string;
-}
-export interface RouteQueryObject {
-    name?: string;
-    path?: string;
 }
 export {};

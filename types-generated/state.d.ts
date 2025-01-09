@@ -1,8 +1,8 @@
 /**
  *
- * @param { import("./suunta").Suunta<R, RouteName> } routerInstance
+ * @param { import("./suunta").Suunta<R> } routerInstance
  * */
-export function initializeRouterForStateOperations(routerInstance: import("./suunta").Suunta<R, RouteName>): void;
+export function initializeRouterForStateOperations(routerInstance: import("./suunta").Suunta<R>): void;
 /**
  * @param { T } initialState
  * @template { Record<string, unknown> } T
@@ -24,15 +24,15 @@ export function createState<T extends Record<string, unknown>>(initialState: T):
 export function createGlobalState<T extends Record<string, unknown>>(initialState: T): T;
 /**
  * @param {Record<string, unknown>} stateObject
- * @param { import("./suunta").Suunta<R, RouteName> } router
+ * @param { import("./suunta").Suunta<R> } router
  * @param {import("./route").RenderStackEntry | true} stackEntry
  */
-export function getStateProxy(stateObject: Record<string, unknown>, router: import("./suunta").Suunta<R, RouteName>, stackEntry: import("./route").RenderStackEntry | true): any;
+export function getStateProxy(stateObject: Record<string, unknown>, router: import("./suunta").Suunta<R>, stackEntry: import("./route").RenderStackEntry | true): any;
 /**
  * @template { import('./route').Route } R
  * @template { R["name"] } RouteName
  * */
 /**
- * @type { import("./suunta").Suunta<R, RouteName> | undefined }
+ * @type { import("./suunta").Suunta<R> | undefined }
  * */
-export let _suunta_router_instance_for_private_use: import("./suunta").Suunta<R, RouteName> | undefined;
+export let _suunta_router_instance_for_private_use: import("./suunta").Suunta<R> | undefined;
