@@ -32,7 +32,7 @@ export type SuuntaTarget = HTMLElement | DocumentFragment;
 export type RouteTransformer<R> = (route: R) => R | Promise<R>;
 export interface SuuntaInitOptions<R extends Route = Route> {
     routes: readonly R[];
-    renderer: (viewToRender: unknown, route: ViewRoute, renderTarget: SuuntaTarget, isUpdate: boolean) => void | Promise<void>;
+    renderer: (viewToRender: unknown, route: ViewRoute, renderTarget: SuuntaTarget, isUpdate: boolean, isUnRender: boolean) => void | Promise<void>;
     beforeNavigate?: RouteTransformer<R>;
     target?: string | SuuntaTarget;
     base?: string;
@@ -56,6 +56,10 @@ interface BaseRoute {
      * Can be accessed through `router.getCurrentRoute().properties`
      * */
     properties?: ViewProperties;
+    /**
+     * Path parameters of a dynamic path.
+     * */
+    params?: ViewProperties;
     /**
      * @internal
      * */

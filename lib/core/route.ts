@@ -45,6 +45,7 @@ export interface SuuntaInitOptions<R extends Route = Route> {
         route: ViewRoute,
         renderTarget: SuuntaTarget,
         isUpdate: boolean,
+        isUnRender: boolean,
     ) => void | Promise<void>;
     beforeNavigate?: RouteTransformer<R>;
     target?: string | SuuntaTarget;
@@ -70,6 +71,10 @@ interface BaseRoute {
      * Can be accessed through `router.getCurrentRoute().properties`
      * */
     properties?: ViewProperties;
+    /**
+     * Path parameters of a dynamic path.
+     * */
+    params?: ViewProperties;
     /**
      * @internal
      * */

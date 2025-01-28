@@ -1,9 +1,10 @@
-import { Route } from "./route";
+import { Route } from './route';
 
 export type ViewProperties = Record<string, unknown>;
 
 export interface SuuntaView {
     href: string;
     route: Route;
-    properties: ViewProperties;
+    properties?: ViewProperties;
+    params?: ViewProperties;
 }
