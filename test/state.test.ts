@@ -4,6 +4,7 @@ import { expect } from '@esm-bundle/chai';
 import { StateTesterView } from './views/state-tester';
 import { fixture, html } from '@open-wc/testing';
 import { UndefinedStateTester } from './views/undefined-state-tester';
+import { MultipleStateTesterView } from './views/multiple-state-tester-view';
 
 it('Should update state object no matter the depth', async () => {
     clearRenders();
@@ -283,4 +284,84 @@ it('Should update with undefined start values', async () => {
     await new Promise(r => setTimeout(r, 100));
 
     expect(document.querySelector('label')?.innerText).to.equal('User Id: 1, Name: Foo');
+});
+
+it('Should allow the use of multiple state objects in a single view', async () => {
+    clearRenders();
+    await new Promise(r => setTimeout(r, 100));
+
+    const routerOptions: SuuntaInitOptions<Route> = {
+        routes: [
+            {
+                path: '/multiple',
+                view: MultipleStateTesterView,
+            },
+        ],
+        target: 'body',
+        renderer: litRenderer,
+    };
+
+    navigateTo('/multiple');
+
+    const router = new Suunta(routerOptions);
+    router.start();
+
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(router).to.not.equal(null);
+    expect(router instanceof Suunta).to.be.true;
+
+    //
+    const body = document.querySelector('body');
+
+    expect(document.querySelector('#initial h2')?.innerText).to.equal('Hello World');
+    expect(document.querySelector('#secondary h2')?.innerText).to.equal('Hello World');
+
+    expect(document.querySelector('#initial #user-info li').innerText).to.equal('12');
+    expect(document.querySelector('#secondary #user-info li').innerText).to.equal('12');
+
+    expect(document.querySelector('#initial #clicks').innerText).to.equal('Clicked 0 times');
+    expect(document.querySelector('#secondary #clicks').innerText).to.equal('Clicked 0 times');
+
+    document.querySelector('#initial #update-name').click();
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(document.querySelector('#initial h2')?.innerText).to.equal('Hello Matsu');
+    expect(document.querySelector('#secondary h2')?.innerText).to.equal('Hello World');
+
+    document.querySelector('#secondary #update-another-name').click();
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(document.querySelector('#initial h2')?.innerText).to.equal('Hello Matsu');
+    expect(document.querySelector('#secondary h2')?.innerText).to.equal('Hello Matsu');
+
+    document.querySelector('#update-user-id').click();
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(document.querySelector('#initial #user-info li').innerText).to.equal('345');
+    expect(document.querySelector('#secondary #user-info li').innerText).to.equal('12');
+
+    document.querySelector('#update-another-user-id').click();
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(document.querySelector('#initial #user-info li').innerText).to.equal('345');
+    expect(document.querySelector('#secondary #user-info li').innerText).to.equal('345');
+
+    document.querySelector('#increment').click();
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(document.querySelector('#initial #clicks').innerText).to.equal('Clicked 1 times');
+    expect(document.querySelector('#secondary #clicks').innerText).to.equal('Clicked 0 times');
+
+    document.querySelector('#increment').click();
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(document.querySelector('#initial #clicks').innerText).to.equal('Clicked 2 times');
+    expect(document.querySelector('#secondary #clicks').innerText).to.equal('Clicked 0 times');
+
+    document.querySelector('#increment-another').click();
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(document.querySelector('#initial #clicks').innerText).to.equal('Clicked 2 times');
+    expect(document.querySelector('#secondary #clicks').innerText).to.equal('Clicked 1 times');
 });

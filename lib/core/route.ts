@@ -27,7 +27,7 @@ export interface RenderStackEntry {
     eventTarget: EventTarget;
     renderTarget?: SuuntaTarget;
     renderFunction?: RenderFunction;
-    viewState?: ViewState;
+    viewStates?: ViewState[];
 }
 
 export interface ViewState {

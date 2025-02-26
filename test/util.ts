@@ -4,7 +4,7 @@ import { html, render } from 'lit-html';
 import { Route, Suunta, SuuntaTarget } from 'suunta';
 import { BarView } from './views/bar';
 
-export let router: Suunta<Route, string> | undefined;
+export let router: Suunta<Route> | undefined;
 
 export function clearRenders() {
     render(html``, document.body);
@@ -75,7 +75,7 @@ export function getBasicRouterSetup() {
         {
             path: '/property',
             name: 'Property',
-            view: () => html`<p>This page has the property: ${router?.getCurrentView()?.properties.foo}</p>`,
+            view: () => html`<p>This page has the property: ${router?.getCurrentView()?.properties?.foo}</p>`,
             properties: { foo: 'bar' },
         },
         {
@@ -84,7 +84,7 @@ export function getBasicRouterSetup() {
             view: () =>
                 // prettier-ignore
                 html`<p>
-                    This page has the property: ${router?.getCurrentView()?.properties.foo} and the ID ${router?.getCurrentView()?.properties.id}
+                    This page has the property: ${router?.getCurrentView()?.properties?.foo} and the ID ${router?.getCurrentView()?.params?.id}
                 </p>`,
             properties: { foo: 'bar' },
         },
@@ -98,14 +98,13 @@ export function getBasicRouterSetup() {
             path: '/test/{testId}/foo/{fooId}(\\d+)',
             name: 'TestAndFoo',
             view: html`<p>
-                TestId: ${router?.getCurrentView()?.properties.testId}, FooId:
-                ${router?.getCurrentView()?.properties.fooId}
+                TestId: ${router?.getCurrentView()?.params?.testId}, FooId: ${router?.getCurrentView()?.params?.fooId}
             </p>`,
             children: [
                 {
                     path: '/bar/{barId}',
                     name: 'TestAndFooAndBar',
-                    view: html` <p>And bar ${router?.getCurrentView()?.properties.barId}</p>`,
+                    view: html` <p>And bar ${router?.getCurrentView()?.params?.barId}</p>`,
                 },
             ],
         },
@@ -117,12 +116,12 @@ export function getBasicRouterSetup() {
         {
             path: '/user/{id}(\\d+)',
             name: 'User profile',
-            view: () => html`<p>User page for id ${router?.getCurrentView()?.properties.id}</p>`,
+            view: () => html`<p>User page for id ${router?.getCurrentView()?.params?.id}</p>`,
         },
         {
             path: '/user/{id}(\\d+)/edit',
             name: 'User profile edit',
-            view: () => html`<p>User edit page for id ${router?.getCurrentView()?.properties.id}</p>`,
+            view: () => html`<p>User edit page for id ${router?.getCurrentView()?.params?.id}</p>`,
         },
         {
             path: '/search/{matchAll}',

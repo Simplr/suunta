@@ -23,6 +23,8 @@ export class Suunta<R extends import("./route").Route> {
     routesByName: Map<string, R>;
     /** @type { Map<RegExp, R> } */
     routeMatchers: Map<RegExp, R>;
+    /** @type { Map<string, RegExp> } */
+    routeMatchersByPath: Map<string, RegExp>;
     /** @type { boolean } */
     started: boolean;
     /** @type { import("./route").RouteTransformer<R> | undefined } */
