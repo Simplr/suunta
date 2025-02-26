@@ -1,5 +1,6 @@
 import { html, render } from 'lit-html';
 import { Route, Suunta, SuuntaTarget } from 'suunta';
+import { pendingApiResponse } from 'suunta/fetch';
 
 const routes = [
     {
@@ -58,3 +59,5 @@ router.resolve('Foo');
 
 router.getRoute({ name: 'Home' });
 router.getRoute({ path: '/child-home' });
+
+pendingApiResponse();

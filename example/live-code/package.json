@@ -1,16 +1,18 @@
 {
-  "name": "live-code",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "npx @web/dev-server --watch"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "lit": "^3.2.0",
-    "suunta": "^2.1.0"
-  }
+    "name": "live-code",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "npx @web/dev-server --watch"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "lit": "^3.2.0"
+    },
+    "dependencies": {
+        "suunta": "file:../.."
+    }
 }
