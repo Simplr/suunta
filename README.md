@@ -14,6 +14,8 @@ For an interactive demo, visit [ReplIt](https://replit.com/@huhtamatias/Suunta-S
    * [Usage](#usage)
       + [Dynamic routes](#dynamic-routes)
       + [State ](#state)
+         - [Global State](#global-state)
+      + [Requests](#requests)
       + [Named routes](#named-routes)
       + [Redirects](#redirects)
          - [Not Found -pages](#not-found-pages)
@@ -53,6 +55,8 @@ const routes: Route[] = [
     }
 ];
 
+// This part can be written however you want. Suunta provides you with the 
+// necessary data, you handle the rendering.
 const renderer = (view, route, renderTarget) => {
     render(html`${view}`, renderTarget);
 };
@@ -72,38 +76,29 @@ router.start();
 
 ### Dynamic routes
 
-Suunta supports dynamic routes with the `{keyword}`-notation. If you want the matching to only match certain types of data, you can supply a regex for the matcher.
+Suunta supports dynamic routes with the `{keyword}`-notation. 
+If you want the matching to only match certain types of data, you can supply a regex for the matcher.
 
-You can access properties of your dynamic routes with `router.getCurrentView()?.route.properties?.id`
+You can access properties of your dynamic routes with `router.getCurrentView()?.route.params?.id`
 
 ```typescript
 const routes: Route[] = [
     {
-        path: "/",
-        name: "Home",
-        view: html`<p id="needle">Hello world!</p>`
-    },
-    {
-        path: "/user",
-        name: "User",
-        view: html`<p>User page</p>`
-    },
-    {
         path: "/user/{id}(\\d+)",
         name: "User profile",
-        view: () => html`<p>User page for id ${router?.getCurrentView()?.properties.id}</p>`
+        view: () => html`<p>User page for id ${router?.getCurrentView()?.params.id}</p>`
     },
     {
         path: "/search/{matchAll}",
         name: "Search",
-        view: html`<p>Search page for ${router?.getCurrentView()?.properties.matchAll}</p>`
+        view: html`<p>Search page for ${router?.getCurrentView()?.params.matchAll}</p>`
     },
     {
         path: "/user/{id}(\\d+)/search/{matchAll}",
         name: "User profile with search",
         view: () => html`
-            <p>User page for id ${router?.getCurrentView()?.properties.id}</p>
-            <p>Search page for ${router?.getCurrentView()?.properties.matchAll || "Nothing"}</p>
+            <p>User page for id ${router?.getCurrentView()?.params.id}</p>
+            <p>Search page for ${router?.getCurrentView()?.params.matchAll || "Nothing"}</p>
         `
     },
     {
@@ -111,21 +106,7 @@ const routes: Route[] = [
         name: "404",
         view: html`<p>Page not found</p>`
     },
-    {
-        path: "/redirect",
-        name: "Redirect",
-        redirect: "Home"
-    }
 ];
-
-const routerOptions: SuuntaInitOptions = {
-    routes,
-    target: "#outlet",
-    renderer: litRenderer
-};
-
-router = new Suunta(routerOptions);
-return router;
 ```
 
 ### State 
@@ -198,11 +179,83 @@ export const View = () => {
 };
 ```
 
+### Requests
+
+Most of modern web applications tend to handle some kind of API calls to an external service.
+
+When managing async connections to external services, you need to manage multiple states. There's loading, errors, data etc.
+
+Suunta comes packed with an utility class inside the `suunta/fetch` sub-package, which provides request 
+state management that works with the Suunta state system.
+
+```typescript
+import { html } from "lit";
+import { fetchPending, pendingApiResponse } from "suunta/fetch";
+
+export function View() {
+  const { loading, error, failed, result, reload } = pendingApiResponse(
+    fetchPending<GetAllCustomerInfoResponse>("http://localhost:8080/customers"),
+  );
+
+    return () => html`
+        <h2>Users</h2>
+
+        ${loading
+          ? html`<p>Loading...</p>`
+          : html`
+              <ul>
+                ${result.customers.map(
+                  (c) => html` <li>${c.firstName} ${c.lastName}</li> `,
+                )}
+              </ul>
+        `}
+    `;
+}
+```
+
+The `pendingApiResponse` function works out of the box with [Hey API](https://heyapi.dev/) generated SDK's.
+
+There is also a out-of-the-box implementation with Suunta named `fetchPending`, which only wraps the fetch API 
+and provides some simple utilities to it.
+
+Some people however might want some more granular control over their process and want to write their own fetch wrappers.
+That is also supported and encouraged by Suunta! A good starting point would be something along the lines of:
+
+```typescript
+import { RequestResult } from "suunta/fetch/core";
+
+export function fetchPending<T>(input: RequestInfo | URL, init?: RequestInit): () => Promise<RequestResult<T>> {
+  return async function () {
+    const request = new Request(input, init);
+    const response = await fetch(request);
+
+    if (!response.ok) {
+      const error = await response.text();
+      return {
+        response,
+        request,
+        error,
+        data: undefined,
+      };
+    }
+
+    const data = await response.json() as T;
+
+    return {
+      response,
+      request,
+      error: undefined,
+      data,
+    };
+  };
+}
+```
+
 ### Named routes
 
 With Suunta, you don't have to go through the hassle of going through your whole codebase with CTRL - F after changing a route.
 
-You can define your routes using the `pathByRouteName` function and generate routes dynamically by the name of said route.
+You can define your routes using the `resolve` function and generate routes dynamically by the name of said route.
  
 ```typescript
 
@@ -226,17 +279,48 @@ const routes = [
     },
 ]
 
-const homeView = router.pathByRouteName("Home");
+const homeView = router.resolve("Home");
 // > homeView => /
 
 
-const userView = router.pathByRouteName("UserView", 123);
+const userView = router.resolve("UserView", 123);
 // > userView => /users/123
 
-const attendanceView = router.pathByRouteName("UserAttendances", 123, "suunta-course");
+const attendanceView = router.resolve("UserAttendances", 123, "suunta-course");
 // > attendanceView => /users/123/attendances/suunta-course
 
-html`<a href="${router.pathByRouteName("UserView", 123)}">To user view</a>`
+html`<a href="${router.resolve("UserView", 123)}">To user view</a>`
+```
+
+If you define your routes as a constant, you will also get Typescript type hints for your routes.
+
+```typescript
+const routes = [
+    {
+        name: "Home",
+        path: "/",
+        view: HomeView
+    },
+    {
+        name: "UserView",
+        path: "/users/{userId}",
+        view: UserView
+        children: [
+            {
+                name: "UserAttendances",
+                path: "/attendances/{attendanceId}",
+                view: UserAttendanceView
+            }
+        ]
+    },
+] as const;
+
+//          _________________ 
+//          |Home            |
+//          |UserView        |
+//          |UserAttendances |
+//          |________________|
+router.resolve("")
 ```
 
 ### Redirects
@@ -298,7 +382,8 @@ const routes: Route[] = [
 
 ### Dynamic imports
 
-For cases where you have a bunch of views and want to squeeze out some extra performance from your packages, you can package split your code by dynamically importing your routes.
+For cases where you have a bunch of views and want to squeeze out some extra performance from your packages, 
+you can package split your code by dynamically importing your routes.
 
 Suunta will handle the rest.
 
@@ -344,6 +429,8 @@ router = new Suunta(routerOptions);
 ### Rendering into outlets
 
 By using a `<suunta-view>` pseudoelement, you can tell Suunta to render the wanted content to a said location on page.
+
+By default Suunta will render into the `document.body`
 
 ```html
 <body>
@@ -444,10 +531,12 @@ export function HomeView() {
     const state = createState({
         count: 0
     });
+
+    console.log("HomeView loaded");
     
     // Triggers whenever a navigation has occured
     onNavigated(() => {
-        console.log("HomeView rendered");
+        console.log("HomeView navigated to");
     });
 
     // Triggers whenever the current view's state object's value is updated

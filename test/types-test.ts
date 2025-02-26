@@ -55,7 +55,7 @@ router.pathByRouteName('ChildHome');
 router.pathByRouteName('Foo');
 
 router.resolve('ChildHome');
-router.resolve('Foo');
+const aa = router.resolve('Foo');
 
 router.getRoute({ name: 'Home' });
 router.getRoute({ path: '/child-home' });
