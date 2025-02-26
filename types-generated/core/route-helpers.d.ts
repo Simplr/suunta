@@ -7,7 +7,7 @@ export function isViewRoute(route: import("./route").Route): route is import("./
  * @param { import("./route").Route } [route]
  * @returns { route is import("./route").ChildViewRoute }
  */
-export function isChildRoute(route?: import("./route").Route | undefined): route is import("./route").ChildViewRoute;
+export function isChildRoute(route?: import("./route").Route): route is import("./route").ChildViewRoute;
 /**
  * @param { import("./route").Route } route
  * @returns { route is import("./route").RedirectRoute }

@@ -3,7 +3,6 @@
     "version": "3.6.0",
     "description": "The new client-side router",
     "type": "module",
-    "main": "lib/core/index.js",
     "scripts": {
         "prepublishOnly": "npm run types",
         "test": "web-test-runner test/**/*.test.ts --node-resolve",
@@ -17,10 +16,15 @@
     "keywords": [],
     "author": "Matias Huhta <huhta.matias@gmail.com>",
     "license": "ISC",
-    "types": "./types-generated/index.d.ts",
     "bugs": {
         "url": "https://github.com/Simplr/suunta/issues"
     },
+    "files": [
+        "lib/core/*",
+        "lib/fetch/*",
+        "types-generated/core/*",
+        "types-generated/fetch/*"
+    ],
     "homepage": "https://github.com/Simplr/suunta#readme",
     "devDependencies": {
         "@esm-bundle/chai": "^4.3.4-fix.0",
@@ -42,12 +46,13 @@
     ],
     "exports": {
         ".": {
-            "import": "./lib/core/index.js",
+            "default": "./lib/core/index.js",
             "types": "./types-generated/core/index.d.ts"
         },
         "./fetch": {
-            "import": "./lib/fetch/index.js",
+            "default": "./lib/fetch/index.js",
             "types": "./types-generated/fetch/index.d.ts"
-        }
+        },
+        "./package.json": "./package.json"
     }
 }
