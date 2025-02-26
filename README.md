@@ -215,6 +215,12 @@ export function View() {
 
 The `pendingApiResponse` function works out of the box with [Hey API](https://heyapi.dev/) generated SDK's.
 
+```typescript
+import { getAllCustomerInfo } from "../hey-api/sdk.gen";
+
+const { loading, error, failed, result, reload } = pendingApiResponse(getAllCustomerInfo);
+```
+
 There is also a out-of-the-box implementation with Suunta named `fetchPending`, which only wraps the fetch API 
 and provides some simple utilities to it.
 
