@@ -42,8 +42,9 @@ The easiest way to get started is to install [lit](https://lit.dev/) and create 
 ```typescript
 import { FooView } from "./foo";
 import { html, render } from "lit";
+import { Suunta } from "suunta";
 
-const routes: Route[] = [
+const routes = [
     {
         path: "/",
         view: html`<p>Hello world!</p>`
@@ -53,7 +54,7 @@ const routes: Route[] = [
         view: FooView,
         title: "Example - Foo View"
     }
-];
+] as const;
 
 // This part can be written however you want. Suunta provides you with the 
 // necessary data, you handle the rendering.
@@ -61,7 +62,7 @@ const renderer = (view, route, renderTarget) => {
     render(html`${view}`, renderTarget);
 };
 
-const routerOptions: SuuntaInitOptions = {
+const routerOptions = {
     routes,
     renderer,
     target: document.body
