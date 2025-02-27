@@ -53,6 +53,10 @@
             "default": "./lib/fetch/index.js",
             "types": "./types-generated/fetch/index.d.ts"
         },
+        "./fetch/core": {
+            "default": "./lib/fetch/index.js",
+            "types": "./types-generated/fetch/fetch.d.ts"
+        },
         "./package.json": "./package.json"
     }
 }

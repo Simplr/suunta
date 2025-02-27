@@ -7,7 +7,7 @@
  * @param {RequestInit} [init] - Optional fetch initialization options.
  * @returns {() => Promise<import("./fetch").RequestResult<T>>} - A function that performs the fetch request.
  */
-export function fetchPending<T>(input: RequestInfo | URL, init?: RequestInit): () => Promise<import("./fetch").RequestResult<T>>;
+export function fetchPending<T>(input: RequestInfo | URL, init?: RequestInit | undefined): () => Promise<import("./fetch").RequestResult<T>>;
 /**
  * Handles an API response and provides reactive state management.
  *
