@@ -36,3 +36,11 @@ export function getStateProxy(stateObject: Record<string, unknown>, router: impo
  * @type { import("./suunta").Suunta<R> | undefined }
  * */
 export let _suunta_router_instance_for_private_use: import("./suunta").Suunta<R> | undefined;
+export type StateOperationTarget = {
+    _updatedProperties: UpdatedProperties;
+    _updateQueued: boolean;
+};
+export type UpdatedProperties = Map<string, {
+    oldValue: any;
+    newValue: any;
+}>;

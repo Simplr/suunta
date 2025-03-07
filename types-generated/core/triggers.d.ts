@@ -1,4 +1,4 @@
-/** @typedef {(property: string, oldValue: unknown, newValue: unknown) => any} OnUpdateFunction */
+/** @typedef {(updatedProperties: import('./state').UpdatedProperties) => any} OnUpdateFunction */
 /**
  * @param { EventListenerOrEventListenerObject } onNavigationFunction
  */
@@ -18,4 +18,4 @@ export function onUpdated(onUpdatedFunction: OnUpdateFunction): void;
 export const NAVIGATED_EVENT: "suunta-navigated";
 export const NAVIGATED_LEAVE_EVENT: "suunta-navigated-leave";
 export const UPDATED_EVENT: "suunta-updated";
-export type OnUpdateFunction = (property: string, oldValue: unknown, newValue: unknown) => any;
+export type OnUpdateFunction = (updatedProperties: import("./state").UpdatedProperties) => any;

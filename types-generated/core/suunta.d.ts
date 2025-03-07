@@ -47,7 +47,7 @@ export class Suunta<R extends import("./route").Route> {
      * @param { boolean } [routeIsChildRoute]
      * @returns { import("./route").SuuntaTarget }
      */
-    getTarget(parentRenderTarget?: import("./route").SuuntaTarget, routeIsChildRoute?: boolean): import("./route").SuuntaTarget;
+    getTarget(parentRenderTarget?: import("./route").SuuntaTarget | undefined, routeIsChildRoute?: boolean | undefined): import("./route").SuuntaTarget;
     /**
      * @param { { name: string } | { path: string } } routeQueryObject
      * @returns { Promise<void> }
@@ -121,7 +121,7 @@ export class Suunta<R extends import("./route").Route> {
      * @param { import("./route").ViewRoute } route
      * @param { import("./route").SuuntaTarget } [parentRenderTarget]
      */
-    render(viewToRender: unknown, route: import("./route").ViewRoute, parentRenderTarget?: import("./route").SuuntaTarget): void;
+    render(viewToRender: unknown, route: import("./route").ViewRoute, parentRenderTarget?: import("./route").SuuntaTarget | undefined): void;
     /**
      * @returns { import("./view").SuuntaView | undefined }
      */
@@ -177,7 +177,7 @@ export class Suunta<R extends import("./route").Route> {
      * @param {import('./route').RenderStackEntry} stackEntry
      * @param {import('./route').RenderStackEntry} [previousEntry]
      */
-    refreshView(stackEntry: import("./route").RenderStackEntry, previousEntry?: import("./route").RenderStackEntry): Promise<void>;
+    refreshView(stackEntry: import("./route").RenderStackEntry, previousEntry?: import("./route").RenderStackEntry | undefined): Promise<void>;
     /**
      * @param { import('./route').RenderStackEntry } stackEntry
      * */
@@ -191,9 +191,7 @@ export class Suunta<R extends import("./route").Route> {
     refreshCurrentView(): Promise<void>;
     /**
      * @param {import('./route').RenderStackEntry} stackEntry
-     * @param {string} propKey
-     * @param {unknown} oldValue
-     * @param {unknown} newValue
+     * @param { import('./state.js').UpdatedProperties} updatedProperties
      */
-    triggerOnUpdated(stackEntry: import("./route").RenderStackEntry, propKey: string, oldValue: unknown, newValue: unknown): void;
+    triggerOnUpdated(stackEntry: import("./route").RenderStackEntry, updatedProperties: import("./state.js").UpdatedProperties): void;
 }
