@@ -194,18 +194,18 @@ import { html } from "lit";
 import { fetchPending, pendingApiResponse } from "suunta/fetch";
 
 export function View() {
-  const { loading, error, failed, result, reload } = pendingApiResponse(
+  const request = pendingApiResponse(
     fetchPending<GetAllCustomerInfoResponse>("http://localhost:8080/customers"),
   );
 
     return () => html`
         <h2>Users</h2>
 
-        ${loading
+        ${request.loading
           ? html`<p>Loading...</p>`
           : html`
               <ul>
-                ${result.customers.map(
+                ${request.result.customers.map(
                   (c) => html` <li>${c.firstName} ${c.lastName}</li> `,
                 )}
               </ul>
@@ -219,7 +219,7 @@ The `pendingApiResponse` function works out of the box with [Hey API](https://he
 ```typescript
 import { getAllCustomerInfo } from "../hey-api/sdk.gen";
 
-const { loading, error, failed, result, reload } = pendingApiResponse(getAllCustomerInfo);
+const request = pendingApiResponse(getAllCustomerInfo);
 ```
 
 There is also a out-of-the-box implementation with Suunta named `fetchPending`, which only wraps the fetch API 
