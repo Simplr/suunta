@@ -548,8 +548,8 @@ export function HomeView() {
 
     // Triggers whenever the current view's state object's value is updated
     // e.g. when state.count is incremented
-    onUpdated((name, oldValue, newValue) => {
-        console.log('Update', { name, oldValue, newValue });
+    onUpdated(updatedProperties => {
+        console.log('Update', updatedProperties);
     });
 
     return () => html`

@@ -15,8 +15,8 @@ export function App() {
 
     console.log(todos);
 
-    onUpdated((name, oldValue, newValue) => {
-        console.log('Update', { name, oldValue, newValue });
+    onUpdated(updatedProperties => {
+        console.log('Update', updatedProperties);
     });
 
     const add = function (e) {

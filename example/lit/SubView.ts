@@ -7,8 +7,8 @@ export function SubView() {
         counter: getGlobalClicker(),
     });
 
-    onUpdated((name, oldValue, newValue) => {
-        console.log({ name, oldValue, newValue });
+    onUpdated(updatedProperties => {
+        console.log(updatedProperties);
     });
 
     function sync() {
