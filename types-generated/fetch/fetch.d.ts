@@ -1,12 +1,21 @@
 export type ApiResponse<T> = {
-    loading: boolean;
     reload: () => void;
 } & ({
     failed: true;
+    loading: false;
+    success: false;
     error: string;
     result: undefined;
 } | {
     failed: false;
+    loading: true;
+    success: false;
+    error: undefined;
+    result: undefined;
+} | {
+    failed: false;
+    loading: false;
+    success: true;
     error: undefined;
     result: T;
 });
