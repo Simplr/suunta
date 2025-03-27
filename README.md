@@ -120,7 +120,7 @@ When any of the values of that state object is directly manipulated, the view wi
 
 ```typescript
 import { html } from 'lit';
-import { createState } from 'suunta';
+import { createState } from 'suunta/state';
 
 export const View = () => {
     const state = createState({
@@ -164,7 +164,7 @@ export const globalState = createGlobalState({
 
 // FooView.js
 import { html } from 'lit';
-import { createState } from 'suunta';
+import { createState } from 'suunta/state';
 import { globalState } from "../index.js";
 
 export const View = () => {
@@ -531,7 +531,8 @@ Suunta provides lifecycle hooks to plug into the navigation phases from within y
 
 ```typescript
 import { html } from "lit-html";
-import { createState, onNavigated, onUpdated } from "suunta";
+import { onNavigated, onUpdated } from "suunta/triggers";
+import { createState } from "suunta/state";
 
 export function HomeView() {
 

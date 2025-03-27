@@ -12,7 +12,7 @@
     "checkJs": true,
     "declaration": true,
     "sourceMap": true, 
-    "outDir": "./types-generated",
+    "outDir": "./types",
 
     "forceConsistentCasingInFileNames": true,
     "strict": true,                         

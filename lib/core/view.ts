@@ -1,4 +1,4 @@
-import { Route } from './route';
+import { Route } from './route.js';
 
 export type ViewProperties = Record<string, unknown>;
 

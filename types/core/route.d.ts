@@ -1,4 +1,4 @@
-import { ViewProperties } from './view';
+import { ViewProperties } from './view.js';
 export type Lazy<T> = () => Promise<T>;
 export type RenderFunction = () => RenderableView;
 export type ImportResult = RenderableView | Lazy<RenderableView> | RenderFunction | undefined;
