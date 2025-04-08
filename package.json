@@ -45,6 +45,13 @@
         "./fetch/core": {
             "types": "./types/fetch/fetch.d.ts"
         },
+        "./form": {
+            "types": "./types/form/index.d.ts",
+            "import": "./lib/form/index.js"
+        },
+        "./form/core": {
+            "types": "./types/form/form.d.ts"
+        },
         "./state": {
             "types": "./types/core/state.d.ts",
             "import": "./lib/core/state.js"

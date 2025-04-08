@@ -8,6 +8,10 @@ export function onNavigation(onNavigationFunction: EventListenerOrEventListenerO
  */
 export function onNavigationLeave(onNavigationLeaveFunction: EventListenerOrEventListenerObject): void;
 /**
+ * @param { EventListenerOrEventListenerObject } onRenderFunction
+ */
+export function onRender(onRenderFunction: EventListenerOrEventListenerObject): () => void;
+/**
  * @param {import('./route').RenderStackEntry} stackEntry
  */
 export function createNavigationLeaveEventName(stackEntry: import("./route").RenderStackEntry): string;
@@ -18,4 +22,5 @@ export function onUpdated(onUpdatedFunction: OnUpdateFunction): void;
 export const NAVIGATED_EVENT: "suunta-navigated";
 export const NAVIGATED_LEAVE_EVENT: "suunta-navigated-leave";
 export const UPDATED_EVENT: "suunta-updated";
+export const RENDER_EVENT: "suunta-render";
 export type OnUpdateFunction = (updatedProperties: import("./state").UpdatedProperties) => any;

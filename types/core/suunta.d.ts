@@ -2,21 +2,21 @@
  * @param { import('./route').Route } route
  * @param { import('./route').Route } otherRoute
  */
-export function routeEquals(route: import('./route').Route, otherRoute: import('./route').Route): boolean;
+export function routeEquals(route: import("./route").Route, otherRoute: import("./route").Route): boolean;
 /**
  * @template { import('./route').Route } R
  * */
-export class Suunta<R extends import('./route').Route> {
+export class Suunta<R extends import("./route").Route> {
     /**
      * @param {import("./route").SuuntaInitOptions<R>} options
      */
-    constructor(options: import('./route').SuuntaInitOptions<R>);
+    constructor(options: import("./route").SuuntaInitOptions<R>);
     /** @type { R | undefined } */
     currentRoute: R | undefined;
     /** @type { import("./view").SuuntaView | undefined } */
-    currentView: import('./view').SuuntaView | undefined;
+    currentView: import("./view").SuuntaView | undefined;
     /** @type { import("./route").SuuntaTarget | undefined } */
-    currentRenderTarget: import('./route').SuuntaTarget | undefined;
+    currentRenderTarget: import("./route").SuuntaTarget | undefined;
     /** @type { Readonly<Map<string, R>> } */
     routes: Readonly<Map<string, R>>;
     /** @type { Map<string, R> } */
@@ -28,10 +28,10 @@ export class Suunta<R extends import('./route').Route> {
     /** @type { boolean } */
     started: boolean;
     /** @type { import("./route.js").RouteTransformer<R> | undefined } */
-    beforeNavigate: import('./route.js').RouteTransformer<R> | undefined;
+    beforeNavigate: import("./route.js").RouteTransformer<R> | undefined;
     /** @type { import('./route.js').RenderStackEntry[] } */
-    currentNavigationRenderStack: import('./route.js').RenderStackEntry[];
-    options: import('./route').SuuntaInitOptions<R>;
+    currentNavigationRenderStack: import("./route.js").RenderStackEntry[];
+    options: import("./route").SuuntaInitOptions<R>;
     mapRoutes(): void;
     /**
      * @param { R } route
@@ -47,28 +47,21 @@ export class Suunta<R extends import('./route').Route> {
      * @param { boolean } [routeIsChildRoute]
      * @returns { import("./route").SuuntaTarget }
      */
-    getTarget(
-        parentRenderTarget?: import('./route').SuuntaTarget,
-        routeIsChildRoute?: boolean,
-    ): import('./route').SuuntaTarget;
+    getTarget(parentRenderTarget?: import("./route").SuuntaTarget, routeIsChildRoute?: boolean): import("./route").SuuntaTarget;
     /**
      * @param { { name: string } | { path: string } } routeQueryObject
      * @returns { Promise<void> }
      */
-    navigateTo(
-        routeQueryObject:
-            | {
-                  name: string;
-              }
-            | {
-                  path: string;
-              },
-    ): Promise<void>;
+    navigateTo(routeQueryObject: {
+        name: string;
+    } | {
+        path: string;
+    }): Promise<void>;
     /**
      * @param { import("./route").RouteQueryObject<R> } routeQueryObject
      * @returns { R | undefined }
      */
-    getRoute(routeQueryObject: import('./route').RouteQueryObject<R>): R | undefined;
+    getRoute(routeQueryObject: import("./route").RouteQueryObject<R>): R | undefined;
     /**
      * @returns { R | undefined }
      */
@@ -89,27 +82,20 @@ export class Suunta<R extends import('./route').Route> {
      * @param { NavigationOptions } options
      * @returns {Promise<void>}
      */
-    navigate(
-        route: R | undefined,
-        {
-            pushState,
-            isReRender,
-            originalEvent,
-        }?: {
-            pushState?: boolean | undefined;
-            isReRender?: boolean | undefined;
-            originalEvent?: MouseEvent | null | undefined;
-        },
-    ): Promise<void>;
+    navigate(route: R | undefined, { pushState, isReRender, originalEvent }?: {
+        pushState?: boolean | undefined;
+        isReRender?: boolean | undefined;
+        originalEvent?: MouseEvent | null | undefined;
+    }): Promise<void>;
     reNavigate(): Promise<void>;
     /**
      * @param {import('./route').RenderStackEntry} stackEntry
      */
-    emptyStackEntryRenderTarget(stackEntry: import('./route').RenderStackEntry): Promise<void>;
+    emptyStackEntryRenderTarget(stackEntry: import("./route").RenderStackEntry): Promise<void>;
     /**
      * @param {import('./route').RenderStackEntry} stackEntry
      */
-    manageEmptiedStackEntryState(stackEntry: import('./route').RenderStackEntry): void;
+    manageEmptiedStackEntryState(stackEntry: import("./route").RenderStackEntry): void;
     /**
      * @param {R} route
      */
@@ -117,33 +103,29 @@ export class Suunta<R extends import('./route').Route> {
     /**
      * @param { import("./route").Route } route
      */
-    pushHistoryState(route: import('./route').Route): void;
+    pushHistoryState(route: import("./route").Route): void;
     /**
      * @param {import("./route").ViewRoute | import("./route.js").ChildViewRoute} route
      */
-    handleViewRoute(route: import('./route').ViewRoute | import('./route.js').ChildViewRoute): Promise<void>;
+    handleViewRoute(route: import("./route").ViewRoute | import("./route.js").ChildViewRoute): Promise<void>;
     /**
      * @param {import('./route').RenderStackEntry} stackEntry
      */
-    sendLeavingViewEvent(stackEntry: import('./route').RenderStackEntry): void;
+    sendLeavingViewEvent(stackEntry: import("./route").RenderStackEntry): void;
     /**
      * @param { import("./route").RedirectRoute } route
      */
-    handleRedirectRoute(route: import('./route').RedirectRoute): Promise<void>;
+    handleRedirectRoute(route: import("./route").RedirectRoute): Promise<void>;
     /**
      * @param {unknown} viewToRender
      * @param { import("./route").ViewRoute } route
      * @param { import("./route").SuuntaTarget } [parentRenderTarget]
      */
-    render(
-        viewToRender: unknown,
-        route: import('./route').ViewRoute,
-        parentRenderTarget?: import('./route').SuuntaTarget,
-    ): void;
+    render(viewToRender: unknown, route: import("./route").ViewRoute, parentRenderTarget?: import("./route").SuuntaTarget): void;
     /**
      * @returns { import("./view").SuuntaView | undefined }
      */
-    getCurrentView(): import('./view').SuuntaView | undefined;
+    getCurrentView(): import("./view").SuuntaView | undefined;
     /**
      * @returns { R | undefined }
      */
@@ -151,7 +133,7 @@ export class Suunta<R extends import('./route').Route> {
     /**
      * @returns { import('./route').RenderStackEntry[] }
      * */
-    getRenderStack(): import('./route').RenderStackEntry[];
+    getRenderStack(): import("./route").RenderStackEntry[];
     /**
      *
      * Resolves the path of a route given the name of the route.
@@ -181,7 +163,7 @@ export class Suunta<R extends import('./route').Route> {
      *
      * @returns {R["path"] | undefined}
      */
-    resolve<N extends import('./route').RouteNames<R>>(routeName: N, ...params: any[]): R['path'] | undefined;
+    resolve<N extends import("./route").RouteNames<R>>(routeName: N, ...params: any[]): R["path"] | undefined;
     /**
      * @template { import('./route').RouteNames<R> } N
      *
@@ -190,19 +172,16 @@ export class Suunta<R extends import('./route').Route> {
      *
      * @returns {R["path"] | undefined}
      */
-    pathByRouteName<N extends import('./route').RouteNames<R>>(routeName: N, ...params: any[]): R['path'] | undefined;
+    pathByRouteName<N extends import("./route").RouteNames<R>>(routeName: N, ...params: any[]): R["path"] | undefined;
     /**
      * @param {import('./route').RenderStackEntry} stackEntry
      * @param {import('./route').RenderStackEntry} [previousEntry]
      */
-    refreshView(
-        stackEntry: import('./route').RenderStackEntry,
-        previousEntry?: import('./route').RenderStackEntry,
-    ): Promise<void>;
+    refreshView(stackEntry: import("./route").RenderStackEntry, previousEntry?: import("./route").RenderStackEntry): Promise<void>;
     /**
      * @param { import('./route').RenderStackEntry } stackEntry
      * */
-    resetStackEntryRenderTarget(stackEntry: import('./route').RenderStackEntry): void;
+    resetStackEntryRenderTarget(stackEntry: import("./route").RenderStackEntry): void;
     /**
      * Refreshes all of views and subviews in stack in stack order.
      *
@@ -214,8 +193,5 @@ export class Suunta<R extends import('./route').Route> {
      * @param {import('./route').RenderStackEntry} stackEntry
      * @param { import('./state.js').UpdatedProperties} updatedProperties
      */
-    triggerOnUpdated(
-        stackEntry: import('./route').RenderStackEntry,
-        updatedProperties: import('./state.js').UpdatedProperties,
-    ): void;
+    triggerOnUpdated(stackEntry: import("./route").RenderStackEntry, updatedProperties: import("./state.js").UpdatedProperties): void;
 }

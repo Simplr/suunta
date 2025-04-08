@@ -18,7 +18,7 @@
     "strict": true,                         
     "noImplicitAny": true,
     "skipLibCheck": true,
-    "lib": ["dom", "ESNext"],
+    "lib": ["dom", "dom.iterable", "ESNext"],
     "moduleResolution": "node",
     "esModuleInterop": true,
 
