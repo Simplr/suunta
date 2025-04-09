@@ -16,9 +16,17 @@ export interface CreateFormOptions<T> {
      * Triggered when form data is updated.
      * */
     onFormData?: (formData: T) => any;
+    validator?: (formData: T) => ValidationResult;
+}
+interface ValidationResult {
+    error?: ValidationError;
+}
+interface ValidationError {
+    errors?: FormError[];
 }
 export interface FormError {
     message: string;
     path: (string | number)[];
 }
 export type KeyOf<T extends Record<string, unknown>> = keyof T;
+export {};

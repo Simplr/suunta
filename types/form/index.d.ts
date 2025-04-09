@@ -26,7 +26,7 @@
  *   });
  * ```
  * */
-export function createForm<T extends Record<string, unknown>>({ id, events, onSubmit, onFormData }: import("./form").CreateFormOptions<T>): {
+export function createForm<T extends Record<string, unknown>>({ id, events, onSubmit, onFormData, validator }: import("./form").CreateFormOptions<T>): {
     on: (eventName: string | string[], callback: (event: Event) => any | (() => any)) => void;
     readonly data: T;
     readonly errors: Partial<Record<keyof T, string>>;
