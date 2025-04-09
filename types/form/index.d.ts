@@ -30,7 +30,7 @@ export function createForm<T extends Record<string, unknown>>({ id, events, onSu
     on: (eventName: string | string[], callback: (event: Event) => any | (() => any)) => void;
     readonly data: T;
     readonly errors: Map<string, string>;
-    reportErrors: (errors: import("./form").FormError[]) => void;
+    reportErrors: (errors: import("./form").FormError[], reportAll?: boolean) => void;
 };
 /**
  * @param {HTMLFormElement} form

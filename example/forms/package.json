@@ -1,0 +1,19 @@
+{
+    "name": "forms",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "start": "vite"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "lit": "^3.2.1",
+        "suunta": "file:../..",
+        "vite": "^6.2.5",
+        "zod": "^3.24.2"
+    }
+}
