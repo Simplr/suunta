@@ -8,7 +8,8 @@
         "prepublishOnly": "npm run build",
         "test": "web-test-runner test/**/*.test.ts --node-resolve",
         "test:watch": "web-test-runner test/**/*.test.ts --watch --node-resolve",
-        "build": "tsc"
+        "build": "tsc",
+        "watch": "tsc --watch"
     },
     "repository": {
         "type": "git",

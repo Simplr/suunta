@@ -29,7 +29,7 @@
 export function createForm<T extends Record<string, unknown>>({ id, events, onSubmit, onFormData }: import("./form").CreateFormOptions<T>): {
     on: (eventName: string | string[], callback: (event: Event) => any | (() => any)) => void;
     readonly data: T;
-    readonly errors: Map<string, string>;
+    readonly errors: Partial<Record<keyof T, string>>;
     reportErrors: (errors: import("./form").FormError[], reportAll?: boolean) => void;
 };
 /**

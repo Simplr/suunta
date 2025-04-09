@@ -21,3 +21,4 @@ export interface FormError {
     message: string;
     path: (string | number)[];
 }
+export type KeyOf<T extends Record<string, unknown>> = keyof T;
