@@ -17,7 +17,7 @@ export interface CreateFormOptions<T> {
      * the event is accessed through the `onSubmit` option.
      * */
     events?: string[];
-    onSubmit?: (event: SubmitEvent) => any;
+    onSubmit?: (event: SubmitEvent, hasErrors: boolean) => any;
     /**
      * Triggered when form data is updated.
      * */

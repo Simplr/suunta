@@ -23,6 +23,15 @@ export function FormView() {
         id: 'example-form',
         validator: ValidationSchema.safeParse,
         events: ['sl-blur', 'sl-change'],
+
+        onSubmit: (ev, hasErrors) => {
+            if (hasErrors) {
+                console.log('Has errors', form.errors);
+            } else {
+                console.log('No errors');
+            }
+        },
+
         onErrorsUpdated: (errors, errorFields, removedErrors) => {
             Object.entries(errorFields).forEach(([key, field]) => {
                 field.setAttribute('help-text', errors[key]);
