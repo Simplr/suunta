@@ -17,12 +17,23 @@ const ValidationSchema = z.object({
 
 type FormSchema = z.infer<typeof ValidationSchema>;
 
+const colors = ['Red', 'Blue', 'Green', 'Yellow'];
+
 export function FormView() {
-    // TODO: Implement "parent" so that you can point to where the form might be
     const form = createForm<FormSchema>({
         id: 'example-form',
         validator: ValidationSchema.safeParse,
         events: ['sl-blur', 'sl-change'],
+
+        onFormData(formData) {
+            console.log(formData);
+            const form = document.querySelector<HTMLFormElement>('#example-form');
+            const data = new FormData(form);
+            const dataJson = {
+                colors: data.getAll('colors[]'),
+            };
+            console.log('Native: ', dataJson);
+        },
 
         onSubmit: (ev, hasErrors) => {
             if (hasErrors) {
@@ -43,7 +54,6 @@ export function FormView() {
     });
 
     return () => {
-        console.log(form.errors);
         return html`
             <div class="flex flex-col items-center justify-center h-full w-full gap-4">
                 <h2 class="text-4xl">FormView</h2>
@@ -57,6 +67,15 @@ export function FormView() {
                     </label>
 
                     <sl-input label="Other Name" name="otherName"></sl-input>
+
+                    ${colors.map(
+                        color => html`
+                            <label style="color: ${color};">
+                                ${color}
+                                <input type="checkbox" name="colors[]" value="${color}" />
+                            </label>
+                        `,
+                    )}
 
                     <button class="border-2 px-2 py-1" type="submit">Submit</button>
                 </form>

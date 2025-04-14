@@ -1,56 +1,8 @@
-![Title Image](assets/suunta-banner.png)
+# Suunta - Core
 
-# Suunta
+The Core of Suunta is in it's routing and state management.
 
-A simple suite of web development libraries that spark joy
-
-**Demo**
-
-For an interactive demo, visit [ReplIt](https://replit.co/@huhtamatias/Suunta-Sandbox)
-
-## What is Suunta
-
-Suunta is a set of small dependencyless libraries for most modern web development needs. 
-
-Suunta provides libraries and helpers for
-
-- [Routing](./lib/core/README.md)
-- [State Management](./lib/core/README.md)
-- [API Requests](./lib/core/fetch/README.md)
-- [Form state and data management](./lib/core/form/README.md)
-
-
-## Mindset and Goals
-
-Suunta aims to provide a "pick-what-you-need" set of tools that allow you to create 
-your web application without the mental load of a full framework.
-
-Suunta is built as modules that work perfectly together but also as separate packages.
-
-While Suunta doesn't pack any dependencies, it's API's are compatible with tools like [Zod](https://zod.dev/)
-and [Hey API](https://heyapi.dev/).
-
-While this toolset doesn't cover completely everything you might need for a complex web application,
-it gets really close. What Suunta doesn't provide, you can most likely easily integrate with it.
-
-## Table of Contents
-
-   * [Install](#install)
-   * [Usage](#usage)
-      + [Dynamic routes](#dynamic-routes)
-      + [State ](#state)
-         - [Global State](#global-state)
-      + [Requests](#requests)
-      + [Named routes](#named-routes)
-      + [Redirects](#redirects)
-         - [Not Found -pages](#not-found-pages)
-         - [Not Found -pages with redirect](#not-found-pages-with-redirect)
-      + [Dynamic imports](#dynamic-imports)
-      + [Rendering into outlets](#rendering-into-outlets)
-      + [Sub-views](#sub-views)
-      + [Hooks](#hooks)
-
-
+Views and state go hand in hand and so they are provided in the same package.
 
 ## Install
 
@@ -99,7 +51,6 @@ router.start();
 ```
 
 
-
 ### Dynamic routes
 
 Suunta supports dynamic routes with the `{keyword}`-notation. 
@@ -110,11 +61,13 @@ You can access properties of your dynamic routes with `router.getCurrentView()?.
 ```typescript
 const routes: Route[] = [
     {
+        // Matches only numbers as the route parameter
         path: "/user/{id}(\\d+)",
         name: "User profile",
         view: () => html`<p>User page for id ${router?.getCurrentView()?.params.id}</p>`
     },
     {
+        // Matches anything
         path: "/search/{matchAll}",
         name: "Search",
         view: html`<p>Search page for ${router?.getCurrentView()?.params.matchAll}</p>`
@@ -128,6 +81,8 @@ const routes: Route[] = [
         `
     },
     {
+        // Matches everything that didn't get matched by any of the above routes.
+        // A so called fallback-page.
         path: "/{notFoundPath}(.*)",
         name: "404",
         view: html`<p>Page not found</p>`
