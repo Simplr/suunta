@@ -460,3 +460,35 @@ export function HomeView() {
     `;
 }
 ```
+
+## Frequently occuring errors
+
+### My frontend is on an endless loop of rendering
+
+This might be due to a case looking like this
+
+```typescript
+export function HomeView() {
+    const response = pendingApiResponse(getData);
+
+    return html`
+        <p>Hello!</p>
+    `;
+}
+```
+
+The loop is caused by the fact that the view packs a stateful operation (pendingApiResponse), but the view function doesn't return a function, causing it to  
+run all of the stateful operations again on every re-render.
+
+This is easily fixed by returning a function from the HomeView -function
+
+```typescript
+export function HomeView() {
+    const response = pendingApiResponse(getData);
+
+    // This changed !
+    return () => html`
+        <p>Hello!</p>
+    `;
+}
+```
