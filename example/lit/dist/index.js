@@ -1,8 +1,9 @@
 import { html, render } from 'lit-html';
-import { createGlobalState, Suunta } from 'suunta';
 import { View as FooView } from './FooView';
 import { SubView } from './SubView';
 import { SubViewFloor } from './SubViewFloor';
+import { Suunta } from 'suunta';
+import { createGlobalState } from 'suunta/state';
 console.log('Foo');
 export let router;
 const routes = [

@@ -1,12 +1,13 @@
 import { html } from 'lit-html';
-import { createState, onUpdated } from 'suunta';
+import { createState } from 'suunta/state';
+import { onUpdated } from 'suunta/triggers';
 import { getGlobalClicker, router, updateGlobalClicker } from '.';
 export function SubView() {
     const state = createState({
         counter: getGlobalClicker(),
     });
-    onUpdated((name, oldValue, newValue) => {
-        console.log({ name, oldValue, newValue });
+    onUpdated(updatedProperties => {
+        console.log(updatedProperties);
     });
     function sync() {
         updateGlobalClicker(state.counter);

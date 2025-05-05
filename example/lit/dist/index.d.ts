@@ -1,5 +1,6 @@
-import { Route, Suunta } from 'suunta';
-export declare let router: Suunta<Route, string> | undefined;
+import { Suunta } from 'suunta';
+import { Route } from 'suunta/route';
+export declare let router: Suunta<Route> | undefined;
 export declare const globalState: {
     count: number;
 };

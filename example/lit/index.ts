@@ -1,12 +1,14 @@
 import { html, render } from 'lit-html';
-import { createGlobalState, Route, Suunta, SuuntaInitOptions, SuuntaTarget } from 'suunta';
 import { View as FooView } from './FooView';
 import { SubView } from './SubView';
 import { SubViewFloor } from './SubViewFloor';
+import { Suunta } from 'suunta';
+import { Route, SuuntaInitOptions, SuuntaTarget } from 'suunta/route';
+import { createGlobalState } from 'suunta/state';
 
 console.log('Foo');
 
-export let router: Suunta<Route, string> | undefined;
+export let router: Suunta<Route> | undefined;
 
 const routes: Route[] = [
     {

@@ -1,5 +1,6 @@
 import { html } from 'lit-html';
-import { createState, onUpdated } from 'suunta';
+import { createState } from 'suunta/state';
+import { onUpdated } from 'suunta/triggers';
 import { getGlobalClicker, router, updateGlobalClicker } from '.';
 
 export function SubView() {

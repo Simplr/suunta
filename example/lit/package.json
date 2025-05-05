@@ -1,22 +1,23 @@
 {
-  "name": "suunta-test",
-  "version": "1.0.0-test",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "concurrently \"npm run serve\" \"npm run build:watch\"",
-    "serve": "wds --node-resolve --watch --app-index index.html",
-    "build:watch": "tsc --watch"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "lit": "^2.7.4"
-  },
-  "devDependencies": {
-    "@web/dev-server": "^0.4.6",
-    "concurrently": "^8.2.2",
-    "typescript": "^5.0.4"
-  }
+    "name": "suunta-test",
+    "version": "1.0.0-test",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "concurrently \"npm run serve\" \"npm run build:watch\"",
+        "serve": "wds --node-resolve --watch --app-index index.html",
+        "build:watch": "tsc --watch"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "lit": "^2.7.4",
+        "suunta": "file:../.."
+    },
+    "devDependencies": {
+        "@web/dev-server": "^0.4.6",
+        "concurrently": "^8.2.2",
+        "typescript": "^5.0.4"
+    }
 }
