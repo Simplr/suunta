@@ -1,6 +1,7 @@
 import { Todo } from './todo.js';
 import { html } from 'https://esm.sh/htm@3.0.4/preact';
-import { createState, onUpdated } from 'suunta';
+import { createState } from 'suunta/state';
+import { onUpdated } from 'suunta/triggers';
 
 export function App() {
     const INITIAL_TODOS = [
