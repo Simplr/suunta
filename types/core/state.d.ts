@@ -3,6 +3,7 @@
  * @param { import("./suunta").Suunta<R> } routerInstance
  * */
 export function initializeRouterForStateOperations(routerInstance: import("./suunta").Suunta<R>): void;
+export function getSuuntaInstance(): any;
 /**
  * @param { T } initialState
  * @template { Record<string, unknown> } T
@@ -28,14 +29,6 @@ export function createGlobalState<T extends Record<string, unknown>>(initialStat
  * @param {import("./route").RenderStackEntry | true} stackEntry
  */
 export function getStateProxy(stateObject: Record<string, unknown>, router: import("./suunta").Suunta<R>, stackEntry: import("./route").RenderStackEntry | true): any;
-/**
- * @template { import('./route').Route } R
- * @template { R["name"] } RouteName
- * */
-/**
- * @type { import("./suunta").Suunta<R> | undefined }
- * */
-export let _suunta_router_instance_for_private_use: import("./suunta").Suunta<R> | undefined;
 export type StateOperationTarget = {
     _updatedProperties: UpdatedProperties;
     _updateQueued: boolean;
