@@ -29,9 +29,11 @@
  * */
 export function createForm<T extends Record<string, unknown>>({ id, parent, events, onSubmit, onFormData, onErrorsUpdated, validator, }: import("./form").CreateFormOptions<T>): {
     on: (eventName: string | string[], callback: (event: Event) => any | (() => any)) => void;
+    refresh: () => void;
     readonly elem: HTMLFormElement | undefined;
     readonly data: T;
     readonly errors: Partial<Record<keyof T, string>>;
+    readonly ok: boolean;
     reportErrors: (errors?: import("./form").FormError[]) => void;
 };
 /**
