@@ -39,6 +39,9 @@
             "types": "./types/core/suunta.d.ts",
             "import": "./lib/core/suunta.js"
         },
+        "./route": {
+            "types": "./types/core/route.d.ts"
+        },
         "./fetch": {
             "types": "./types/fetch/index.d.ts",
             "import": "./lib/fetch/index.js"
