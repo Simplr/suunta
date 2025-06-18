@@ -13,6 +13,7 @@ export function fetchPending<T>(input: RequestInfo | URL, init?: RequestInit): (
  *
  * @template T
  * @param {() => Promise<import("./fetch.js").RequestResult<T>>} apiCallFunction - A function that performs an API request.
+ * @param { import('./fetch.js').PendingApiResponseOptions<T> } [options]
  * @returns {import("./fetch.js").ApiResponse<T>} - An object containing the request state.
  */
-export function pendingApiResponse<T>(apiCallFunction: () => Promise<import("./fetch.js").RequestResult<T>>): import("./fetch.js").ApiResponse<T>;
+export function pendingApiResponse<T>(apiCallFunction: () => Promise<import("./fetch.js").RequestResult<T>>, { onSuccess }?: import("./fetch.js").PendingApiResponseOptions<T>): import("./fetch.js").ApiResponse<T>;

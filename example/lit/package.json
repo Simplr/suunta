@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lit": "^2.7.4"
+    "lit": "^2.7.4",
+    "suunta": "file:../.."
   },
   "devDependencies": {
     "@web/dev-server": "^0.4.6",

@@ -7,6 +7,7 @@ export function HomeView() {
             <h2 class="text-4xl">HomeView</h2>
             <a class="underline" href="${router.resolve('FormView')}">Form View</a>
             <a class="underline" href="${router.resolve('FormComponentView')}">Form component View</a>
+            <a class="underline" href="${router.resolve('RequestView')}">Requests</a>
         </div>
     `;
 }

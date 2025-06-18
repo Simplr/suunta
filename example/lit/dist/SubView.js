@@ -5,8 +5,8 @@ export function SubView() {
     const state = createState({
         counter: getGlobalClicker(),
     });
-    onUpdated((name, oldValue, newValue) => {
-        console.log({ name, oldValue, newValue });
+    onUpdated(updatedProperties => {
+        console.log(updatedProperties);
     });
     function sync() {
         updateGlobalClicker(state.counter);

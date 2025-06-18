@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { createState } from 'suunta';
+import { createState } from 'suunta/state';
 import { globalState } from '.';
 
 export const View = () => {

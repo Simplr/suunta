@@ -1,12 +1,14 @@
 import { html, render } from 'lit-html';
-import { createGlobalState, Route, Suunta, SuuntaInitOptions, SuuntaTarget } from 'suunta';
 import { View as FooView } from './FooView';
 import { SubView } from './SubView';
 import { SubViewFloor } from './SubViewFloor';
+import { Suunta } from '../../lib/core/suunta';
+import { Route, SuuntaInitOptions, SuuntaTarget } from '../../lib/core/route';
+import { createGlobalState } from '../../lib/core/state';
 
 console.log('Foo');
 
-export let router: Suunta<Route, string> | undefined;
+export let router: Suunta<Route>;
 
 const routes: Route[] = [
     {
@@ -46,19 +48,19 @@ const routes: Route[] = [
     {
         path: '/user/{id}(\\d+)',
         name: 'User profile',
-        view: () => html`<p>User page for id ${router?.getCurrentView()?.properties.id}</p>`,
+        view: () => html`<p>User page for id ${router.getCurrentView()?.params?.id}</p>`,
     },
     {
         path: '/search/{matchAll}',
         name: 'Search',
-        view: () => html`<p>Search page for ${router?.getCurrentView()?.properties.matchAll || 'Nothing'}</p>`,
+        view: () => html`<p>Search page for ${router.getCurrentView()?.params?.matchAll || 'Nothing'}</p>`,
     },
     {
         path: '/user/{id}(\\d+)/search/{matchAll}',
         name: 'User profile with search',
         view: () => html`
-            <p>User page for id ${router?.getCurrentView()?.properties.id}</p>
-            <p>Search page for ${router?.getCurrentView()?.properties.matchAll || 'Nothing'}</p>
+            <p>User page for id ${router?.getCurrentView()?.params?.id}</p>
+            <p>Search page for ${router?.getCurrentView()?.params?.matchAll || 'Nothing'}</p>
         `,
     },
 ];

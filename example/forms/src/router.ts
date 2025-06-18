@@ -3,6 +3,7 @@ import { Suunta } from 'suunta';
 import { HomeView } from './views/HomeView';
 import { FormView } from './views/FormView';
 import { FormComponentView } from './views/FormComponentView';
+import { RequestView } from './views/RequestView';
 
 const routes = [
     {
@@ -19,6 +20,11 @@ const routes = [
         path: '/form-component',
         name: 'FormComponentView',
         view: FormComponentView,
+    },
+    {
+        path: '/requests',
+        name: 'RequestView',
+        view: RequestView,
     },
 ] as const;
 

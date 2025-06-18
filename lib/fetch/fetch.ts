@@ -21,3 +21,8 @@ export type RequestResult<T> = (
     request: Request;
     response: Response;
 };
+
+export type PendingApiResponseOptions<T> = {
+    onSuccess?: (result: T) => any;
+    onError?: (error: string) => any;
+};
