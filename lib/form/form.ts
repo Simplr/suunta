@@ -30,7 +30,6 @@ export interface CreateFormOptions<T> {
         errorFields: Partial<Record<keyof T, Element>>,
         removedErrors: Partial<Record<keyof T, Element>>,
     ) => any;
-    // (errors: Partial<Record<keyof T, string>>) => any
 
     validator?: (formData: T) => ValidationResult;
 }

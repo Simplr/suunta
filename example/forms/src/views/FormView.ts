@@ -18,7 +18,6 @@ const ValidationSchema = z.object({
 type FormSchema = z.infer<typeof ValidationSchema>;
 
 export function FormView() {
-    // TODO: Implement "parent" so that you can point to where the form might be
     const form = createForm<FormSchema>({
         id: 'example-form',
         validator: ValidationSchema.safeParse,

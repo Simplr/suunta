@@ -16,4 +16,4 @@ export function fetchPending<T>(input: RequestInfo | URL, init?: RequestInit): (
  * @param { import('./fetch.js').PendingApiResponseOptions<T> } [options]
  * @returns {import("./fetch.js").ApiResponse<T>} - An object containing the request state.
  */
-export function pendingApiResponse<T>(apiCallFunction: () => Promise<import("./fetch.js").RequestResult<T>>, { onSuccess }?: import("./fetch.js").PendingApiResponseOptions<T>): import("./fetch.js").ApiResponse<T>;
+export function pendingApiResponse<T>(apiCallFunction: () => Promise<import("./fetch.js").RequestResult<T>>, { onSuccess, onError }?: import("./fetch.js").PendingApiResponseOptions<T>): import("./fetch.js").ApiResponse<T>;
