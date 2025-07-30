@@ -35,6 +35,7 @@ export function HomeView() {
             <p>Been on this view for ${state.seconds} seconds.</p>
             <p>Been on this view for ${state.nested.seconds} seconds.</p>
             <p>Been on this view for ${state.nested.deeplynested.seconds} seconds.</p>
+            <a class="underline" href="${router.resolve('UsersView')}">Users View</a>
             <a class="underline" href="${router.resolve('FormView')}">Form View</a>
             <a class="underline" href="${router.resolve('FormComponentView')}">Form component View</a>
             <a class="underline" href="${router.resolve('RequestView')}">Requests</a>

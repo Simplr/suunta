@@ -4,6 +4,7 @@ import { HomeView } from './views/HomeView';
 import { FormView } from './views/FormView';
 import { FormComponentView } from './views/FormComponentView';
 import { RequestView } from './views/RequestView';
+import { UsersView } from './views/UsersView';
 
 const routes = [
     {
@@ -15,6 +16,11 @@ const routes = [
         path: '/form',
         name: 'FormView',
         view: FormView,
+    },
+    {
+        path: '/users',
+        name: 'UsersView',
+        view: UsersView,
     },
     {
         path: '/form-component',
