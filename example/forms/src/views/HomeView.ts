@@ -1,6 +1,7 @@
 import { html } from 'lit-html';
 import { router } from '../router';
 import { createState } from 'suunta/state';
+import { onNavigationLeave } from 'suunta/triggers';
 
 export function HomeView() {
     const state = createState({
@@ -13,21 +14,33 @@ export function HomeView() {
         },
     });
 
-    setInterval(() => {
-        state.seconds++;
-    }, 1000);
+    const intervals = [];
+
+    intervals.push(
+        setInterval(() => {
+            state.seconds++;
+        }, 1000),
+    );
 
     setTimeout(() => {
-        setInterval(() => {
-            state.nested.seconds++;
-        }, 1000);
+        intervals.push(
+            setInterval(() => {
+                state.nested.seconds++;
+            }, 1000),
+        );
     }, 200);
 
     setTimeout(() => {
-        setInterval(() => {
-            state.nested.deeplynested.seconds++;
-        }, 1000);
+        intervals.push(
+            setInterval(() => {
+                state.nested.deeplynested.seconds++;
+            }, 1000),
+        );
     }, 500);
+
+    onNavigationLeave(() => {
+        intervals.forEach(interval => clearInterval(interval));
+    });
 
     return () => html`
         <div class="flex flex-col items-center justify-center h-full w-full gap-4">
