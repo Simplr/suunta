@@ -29,11 +29,12 @@ export function createGlobalState<T extends Record<string, unknown>>(initialStat
  * @param {import("./route").RenderStackEntry | true} stackEntry
  */
 export function getStateProxy(stateObject: Record<string, unknown>, router: import("./suunta").Suunta<R>, stackEntry: import("./route").RenderStackEntry | true): any;
-export type StateOperationTarget = {
-    _updatedProperties: UpdatedProperties;
-    _updateQueued: boolean;
-};
+export type StateOperationTarget = Record<string, unknown>;
 export type UpdatedProperties = Map<string, {
     oldValue: any;
     newValue: any;
 }>;
+export type MetadataEntry = {
+    updatedProperties: UpdatedProperties;
+    updateQueued: boolean;
+};
